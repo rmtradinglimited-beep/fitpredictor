@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitPredictor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fff;--bg2:#f6f6f4;--bg3:#ededeb;
+  --text:#0f0f0f;--text2:#5a5a5a;--text3:#a0a0a0;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.16);
+  --card:#fff;--accent:#0f0f0f;--accent-fg:#fff;
+  --nav-blur:rgba(255,255,255,0.88);
+}
+[data-dark]{
+  --bg:#0c0c0c;--bg2:#151515;--bg3:#1d1d1d;
+  --text:#f2f2f2;--text2:#888;--text3:#444;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.18);
+  --card:#151515;--accent:#f2f2f2;--accent-fg:#0c0c0c;
+  --nav-blur:rgba(12,12,12,0.88);
+}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* FLOATING NAV (home only) */
+.float-nav{
+  position:absolute;top:0;left:0;right:0;z-index:300;
+  height:58px;display:flex;align-items:center;padding:0 2.8rem;
+}
+.float-nav .logo{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;cursor:pointer;flex-shrink:0}
+.float-nav .nc{flex:1;display:flex;justify-content:center;gap:2.2rem}
+.float-nav .nc a{font-size:11.5px;color:rgba(255,255,255,.7);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.float-nav .nc a:hover{color:#fff}
+.float-nav .nr{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.fnbtn{font-size:11px;padding:7px 18px;border-radius:2px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;font-family:inherit;transition:all .2s}
+.fnbtn.outline{border:.5px solid rgba(255,255,255,.5);background:transparent;color:#fff}
+.fnbtn.outline:hover{background:rgba(255,255,255,.15)}
+.fnbtn.fill{border:none;background:#fff;color:#111}
+.fnbtn.fill:hover{opacity:.88}
+.fnbtn.icon{width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;border:.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8)}
+.fnbtn.icon:hover{background:rgba(255,255,255,.15)}
+
+/* SOLID NAV (inner pages) */
+.solid-nav{
+  position:sticky;top:0;z-index:300;
+  height:58px;display:flex;align-items:center;padding:0 2.8rem;
+  background:var(--nav-blur);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:.5px solid var(--border);
+  transition:background .3s,border-color .3s;
+}
+.solid-nav .logo{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);cursor:pointer;flex-shrink:0}
+.solid-nav .nc{flex:1;display:flex;justify-content:center;gap:2.2rem}
+.solid-nav .nc a{font-size:11.5px;color:var(--text2);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.solid-nav .nc a:hover,.solid-nav .nc a.active{color:var(--text)}
+.solid-nav .nr{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.snbtn{font-size:11px;padding:6px 16px;border-radius:2px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;font-family:inherit;transition:all .2s}
+.snbtn.outline{border:.5px solid var(--border2);background:transparent;color:var(--text)}
+.snbtn.outline:hover{background:var(--bg2)}
+.snbtn.fill{border:none;background:var(--accent);color:var(--accent-fg)}
+.snbtn.fill:hover{opacity:.85}
+.snbtn.icon{width:30px;height:30px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;border:.5px solid var(--border2);background:transparent;color:var(--text2)}
+.snbtn.icon:hover{background:var(--bg2);color:var(--text)}
+svg.ic{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* HERO */
+.hero{position:relative;height:88vh;min-height:520px;overflow:hidden;background:#111}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
+.slide.active{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;object-position:center}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.15) 60%,transparent 100%)}
+.slide-content{position:absolute;bottom:0;left:0;padding:0 2.8rem 5.5rem;max-width:700px}
+.slide-tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:12px}
+.slide-title{font-size:clamp(36px,5vw,62px);font-weight:700;letter-spacing:-.025em;line-height:1.02;color:#fff;margin-bottom:22px}
+.slide-cta{display:inline-flex;align-items:center;gap:12px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:13px 28px;border:.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;backdrop-filter:blur(8px);transition:all .25s;border-radius:2px;font-family:inherit}
+.slide-cta:hover{background:rgba(255,255,255,.22)}
+.slide-progress{position:absolute;bottom:4.2rem;right:2.8rem;display:flex;gap:10px;align-items:center}
+.sp-bar{width:48px;height:2px;background:rgba(255,255,255,.25);cursor:pointer;position:relative;overflow:hidden;border-radius:1px}
+.sp-bar.active{background:rgba(255,255,255,.35)}
+.sp-fill{position:absolute;top:0;left:0;height:100%;width:0;background:#fff;border-radius:1px}
+.sp-bar.active .sp-fill{animation:spFill 5.5s linear forwards}
+@keyframes spFill{from{width:0}to{width:100%}}
+
+/* HOME CARDS */
+.home-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
+.hc{position:relative;min-height:220px;background:var(--bg2);cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem 2rem;transition:background .2s}
+.hc:hover{background:var(--bg3)}
+.hc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;transition:opacity .3s}
+.hc:hover img{opacity:.55}
+.hc-inner{position:relative;z-index:2}
+.hc-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.hc-title{font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--text)}
+.hc-arr{position:absolute;top:1.4rem;right:1.4rem;font-size:20px;color:var(--text3);z-index:2}
+
+/* PAGE HEADER */
+.ph{padding:3.5rem 2.8rem 2rem;border-bottom:.5px solid var(--border)}
+.ph h1{font-size:32px;font-weight:700;letter-spacing:-.025em;text-transform:uppercase;margin-bottom:8px}
+.ph p{font-size:14px;color:var(--text2);line-height:1.65;max-width:520px}
+.pb{padding:2.5rem 2.8rem}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border:.5px solid var(--border);margin-bottom:2rem}
+.sc{background:var(--bg);padding:1.5rem 1.4rem}
+.sc-lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.sc-val{font-size:28px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.sc-sub{font-size:11.5px;color:var(--text3);margin-top:4px}
+
+/* CONTENT BLOCKS */
+.cb{border:.5px solid var(--border);padding:1.6rem 1.8rem;margin-bottom:1px;background:var(--card)}
+.cb h3{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-bottom:10px}
+.cb p{font-size:13.5px;color:var(--text2);line-height:1.7}
+
+/* WORKOUT PLAN CARDS */
+.wp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:.5px solid var(--border);margin-bottom:2rem}
+.wc{background:var(--bg2);padding:1.5rem}
+.wc-day{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.wc-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
+.wc-tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border:.5px solid var(--border2);color:var(--text2);border-radius:2px;margin-bottom:10px}
+.wc-ex{font-size:12.5px;color:var(--text2);line-height:1.8}
+
+/* NUTRITION */
+.macro-ring-wrap{display:flex;gap:2rem;align-items:center;margin-bottom:2rem;flex-wrap:wrap}
+.macro-labels{display:flex;flex-direction:column;gap:10px}
+.ml-row{display:flex;align-items:center;gap:10px}
+.ml-dot{width:10px;height:10px;border-radius:50%}
+.ml-name{font-size:12px;color:var(--text2);letter-spacing:.03em;min-width:70px}
+.ml-val{font-size:12px;font-weight:600;color:var(--text)}
+.meal-list{display:flex;flex-direction:column;gap:1px}
+.meal-item{background:var(--bg2);padding:1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;border:.5px solid var(--border)}
+.mi-name{font-size:13.5px;font-weight:500;color:var(--text)}
+.mi-kcal{font-size:12px;color:var(--text3)}
+
+/* PROGRESS */
+.prog-item{margin-bottom:1.5rem}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.prog-track{height:2px;background:var(--bg3)}
+.prog-fill{height:100%;background:var(--text);transition:width 1s ease}
+
+/* PLAN CARDS */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--border);border:.5px solid var(--border)}
+.pc{background:var(--bg);padding:2.5rem 1.8rem;text-align:center}
+.pc.featured{background:var(--bg2)}
+.pc-name{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:.8rem}
+.pc-price{font-size:38px;font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:.2rem}
+.pc-period{font-size:12px;color:var(--text3);margin-bottom:1.6rem}
+.pc-btn{width:100%;padding:12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:inherit;transition:all .2s}
+.pc-btn.def{border:.5px solid var(--border2);background:transparent;color:var(--text)}
+.pc-btn.def:hover{background:var(--bg3)}
+.pc-btn.pri{border:none;background:var(--accent);color:var(--accent-fg)}
+.pc-btn.pri:hover{opacity:.82}
+.pc-feats{margin-top:1.6rem;text-align:left}
+.pc-feats li{font-size:12.5px;color:var(--text2);padding:6px 0;border-bottom:.5px solid var(--border);list-style:none;display:flex;align-items:center;gap:8px}
+.pc-feats li:last-child{border:none}
+.pc-feats li::before{content:'✓';font-size:10px;color:var(--text3)}
+
+/* AUTH */
+.auth-wrap{min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:3rem 1rem;background:var(--bg2)}
+.auth-box{width:100%;max-width:380px;background:var(--card);border:.5px solid var(--border);padding:3rem 2.5rem}
+.auth-box h2{font-size:22px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:4px}
+.auth-box .sub{font-size:13px;color:var(--text2);margin-bottom:2.5rem;line-height:1.55}
+.field{margin-bottom:14px}
+.field label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:6px}
+.field input{width:100%;padding:11px 14px;border:.5px solid var(--border2);border-radius:0;background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+.field input:focus{border-color:var(--text)}
+.auth-submit{width:100%;padding:13px;border-radius:0;border:none;background:var(--accent);color:var(--accent-fg);font-size:11.5px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-family:inherit;margin-top:6px;transition:opacity .2s}
+.auth-submit:hover{opacity:.85}
+.auth-alt{width:100%;padding:13px;border-radius:0;border:.5px solid var(--border2);background:transparent;color:var(--text);font-size:11.5px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-family:inherit;margin-top:8px;transition:all .2s}
+.auth-alt:hover{background:var(--bg3)}
+.auth-foot{margin-top:1.5rem;font-size:12px;color:var(--text3);text-align:center}
+.auth-foot a{color:var(--text2);cursor:pointer;text-decoration:none}
+.auth-foot a:hover{color:var(--text)}
+.err{font-size:12px;color:#d0342c;margin-top:10px;min-height:18px}
+
+/* PROFILE */
+.prof-hdr{display:flex;align-items:center;gap:1.4rem;margin-bottom:2.2rem;padding-bottom:2rem;border-bottom:.5px solid var(--border)}
+.avatar{width:64px;height:64px;background:var(--bg3);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--text2)}
+.prof-name{font-size:20px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase}
+.prof-email{font-size:13px;color:var(--text2);margin-top:3px}
+.s-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:.5px solid var(--border)}
+.s-row:last-child{border:none}
+.s-lbl{font-size:14px;font-weight:500;color:var(--text)}
+.s-sub{font-size:12px;color:var(--text3);margin-top:3px}
+.s-btn{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border:.5px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .2s;font-family:inherit;border-radius:0}
+.s-btn:hover{background:var(--bg2)}
+.s-btn.danger{color:#d0342c;border-color:rgba(208,52,44,.3)}
+.s-btn.danger:hover{background:rgba(208,52,44,.06)}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:var(--bg);font-size:13px;padding:12px 24px;border-radius:2px;letter-spacing:.02em;z-index:999;transition:transform .35s ease;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .home-cards{grid-template-columns:1fr}
+  .float-nav .nc{display:none}
+  .solid-nav .nc{display:none}
+  .slide-title{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== HOME ========== -->
+<div class="page active" id="page-home">
+  <div style="position:relative">
+    <nav class="float-nav">
+      <div class="logo" onclick="go('home')">FitPredictor</div>
+      <div class="nc">
+        <a onclick="go('dashboard')">Dashboard</a>
+        <a onclick="go('workouts')">Workouts</a>
+        <a onclick="go('nutrition')">Nutrition</a>
+        <a onclick="go('progress')">Progress</a>
+        <a onclick="go('pricing')">Plans</a>
+      </div>
+      <div class="nr">
+        <button class="fnbtn icon" onclick="toggleTheme()" aria-label="theme">
+          <svg class="ic" id="sun1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="ic" id="moon1" viewBox="0 0 24 24" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+        </button>
+        <button class="fnbtn outline" onclick="go('login')">Log in</button>
+        <button class="fnbtn fill" onclick="go('signup')">Get started</button>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div class="slide active" id="sl0">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80" alt="Gym">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">FitPredictor — AI Fitness Platform</div>
+          <div class="slide-title">Train smarter.<br>Predict your<br>potential.</div>
+          <button class="slide-cta" onclick="go('signup')">Get started →</button>
+        </div>
+      </div>
+      <div class="slide" id="sl1">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1600&q=80" alt="Workout">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">AI Workout Plans</div>
+          <div class="slide-title">Personalised<br>plans built<br>for you.</div>
+          <button class="slide-cta" onclick="go('workouts')">Explore workouts →</button>
+        </div>
+      </div>
+      <div class="slide" id="sl2">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80" alt="Nutrition">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">Nutrition Tracking</div>
+          <div class="slide-title">Fuel your<br>body with<br>precision.</div>
+          <button class="slide-cta" onclick="go('nutrition')">Track nutrition →</button>
+        </div>
+      </div>
+      <div class="slide" id="sl3">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1600&q=80" alt="Progress">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div class="slide-tag">Progress Analytics</div>
+          <div class="slide-title">Watch your<br>body<br>transform.</div>
+          <button class="slide-cta" onclick="go('progress')">See analytics →</button>
+        </div>
+      </div>
+
+      <div class="slide-progress">
+        <div class="sp-bar active" onclick="goSlide(0)"><div class="sp-fill" id="spf0"></div></div>
+        <div class="sp-bar" onclick="goSlide(1)"><div class="sp-fill" id="spf1"></div></div>
+        <div class="sp-bar" onclick="goSlide(2)"><div class="sp-fill" id="spf2"></div></div>
+        <div class="sp-bar" onclick="goSlide(3)"><div class="sp-fill" id="spf3"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-cards">
+    <div class="hc" onclick="go('workouts')">
+      <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800&q=70" alt="">
+      <div class="hc-inner">
+        <div class="hc-tag">Workout plans</div>
+        <div class="hc-title">AI-powered training programs</div>
+      </div>
+      <div class="hc-arr">→</div>
+    </div>
+    <div class="hc" onclick="go('nutrition')">
+      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=70" alt="">
+      <div class="hc-inner">
+        <div class="hc-tag">Nutrition</div>
+        <div class="hc-title">Smart meal tracking & macros</div>
+      </div>
+      <div class="hc-arr">→</div>
+    </div>
+    <div class="hc" onclick="go('progress')">
+      <img src="https://images.unsplash.com/photo-1599058917765-a780eda9d6ae?w=800&q=70" alt="">
+      <div class="hc-inner">
+        <div class="hc-tag">Progress & analytics</div>
+        <div class="hc-title">Predict your results before you see them</div>
+      </div>
+      <div class="hc-arr">→</div>
+    </div>
+    <div class="hc" onclick="go('pricing')">
+      <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=70" alt="">
+      <div class="hc-inner">
+        <div class="hc-tag">Plans & pricing</div>
+        <div class="hc-title">Start free. Upgrade when ready.</div>
+      </div>
+      <div class="hc-arr">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DASHBOARD ========== -->
+<div class="page" id="page-dashboard">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc">
+      <a onclick="go('dashboard')" class="active">Dashboard</a>
+      <a onclick="go('workouts')">Workouts</a>
+      <a onclick="go('nutrition')">Nutrition</a>
+      <a onclick="go('progress')">Progress</a>
+      <a onclick="go('pricing')">Plans</a>
+    </div>
+    <div class="nr" id="dn1"></div>
+  </nav>
+  <div class="ph"><h1>Dashboard</h1><p>Welcome back. Here's your fitness overview for this week.</p></div>
+  <div class="pb">
+    <div class="stat-row">
+      <div class="sc"><div class="sc-lbl">Workouts this week</div><div class="sc-val">4</div><div class="sc-sub">↑ 1 from last week</div></div>
+      <div class="sc"><div class="sc-lbl">Calories burned</div><div class="sc-val">2,840</div><div class="sc-sub">↑ 12% vs avg</div></div>
+      <div class="sc"><div class="sc-lbl">Current streak</div><div class="sc-val">9d</div><div class="sc-sub">Personal best</div></div>
+      <div class="sc"><div class="sc-lbl">Goal progress</div><div class="sc-val">68%</div><div class="sc-sub">On track</div></div>
+    </div>
+    <div class="cb"><h3>Today's plan</h3><p>Upper body strength — Bench press 4×8, Overhead press 3×10, Pull-ups 3×8, Dumbbell rows 3×12. Estimated duration: 55 minutes. Target: 480 calories.</p></div>
+    <div class="cb"><h3>AI prediction</h3><p>Based on your current trajectory, you are projected to reach your target body weight in <strong>8 weeks</strong>. Maintain your current calorie deficit and training frequency for optimal results.</p></div>
+    <div class="cb"><h3>Recent activity</h3><p>Mon — Lower body · Tue — Cardio HIIT · Wed — Rest · Thu — Upper body · Fri — Full body (scheduled)</p></div>
+  </div>
+</div>
+
+<!-- ========== WORKOUTS ========== -->
+<div class="page" id="page-workouts">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc">
+      <a onclick="go('dashboard')">Dashboard</a>
+      <a onclick="go('workouts')" class="active">Workouts</a>
+      <a onclick="go('nutrition')">Nutrition</a>
+      <a onclick="go('progress')">Progress</a>
+      <a onclick="go('pricing')">Plans</a>
+    </div>
+    <div class="nr" id="dn2"></div>
+  </nav>
+  <div class="ph"><h1>Workout plans</h1><p>AI-generated training programs tailored to your goals, fitness level, and schedule.</p></div>
+  <div class="pb">
+    <div class="stat-row">
+      <div class="sc"><div class="sc-lbl">Active plan</div><div class="sc-val">PPL</div><div class="sc-sub">Push Pull Legs</div></div>
+      <div class="sc"><div class="sc-lbl">Week</div><div class="sc-val">6 / 12</div><div class="sc-sub">Halfway there</div></div>
+      <div class="sc"><div class="sc-lbl">Avg duration</div><div class="sc-val">52m</div><div class="sc-sub">Per session</div></div>
+    </div>
+    <div class="wp-grid">
+      <div class="wc"><div class="wc-day">Monday</div><div class="wc-name">Push Day</div><span class="wc-tag">Chest · Shoulders · Triceps</span><div class="wc-ex">Bench Press 4×8<br>Incline DB Press 3×10<br>OHP 3×10<br>Lateral Raises 4×15<br>Tricep Dips 3×12</div></div>
+      <div class="wc"><div class="wc-day">Tuesday</div><div class="wc-name">Pull Day</div><span class="wc-tag">Back · Biceps</span><div class="wc-ex">Deadlift 3×5<br>Pull-ups 4×8<br>Barbell Row 3×10<br>Face Pulls 3×15<br>Hammer Curls 3×12</div></div>
+      <div class="wc"><div class="wc-day">Wednesday</div><div class="wc-name">Leg Day</div><span class="wc-tag">Quads · Hamstrings · Glutes</span><div class="wc-ex">Squat 4×8<br>Romanian DL 3×10<br>Leg Press 3×12<br>Walking Lunges 3×12<br>Calf Raises 4×20</div></div>
+      <div class="wc"><div class="wc-day">Thursday</div><div class="wc-name">Rest / Cardio</div><span class="wc-tag">Recovery</span><div class="wc-ex">30 min Zone 2 cardio<br>Mobility work<br>Foam rolling</div></div>
+      <div class="wc"><div class="wc-day">Friday</div><div class="wc-name">Push Day B</div><span class="wc-tag">Chest · Shoulders · Triceps</span><div class="wc-ex">Incline Bench 4×8<br>Cable Fly 3×12<br>Arnold Press 3×10<br>Front Raises 3×12<br>Skull Crushers 3×10</div></div>
+      <div class="wc"><div class="wc-day">Saturday</div><div class="wc-name">Pull Day B</div><span class="wc-tag">Back · Biceps</span><div class="wc-ex">Weighted Pull-ups 4×6<br>Cable Row 3×12<br>Single Arm Row 3×10<br>Rear Delt Fly 3×15<br>Preacher Curl 3×10</div></div>
+    </div>
+    <div class="cb"><h3>AI recommendation</h3><p>Your push days are progressing well. Consider increasing bench press weight by 2.5kg next week. Your pull sessions could benefit from adding one extra set of face pulls for rear delt balance.</p></div>
+  </div>
+</div>
+
+<!-- ========== NUTRITION ========== -->
+<div class="page" id="page-nutrition">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc">
+      <a onclick="go('dashboard')">Dashboard</a>
+      <a onclick="go('workouts')">Workouts</a>
+      <a onclick="go('nutrition')" class="active">Nutrition</a>
+      <a onclick="go('progress')">Progress</a>
+      <a onclick="go('pricing')">Plans</a>
+    </div>
+    <div class="nr" id="dn3"></div>
+  </nav>
+  <div class="ph"><h1>Nutrition</h1><p>Track your daily intake, monitor macros, and let AI optimise your diet for maximum performance.</p></div>
+  <div class="pb">
+    <div class="stat-row">
+      <div class="sc"><div class="sc-lbl">Calories today</div><div class="sc-val">1,840</div><div class="sc-sub">Target: 2,200</div></div>
+      <div class="sc"><div class="sc-lbl">Protein</div><div class="sc-val">142g</div><div class="sc-sub">Target: 180g</div></div>
+      <div class="sc"><div class="sc-lbl">Carbs</div><div class="sc-val">195g</div><div class="sc-sub">Target: 240g</div></div>
+      <div class="sc"><div class="sc-lbl">Fats</div><div class="sc-val">58g</div><div class="sc-sub">Target: 70g</div></div>
+    </div>
+
+    <div class="macro-ring-wrap">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg3)" stroke-width="12"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#2563eb" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="94" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#16a34a" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="220" stroke-linecap="round" transform="rotate(120 60 60)"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#d97706" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="265" stroke-linecap="round" transform="rotate(200 60 60)"/>
+        <text x="60" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)" font-family="Inter,sans-serif">1,840</text>
+        <text x="60" y="70" text-anchor="middle" font-size="9" fill="var(--text3)" font-family="Inter,sans-serif">kcal</text>
+      </svg>
+      <div class="macro-labels">
+        <div class="ml-row"><div class="ml-dot" style="background:#2563eb"></div><span class="ml-name">Protein</span><span class="ml-val">142g</span></div>
+        <div class="ml-row"><div class="ml-dot" style="background:#16a34a"></div><span class="ml-name">Carbs</span><span class="ml-val">195g</span></div>
+        <div class="ml-row"><div class="ml-dot" style="background:#d97706"></div><span class="ml-name">Fats</span><span class="ml-val">58g</span></div>
+      </div>
+    </div>
+
+    <div class="cb" style="margin-bottom:1px"><h3>Today's meals</h3></div>
+    <div class="meal-list">
+      <div class="meal-item"><div><div class="mi-name">Overnight oats with banana</div><div class="mi-kcal">Breakfast · 7:30am</div></div><div class="mi-kcal">420 kcal</div></div>
+      <div class="meal-item"><div><div class="mi-name">Grilled chicken & rice bowl</div><div class="mi-kcal">Lunch · 12:45pm</div></div><div class="mi-kcal">680 kcal</div></div>
+      <div class="meal-item"><div><div class="mi-name">Greek yoghurt & almonds</div><div class="mi-kcal">Snack · 3:30pm</div></div><div class="mi-kcal">310 kcal</div></div>
+      <div class="meal-item"><div><div class="mi-name">Salmon, broccoli & sweet potato</div><div class="mi-kcal">Dinner · 7:00pm</div></div><div class="mi-kcal">430 kcal</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PROGRESS ========== -->
+<div class="page" id="page-progress">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc">
+      <a onclick="go('dashboard')">Dashboard</a>
+      <a onclick="go('workouts')">Workouts</a>
+      <a onclick="go('nutrition')">Nutrition</a>
+      <a onclick="go('progress')" class="active">Progress</a>
+      <a onclick="go('pricing')">Plans</a>
+    </div>
+    <div class="nr" id="dn4"></div>
+  </nav>
+  <div class="ph"><h1>Progress & analytics</h1><p>Track your transformation week by week. AI predictions update as your data grows.</p></div>
+  <div class="pb">
+    <div class="stat-row">
+      <div class="sc"><div class="sc-lbl">Starting weight</div><div class="sc-val">87kg</div><div class="sc-sub">12 weeks ago</div></div>
+      <div class="sc"><div class="sc-lbl">Current weight</div><div class="sc-val">82kg</div><div class="sc-sub">↓ 5kg lost</div></div>
+      <div class="sc"><div class="sc-lbl">Body fat</div><div class="sc-val">17.4%</div><div class="sc-sub">↓ 2.1% vs start</div></div>
+    </div>
+    <div class="cb"><h3>Goal progress</h3></div>
+    <div style="padding:1.5rem;background:var(--card);border:.5px solid var(--border);border-top:none;margin-bottom:1px">
+      <div class="prog-item"><div class="prog-lbl"><span>Weight loss goal</span><span>62%</span></div><div class="prog-track"><div class="prog-fill" style="width:62%"></div></div></div>
+      <div class="prog-item"><div class="prog-lbl"><span>Strength goal</span><span>78%</span></div><div class="prog-track"><div class="prog-fill" style="width:78%"></div></div></div>
+      <div class="prog-item"><div class="prog-lbl"><span>Cardio fitness</span><span>45%</span></div><div class="prog-track"><div class="prog-fill" style="width:45%"></div></div></div>
+      <div class="prog-item"><div class="prog-lbl"><span>Consistency score</span><span>89%</span></div><div class="prog-track"><div class="prog-fill" style="width:89%"></div></div></div>
+    </div>
+    <div class="cb"><h3>AI prediction</h3><p>At your current rate of progress you will hit your target weight of <strong>78kg</strong> in approximately <strong>7 weeks</strong>. Your strength metrics are ahead of schedule. Consider adjusting your calorie target to 2,000 kcal to accelerate fat loss while preserving muscle.</p></div>
+    <div class="cb"><h3>Weekly summary</h3><p>Week 12 was your strongest yet — 4 workouts completed, average session duration 54 minutes, calorie deficit maintained 6 out of 7 days. Keep it up.</p></div>
+  </div>
+</div>
+
+<!-- ========== PRICING ========== -->
+<div class="page" id="page-pricing">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc">
+      <a onclick="go('dashboard')">Dashboard</a>
+      <a onclick="go('workouts')">Workouts</a>
+      <a onclick="go('nutrition')">Nutrition</a>
+      <a onclick="go('progress')">Progress</a>
+      <a onclick="go('pricing')" class="active">Plans</a>
+    </div>
+    <div class="nr" id="dn5"></div>
+  </nav>
+  <div class="ph"><h1>Plans & pricing</h1><p>Start free. Upgrade when you're ready to unlock the full power of FitPredictor.</p></div>
+  <div class="pb">
+    <div class="plan-grid">
+      <div class="pc">
+        <div class="pc-name">Starter</div>
+        <div class="pc-price">Free</div>
+        <div class="pc-period">Forever</div>
+        <button class="pc-btn def" onclick="go('signup')">Get started</button>
+        <ul class="pc-feats">
+          <li>Basic workout tracking</li>
+          <li>3 AI workout plans</li>
+          <li>Calorie counter</li>
+          <li>7-day history</li>
+        </ul>
+      </div>
+      <div class="pc featured">
+        <div class="pc-name">Pro</div>
+        <div class="pc-price">£9.99</div>
+        <div class="pc-period">per month</div>
+        <button class="pc-btn pri" onclick="go('signup')">Get started</button>
+        <ul class="pc-feats">
+          <li>Everything in Starter</li>
+          <li>Unlimited AI plans</li>
+          <li>Full macro tracking</li>
+          <li>AI progress predictions</li>
+          <li>Unlimited history</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+      <div class="pc">
+        <div class="pc-name">Elite</div>
+        <div class="pc-price">£24.99</div>
+        <div class="pc-period">per month</div>
+        <button class="pc-btn def" onclick="go('signup')">Get started</button>
+        <ul class="pc-feats">
+          <li>Everything in Pro</li>
+          <li>1-to-1 coach access</li>
+          <li>Custom meal plans</li>
+          <li>Body scan analysis</li>
+          <li>Advanced analytics</li>
+          <li>White-glove onboarding</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== LOGIN ========== -->
+<div class="page" id="page-login">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc"></div>
+    <div class="nr"><button class="snbtn outline" onclick="go('signup')">Create account</button></div>
+  </nav>
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <h2>Welcome back</h2>
+      <p class="sub">Sign in with your username or email address.</p>
+      <div class="field"><label>Username or email</label><input type="text" id="li-id" placeholder="your@email.com or username"></div>
+      <div class="field"><label>Password</label><input type="password" id="li-pw" placeholder="••••••••"></div>
+      <button class="auth-submit" onclick="doLogin()">Log in</button>
+      <button class="auth-alt" onclick="go('signup')">Create an account</button>
+      <div class="err" id="li-err"></div>
+      <div class="auth-foot"><a>Forgot password?</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SIGNUP ========== -->
+<div class="page" id="page-signup">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc"></div>
+    <div class="nr"><button class="snbtn outline" onclick="go('login')">Log in</button></div>
+  </nav>
+  <div class="auth-wrap">
+    <div class="auth-box">
+      <h2>Get started</h2>
+      <p class="sub">Create your FitPredictor account. It's free.</p>
+      <div class="field"><label>Full name</label><input type="text" id="su-name" placeholder="Alex Johnson"></div>
+      <div class="field"><label>Username</label><input type="text" id="su-user" placeholder="alexj"></div>
+      <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="your@email.com"></div>
+      <div class="field"><label>Password</label><input type="password" id="su-pw" placeholder="Min. 6 characters"></div>
+      <button class="auth-submit" onclick="doSignup()">Create account</button>
+      <div class="err" id="su-err"></div>
+      <div class="auth-foot">Already have an account? <a onclick="go('login')">Log in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PROFILE ========== -->
+<div class="page" id="page-profile">
+  <nav class="solid-nav">
+    <div class="logo" onclick="go('home')">FitPredictor</div>
+    <div class="nc">
+      <a onclick="go('dashboard')">Dashboard</a>
+      <a onclick="go('workouts')">Workouts</a>
+      <a onclick="go('nutrition')">Nutrition</a>
+      <a onclick="go('progress')">Progress</a>
+      <a onclick="go('pricing')">Plans</a>
+    </div>
+    <div class="nr" id="dn6"></div>
+  </nav>
+  <div class="ph"><h1>Profile</h1><p>Manage your account and preferences.</p></div>
+  <div class="pb">
+    <div class="prof-hdr">
+      <div class="avatar" id="prof-avatar">FP</div>
+      <div>
+        <div class="prof-name" id="prof-name">—</div>
+        <div class="prof-email" id="prof-email">—</div>
+      </div>
+    </div>
+    <div class="cb">
+      <h3>Account settings</h3>
+      <div class="s-row"><div><div class="s-lbl">Username</div><div class="s-sub" id="prof-username">—</div></div><button class="s-btn">Edit</button></div>
+      <div class="s-row"><div><div class="s-lbl">Email address</div><div class="s-sub" id="prof-email2">—</div></div><button class="s-btn">Edit</button></div>
+      <div class="s-row"><div><div class="s-lbl">Password</div><div class="s-sub">Last changed: recently</div></div><button class="s-btn">Change</button></div>
+      <div class="s-row"><div><div class="s-lbl">Dark mode</div><div class="s-sub">Toggle light / dark theme</div></div><button class="s-btn" onclick="toggleTheme()">Toggle</button></div>
+      <div class="s-row"><div><div class="s-lbl">Current plan</div><div class="s-sub">Starter — Free</div></div><button class="s-btn" onclick="go('pricing')">Upgrade</button></div>
+      <div class="s-row"><div><div class="s-lbl">Sign out</div><div class="s-sub">Sign out of your account</div></div><button class="s-btn danger" onclick="doLogout()">Sign out</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+let dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+let manualTheme = false;
+let currentUser = null;
+let slide = 0;
+const TOTAL = 4;
+let timer;
+
+// THEME
+function applyTheme() {
+  document.body[dark ? 'setAttribute' : 'removeAttribute']('data-dark', '1');
+  document.querySelectorAll('[id^=sun]').forEach(e => e.style.display = dark ? 'none' : '');
+  document.querySelectorAll('[id^=moon]').forEach(e => e.style.display = dark ? '' : 'none');
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => { if (!manualTheme) { dark = e.matches; applyTheme(); } });
+function toggleTheme() { manualTheme = true; dark = !dark; applyTheme(); }
+applyTheme();
+
+// PAGES
+function go(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById('page-' + page);
+  if (t) { t.classList.add('active'); window.scrollTo(0, 0); }
+  renderNavRight();
+  if (page === 'profile') renderProfile();
+}
+
+// DYNAMIC NAV RIGHT BUTTONS
+function navRightHTML() {
+  if (currentUser) {
+    return `<button class="snbtn icon" onclick="toggleTheme()" aria-label="theme" style="margin-right:4px">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button class="snbtn outline" onclick="go('profile')" style="max-width:120px;overflow:hidden;text-overflow:ellipsis">${currentUser.username}</button>`;
+  }
+  return `<button class="snbtn icon" onclick="toggleTheme()" aria-label="theme" style="margin-right:4px">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button class="snbtn outline" onclick="go('login')">Log in</button>
+    <button class="snbtn fill" onclick="go('signup')">Get started</button>`;
+}
+function renderNavRight() {
+  ['dn1','dn2','dn3','dn4','dn5','dn6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = navRightHTML();
+  });
+}
+
+// TOAST
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// AUTH
+async function doLogin() {
+  const identifier = document.getElementById('li-id').value.trim();
+  const password = document.getElementById('li-pw').value;
+  const err = document.getElementById('li-err');
+  err.textContent = '';
+  if (!identifier || !password) { err.textContent = 'Please fill in all fields.'; return; }
+  try {
+    const r = await fetch('/api/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ identifier, password }) });
+    const d = await r.json();
+    if (!r.ok) { err.textContent = d.error; return; }
+    currentUser = d.user;
+    renderNavRight();
+    toast('Welcome back, ' + currentUser.name.split(' ')[0] + '!');
+    go('dashboard');
+  } catch { err.textContent = 'Something went wrong. Please try again.'; }
+}
+
+async function doSignup() {
+  const name = document.getElementById('su-name').value.trim();
+  const username = document.getElementById('su-user').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const password = document.getElementById('su-pw').value;
+  const err = document.getElementById('su-err');
+  err.textContent = '';
+  if (!name || !username || !email || !password) { err.textContent = 'Please fill in all fields.'; return; }
+  try {
+    const r = await fetch('/api/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name, username, email, password }) });
+    const d = await r.json();
+    if (!r.ok) { err.textContent = d.error; return; }
+    currentUser = d.user;
+    renderNavRight();
+    toast('Account created! Welcome to FitPredictor.');
+    go('dashboard');
+  } catch { err.textContent = 'Something went wrong. Please try again.'; }
+}
+
+async function doLogout() {
+  await fetch('/api/logout', { method: 'POST' });
+  currentUser = null;
+  renderNavRight();
+  toast('You have been signed out.');
+  go('home');
+}
+
+function renderProfile() {
+  if (!currentUser) { go('login'); return; }
+  const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('prof-avatar').textContent = initials;
+  document.getElementById('prof-name').textContent = currentUser.name;
+  document.getElementById('prof-email').textContent = currentUser.email;
+  document.getElementById('prof-username').textContent = '@' + currentUser.username;
+  document.getElementById('prof-email2').textContent = currentUser.email;
+}
+
+// Check existing session
+fetch('/api/me').then(r => r.ok ? r.json() : null).then(d => {
+  if (d && d.user) { currentUser = d.user; renderNavRight(); }
+}).catch(() => {});
+
+// CAROUSEL
+function goSlide(n) {
+  document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === n));
+  document.querySelectorAll('.sp-bar').forEach((b, i) => {
+    b.classList.toggle('active', i === n);
+    const f = b.querySelector('.sp-fill');
+    f.style.animation = 'none';
+    f.offsetHeight;
+    if (i === n) f.style.animation = 'spFill 5.5s linear forwards';
+  });
+  slide = n;
+}
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => goSlide((slide + 1) % TOTAL), 5500);
+}
+goSlide(0);
+startTimer();
+
+renderNavRight();
+</script>
+</body>
+</html>
