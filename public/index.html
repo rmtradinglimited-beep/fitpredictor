@@ -2,86 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>FitPredictor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --bg:#fff;--bg2:#f6f6f4;--bg3:#ededeb;
   --text:#0f0f0f;--text2:#5a5a5a;--text3:#a0a0a0;
   --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.16);
   --card:#fff;--accent:#0f0f0f;--accent-fg:#fff;
-  --nav-blur:rgba(255,255,255,0.88);
+  --nav-blur:rgba(255,255,255,0.92);
+  --bottom-h:80px;
+  --pink:#e91e8c;--blue:#2563eb;--green:#16a34a;--orange:#d97706;--purple:#7c3aed;
 }
 [data-dark]{
   --bg:#0c0c0c;--bg2:#151515;--bg3:#1d1d1d;
   --text:#f2f2f2;--text2:#888;--text3:#444;
   --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.18);
   --card:#151515;--accent:#f2f2f2;--accent-fg:#0c0c0c;
-  --nav-blur:rgba(12,12,12,0.88);
+  --nav-blur:rgba(12,12,12,0.92);
 }
-html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.app{min-height:100vh;padding-bottom:var(--bottom-h)}
 
 /* PAGES */
 .page{display:none}
-.page.active{display:block;animation:fadeUp .35s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.page.active{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* FLOATING NAV (home only) */
-.float-nav{
-  position:absolute;top:0;left:0;right:0;z-index:300;
-  height:58px;display:flex;align-items:center;padding:0 2.8rem;
+/* LOGO SVG */
+.logo-svg{display:inline-block;vertical-align:middle}
+
+/* ===================== BOTTOM NAV ===================== */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  height:var(--bottom-h);
+  background:var(--nav-blur);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-around;
+  padding:0 8px 12px;
 }
-.float-nav .logo{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;cursor:pointer;flex-shrink:0}
-.float-nav .nc{flex:1;display:flex;justify-content:center;gap:2.2rem}
-.float-nav .nc a{font-size:11.5px;color:rgba(255,255,255,.7);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .2s}
-.float-nav .nc a:hover{color:#fff}
-.float-nav .nr{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.fnbtn{font-size:11px;padding:7px 18px;border-radius:2px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;font-family:inherit;transition:all .2s}
-.fnbtn.outline{border:.5px solid rgba(255,255,255,.5);background:transparent;color:#fff}
-.fnbtn.outline:hover{background:rgba(255,255,255,.15)}
-.fnbtn.fill{border:none;background:#fff;color:#111}
-.fnbtn.fill:hover{opacity:.88}
-.fnbtn.icon{width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;border:.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.8)}
-.fnbtn.icon:hover{background:rgba(255,255,255,.15)}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex:1;padding:8px 4px;transition:all .2s}
+.bn-circle{width:46px;height:46px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:all .25s;border:.5px solid transparent}
+.bn-item.active .bn-circle{background:var(--accent);border-color:var(--accent)}
+.bn-item.active .bn-circle svg{stroke:#fff}
+[data-dark] .bn-item.active .bn-circle svg{stroke:#0c0c0c}
+.bn-circle svg{width:20px;height:20px;stroke:var(--text2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.bn-label{font-size:10px;color:var(--text3);letter-spacing:.02em;transition:color .2s}
+.bn-item.active .bn-label{color:var(--accent)}
 
-/* SOLID NAV (inner pages) */
-.solid-nav{
-  position:sticky;top:0;z-index:300;
-  height:58px;display:flex;align-items:center;padding:0 2.8rem;
+/* ===================== TOP NAV ===================== */
+.top-nav{
+  position:sticky;top:0;z-index:300;height:54px;
+  display:flex;align-items:center;padding:0 1.2rem;
   background:var(--nav-blur);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:.5px solid var(--border);
-  transition:background .3s,border-color .3s;
+  transition:background .3s;
 }
-.solid-nav .logo{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);cursor:pointer;flex-shrink:0}
-.solid-nav .nc{flex:1;display:flex;justify-content:center;gap:2.2rem}
-.solid-nav .nc a{font-size:11.5px;color:var(--text2);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .2s}
-.solid-nav .nc a:hover,.solid-nav .nc a.active{color:var(--text)}
-.solid-nav .nr{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.snbtn{font-size:11px;padding:6px 16px;border-radius:2px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;font-family:inherit;transition:all .2s}
-.snbtn.outline{border:.5px solid var(--border2);background:transparent;color:var(--text)}
-.snbtn.outline:hover{background:var(--bg2)}
-.snbtn.fill{border:none;background:var(--accent);color:var(--accent-fg)}
-.snbtn.fill:hover{opacity:.85}
-.snbtn.icon{width:30px;height:30px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;border:.5px solid var(--border2);background:transparent;color:var(--text2)}
-.snbtn.icon:hover{background:var(--bg2);color:var(--text)}
-svg.ic{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.top-nav .t-logo{font-size:16px;font-weight:800;letter-spacing:-.01em;color:var(--text);flex:1;cursor:pointer;display:flex;align-items:center;gap:8px}
+.top-nav .t-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .2s}
+.icon-btn:hover{background:var(--bg2)}
+.icon-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 
-/* HERO */
-.hero{position:relative;height:88vh;min-height:520px;overflow:hidden;background:#111}
+/* ===================== FLOATING NAV (home) ===================== */
+.float-nav{
+  position:absolute;top:0;left:0;right:0;z-index:300;
+  height:58px;display:flex;align-items:center;padding:0 1.5rem;
+}
+.float-nav .fl{font-size:15px;font-weight:800;letter-spacing:-.01em;color:#fff;display:flex;align-items:center;gap:8px;cursor:pointer}
+.float-nav .fr{display:flex;align-items:center;gap:8px;margin-left:auto}
+.f-btn{font-size:11px;padding:7px 16px;border-radius:20px;cursor:pointer;letter-spacing:.04em;font-family:inherit;transition:all .2s}
+.f-btn.o{border:.5px solid rgba(255,255,255,.5);background:transparent;color:#fff}
+.f-btn.o:hover{background:rgba(255,255,255,.15)}
+.f-btn.s{border:none;background:#fff;color:#111}
+.f-btn.s:hover{opacity:.88}
+.f-icon{width:32px;height:32px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8);transition:all .2s}
+.f-icon:hover{background:rgba(255,255,255,.15)}
+.f-icon svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===================== HERO ===================== */
+.hero{position:relative;height:88vh;min-height:500px;overflow:hidden;background:#111}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
 .slide.active{opacity:1}
 .slide img{width:100%;height:100%;object-fit:cover;object-position:center}
-.slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.15) 60%,transparent 100%)}
-.slide-content{position:absolute;bottom:0;left:0;padding:0 2.8rem 5.5rem;max-width:700px}
-.slide-tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:12px}
-.slide-title{font-size:clamp(36px,5vw,62px);font-weight:700;letter-spacing:-.025em;line-height:1.02;color:#fff;margin-bottom:22px}
-.slide-cta{display:inline-flex;align-items:center;gap:12px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:13px 28px;border:.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;backdrop-filter:blur(8px);transition:all .25s;border-radius:2px;font-family:inherit}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%,transparent 100%)}
+.slide-content{position:absolute;bottom:0;left:0;padding:0 1.5rem 5.5rem;max-width:600px}
+.slide-tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px}
+.slide-title{font-size:clamp(32px,5vw,58px);font-weight:800;letter-spacing:-.025em;line-height:1.02;color:#fff;margin-bottom:20px}
+.slide-cta{display:inline-flex;align-items:center;gap:10px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding:12px 26px;border:.5px solid rgba(255,255,255,.5);background:rgba(255,255,255,.1);color:#fff;cursor:pointer;backdrop-filter:blur(8px);transition:all .25s;border-radius:4px;font-family:inherit}
 .slide-cta:hover{background:rgba(255,255,255,.22)}
-.slide-progress{position:absolute;bottom:4.2rem;right:2.8rem;display:flex;gap:10px;align-items:center}
-.sp-bar{width:48px;height:2px;background:rgba(255,255,255,.25);cursor:pointer;position:relative;overflow:hidden;border-radius:1px}
+.slide-progress{position:absolute;bottom:4rem;right:1.5rem;display:flex;gap:8px;align-items:center}
+.sp-bar{width:44px;height:2px;background:rgba(255,255,255,.25);cursor:pointer;position:relative;overflow:hidden;border-radius:1px}
 .sp-bar.active{background:rgba(255,255,255,.35)}
 .sp-fill{position:absolute;top:0;left:0;height:100%;width:0;background:#fff;border-radius:1px}
 .sp-bar.active .sp-fill{animation:spFill 5.5s linear forwards}
@@ -89,148 +103,320 @@ svg.ic{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;str
 
 /* HOME CARDS */
 .home-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
-.hc{position:relative;min-height:220px;background:var(--bg2);cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem 2rem;transition:background .2s}
+.hc{position:relative;min-height:180px;background:var(--bg2);cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;transition:background .2s}
 .hc:hover{background:var(--bg3)}
-.hc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;transition:opacity .3s}
+.hc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4;transition:opacity .3s}
 .hc:hover img{opacity:.55}
 .hc-inner{position:relative;z-index:2}
-.hc-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.hc-title{font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--text)}
-.hc-arr{position:absolute;top:1.4rem;right:1.4rem;font-size:20px;color:var(--text3);z-index:2}
+.hc-tag{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px}
+.hc-title{font-size:17px;font-weight:700;letter-spacing:-.01em;color:#fff}
+.hc-arr{position:absolute;top:1rem;right:1rem;font-size:18px;color:rgba(255,255,255,.6);z-index:2}
 
-/* PAGE HEADER */
-.ph{padding:3.5rem 2.8rem 2rem;border-bottom:.5px solid var(--border)}
-.ph h1{font-size:32px;font-weight:700;letter-spacing:-.025em;text-transform:uppercase;margin-bottom:8px}
-.ph p{font-size:14px;color:var(--text2);line-height:1.65;max-width:520px}
-.pb{padding:2.5rem 2.8rem}
+/* PAGE LAYOUTS */
+.ph{padding:1.5rem 1.2rem 1rem;border-bottom:.5px solid var(--border)}
+.ph h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.ph p{font-size:13.5px;color:var(--text2);line-height:1.6}
+.pb{padding:1.2rem}
 
 /* STAT CARDS */
-.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border:.5px solid var(--border);margin-bottom:2rem}
-.sc{background:var(--bg);padding:1.5rem 1.4rem}
-.sc-lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
-.sc-val{font-size:28px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
-.sc-sub{font-size:11.5px;color:var(--text3);margin-top:4px}
+.stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1.2rem}
+.stat-row.four{grid-template-columns:repeat(2,1fr)}
+.sc{background:var(--bg2);border-radius:12px;padding:1rem}
+.sc-lbl{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.sc-val{font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.sc-sub{font-size:11px;color:var(--text3);margin-top:3px}
 
-/* CONTENT BLOCKS */
-.cb{border:.5px solid var(--border);padding:1.6rem 1.8rem;margin-bottom:1px;background:var(--card)}
-.cb h3{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text);margin-bottom:10px}
-.cb p{font-size:13.5px;color:var(--text2);line-height:1.7}
+/* CARDS */
+.cb{background:var(--bg2);border-radius:12px;padding:1.2rem;margin-bottom:10px}
+.cb h3{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+.cb p{font-size:13.5px;color:var(--text2);line-height:1.65}
 
-/* WORKOUT PLAN CARDS */
-.wp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:.5px solid var(--border);margin-bottom:2rem}
-.wc{background:var(--bg2);padding:1.5rem}
-.wc-day{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.wc-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
-.wc-tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border:.5px solid var(--border2);color:var(--text2);border-radius:2px;margin-bottom:10px}
-.wc-ex{font-size:12.5px;color:var(--text2);line-height:1.8}
+/* SECTION TITLE */
+.sec-title{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text2);margin:1.2rem 0 .7rem}
 
-/* NUTRITION */
-.macro-ring-wrap{display:flex;gap:2rem;align-items:center;margin-bottom:2rem;flex-wrap:wrap}
-.macro-labels{display:flex;flex-direction:column;gap:10px}
-.ml-row{display:flex;align-items:center;gap:10px}
-.ml-dot{width:10px;height:10px;border-radius:50%}
-.ml-name{font-size:12px;color:var(--text2);letter-spacing:.03em;min-width:70px}
-.ml-val{font-size:12px;font-weight:600;color:var(--text)}
-.meal-list{display:flex;flex-direction:column;gap:1px}
-.meal-item{background:var(--bg2);padding:1rem 1.4rem;display:flex;justify-content:space-between;align-items:center;border:.5px solid var(--border)}
-.mi-name{font-size:13.5px;font-weight:500;color:var(--text)}
-.mi-kcal{font-size:12px;color:var(--text3)}
+/* BUTTONS */
+.btn{padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.02em;font-family:inherit;transition:all .2s;border:none}
+.btn-primary{background:var(--accent);color:var(--accent-fg)}
+.btn-primary:hover{opacity:.85}
+.btn-outline{background:transparent;border:.5px solid var(--border2);color:var(--text)}
+.btn-outline:hover{background:var(--bg2)}
+.btn-full{width:100%}
+.btn-sm{padding:8px 16px;font-size:12px;border-radius:6px}
 
-/* PROGRESS */
-.prog-item{margin-bottom:1.5rem}
-.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
-.prog-track{height:2px;background:var(--bg3)}
-.prog-fill{height:100%;background:var(--text);transition:width 1s ease}
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--bg3);border-radius:10px;padding:3px;margin-bottom:1.2rem}
+.tab{flex:1;padding:8px;border-radius:8px;font-size:12px;font-weight:600;text-align:center;cursor:pointer;color:var(--text2);transition:all .2s}
+.tab.active{background:var(--card);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
 
-/* PLAN CARDS */
-.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--border);border:.5px solid var(--border)}
-.pc{background:var(--bg);padding:2.5rem 1.8rem;text-align:center}
-.pc.featured{background:var(--bg2)}
-.pc-name{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:.8rem}
-.pc-price{font-size:38px;font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:.2rem}
-.pc-period{font-size:12px;color:var(--text3);margin-bottom:1.6rem}
-.pc-btn{width:100%;padding:12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:inherit;transition:all .2s}
-.pc-btn.def{border:.5px solid var(--border2);background:transparent;color:var(--text)}
-.pc-btn.def:hover{background:var(--bg3)}
-.pc-btn.pri{border:none;background:var(--accent);color:var(--accent-fg)}
-.pc-btn.pri:hover{opacity:.82}
-.pc-feats{margin-top:1.6rem;text-align:left}
-.pc-feats li{font-size:12.5px;color:var(--text2);padding:6px 0;border-bottom:.5px solid var(--border);list-style:none;display:flex;align-items:center;gap:8px}
-.pc-feats li:last-child{border:none}
-.pc-feats li::before{content:'✓';font-size:10px;color:var(--text3)}
+/* PROGRESS BAR */
+.prog-row{margin-bottom:1rem}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text2);margin-bottom:6px}
+.prog-track{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width 1s ease}
+
+/* PILLS */
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:500;border:.5px solid var(--border2);color:var(--text2);background:var(--bg2);cursor:pointer;transition:all .2s}
+.pill.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+
+/* TOGGLE */
+.toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;border-bottom:.5px solid var(--border)}
+.toggle-wrap:last-child{border:none}
+.toggle{width:44px;height:26px;border-radius:13px;background:var(--bg3);cursor:pointer;position:relative;transition:background .3s;flex-shrink:0;border:none}
+.toggle.on{background:var(--accent)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .3s}
+.toggle.on::after{transform:translateX(18px)}
+.toggle-lbl{font-size:14px;color:var(--text)}
+.toggle-sub{font-size:12px;color:var(--text3)}
 
 /* AUTH */
-.auth-wrap{min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:3rem 1rem;background:var(--bg2)}
-.auth-box{width:100%;max-width:380px;background:var(--card);border:.5px solid var(--border);padding:3rem 2.5rem}
-.auth-box h2{font-size:22px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:4px}
-.auth-box .sub{font-size:13px;color:var(--text2);margin-bottom:2.5rem;line-height:1.55}
-.field{margin-bottom:14px}
-.field label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:6px}
-.field input{width:100%;padding:11px 14px;border:.5px solid var(--border2);border-radius:0;background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
-.field input:focus{border-color:var(--text)}
-.auth-submit{width:100%;padding:13px;border-radius:0;border:none;background:var(--accent);color:var(--accent-fg);font-size:11.5px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-family:inherit;margin-top:6px;transition:opacity .2s}
-.auth-submit:hover{opacity:.85}
-.auth-alt{width:100%;padding:13px;border-radius:0;border:.5px solid var(--border2);background:transparent;color:var(--text);font-size:11.5px;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-family:inherit;margin-top:8px;transition:all .2s}
-.auth-alt:hover{background:var(--bg3)}
-.auth-foot{margin-top:1.5rem;font-size:12px;color:var(--text3);text-align:center}
-.auth-foot a{color:var(--text2);cursor:pointer;text-decoration:none}
-.auth-foot a:hover{color:var(--text)}
-.err{font-size:12px;color:#d0342c;margin-top:10px;min-height:18px}
-
-/* PROFILE */
-.prof-hdr{display:flex;align-items:center;gap:1.4rem;margin-bottom:2.2rem;padding-bottom:2rem;border-bottom:.5px solid var(--border)}
-.avatar{width:64px;height:64px;background:var(--bg3);border:.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--text2)}
-.prof-name{font-size:20px;font-weight:700;letter-spacing:-.01em;text-transform:uppercase}
-.prof-email{font-size:13px;color:var(--text2);margin-top:3px}
-.s-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 0;border-bottom:.5px solid var(--border)}
-.s-row:last-child{border:none}
-.s-lbl{font-size:14px;font-weight:500;color:var(--text)}
-.s-sub{font-size:12px;color:var(--text3);margin-top:3px}
-.s-btn{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border:.5px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .2s;font-family:inherit;border-radius:0}
-.s-btn:hover{background:var(--bg2)}
-.s-btn.danger{color:#d0342c;border-color:rgba(208,52,44,.3)}
-.s-btn.danger:hover{background:rgba(208,52,44,.06)}
+.auth-wrap{min-height:calc(100vh - var(--bottom-h));display:flex;align-items:center;justify-content:center;padding:2rem 1rem;background:var(--bg2)}
+.auth-box{width:100%;max-width:360px;background:var(--card);border:.5px solid var(--border);border-radius:16px;padding:2.5rem 2rem}
+.auth-box h2{font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+.auth-box .sub{font-size:13px;color:var(--text2);margin-bottom:2rem;line-height:1.55}
+.field{margin-bottom:12px}
+.field label{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:5px}
+.field input,.field select{width:100%;padding:11px 13px;border:.5px solid var(--border2);border-radius:8px;background:var(--bg2);color:var(--text);font-size:14px;outline:none;transition:border-color .2s;font-family:inherit}
+.field input:focus,.field select:focus{border-color:var(--text)}
+.gender-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.gender-btn{padding:14px;border-radius:10px;border:.5px solid var(--border2);background:var(--bg2);cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
+.gender-btn.selected{border-color:var(--accent);background:var(--accent);color:var(--accent-fg)}
+.gender-btn .g-icon{font-size:22px;margin-bottom:4px}
+.gender-btn .g-label{font-size:12px;font-weight:600;letter-spacing:.04em;color:inherit}
+.err{font-size:12px;color:#d0342c;margin-top:8px;min-height:16px}
 
 /* TOAST */
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:var(--bg);font-size:13px;padding:12px 24px;border-radius:2px;letter-spacing:.02em;z-index:999;transition:transform .35s ease;pointer-events:none}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;bottom:calc(var(--bottom-h) + 12px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);font-size:13px;padding:11px 22px;border-radius:20px;z-index:999;transition:all .35s ease;pointer-events:none;opacity:0;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;padding:1.5rem}
+.modal-handle{width:36px;height:4px;background:var(--bg3);border-radius:2px;margin:0 auto 1.2rem}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:1rem}
+
+/* ===================== TRAINING ===================== */
+.workout-card{background:var(--bg2);border-radius:14px;padding:1.2rem;margin-bottom:10px;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:background .2s}
+.workout-card:hover{background:var(--bg3)}
+.wc-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.wc-info h4{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px}
+.wc-info p{font-size:12px;color:var(--text2)}
+.wc-badge{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:12px;font-weight:600}
+.badge-green{background:rgba(22,163,74,.12);color:#16a34a}
+.badge-blue{background:rgba(37,99,235,.12);color:#2563eb}
+.badge-orange{background:rgba(217,119,6,.12);color:#d97706}
+.badge-purple{background:rgba(124,58,237,.12);color:#7c3aed}
+
+/* ===================== REWARDS ===================== */
+.points-header{background:linear-gradient(135deg,#0f0f0f 0%,#2d2d2d 100%);border-radius:16px;padding:1.5rem;margin-bottom:1.2rem;color:#fff;position:relative;overflow:hidden}
+.points-header::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.05)}
+.pts-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px}
+.pts-value{font-size:42px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px}
+.pts-sub{font-size:12px;color:rgba(255,255,255,.5)}
+.pts-earn{display:flex;gap:8px;margin-top:1rem}
+.pts-earn-item{flex:1;background:rgba(255,255,255,.08);border-radius:8px;padding:8px;text-align:center}
+.pts-earn-item .pe-val{font-size:16px;font-weight:700;color:#fff}
+.pts-earn-item .pe-lbl{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+
+/* CAR SWIPER */
+.car-swiper{overflow-x:auto;display:flex;gap:12px;padding:4px 0 12px;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}
+.car-swiper::-webkit-scrollbar{display:none}
+.car-card{min-width:240px;border-radius:16px;overflow:hidden;scroll-snap-align:start;cursor:pointer;position:relative;flex-shrink:0;border:.5px solid var(--border)}
+.car-img{width:100%;height:150px;object-fit:cover;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.car-render{width:100%;height:150px;display:block}
+.car-info{padding:1rem;background:var(--card)}
+.car-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.car-desc{font-size:11.5px;color:var(--text2);margin-bottom:10px}
+.car-pts{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px}
+.car-claim{width:100%;padding:9px;border-radius:8px;border:none;background:var(--accent);color:var(--accent-fg);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.car-claim:hover{opacity:.85}
+.car-locked{opacity:.5;cursor:not-allowed}
+
+/* ===================== NUTRITION ===================== */
+.calorie-ring-wrap{display:flex;align-items:center;gap:1.5rem;background:var(--bg2);border-radius:16px;padding:1.2rem;margin-bottom:1.2rem}
+.macro-labels{display:flex;flex-direction:column;gap:8px;flex:1}
+.ml-row{display:flex;align-items:center;gap:8px}
+.ml-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ml-name{font-size:12px;color:var(--text2);min-width:55px}
+.ml-prog{flex:1;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.ml-bar{height:100%;border-radius:2px}
+.ml-val{font-size:12px;font-weight:600;color:var(--text);min-width:35px;text-align:right}
+
+.meal-section{margin-bottom:1rem}
+.meal-header{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;border-bottom:.5px solid var(--border)}
+.meal-header h4{font-size:13px;font-weight:700;color:var(--text)}
+.meal-header .meal-cals{font-size:12px;color:var(--text3)}
+.meal-item-row{display:flex;align-items:center;padding:.7rem 0;border-bottom:.5px solid var(--border);gap:.8rem}
+.meal-item-row:last-child{border:none}
+.mi-name{flex:1;font-size:13.5px;color:var(--text)}
+.mi-kcal{font-size:12px;color:var(--text3)}
+.mi-del{font-size:16px;color:var(--text3);cursor:pointer;padding:0 4px}
+.add-food-btn{display:flex;align-items:center;gap:8px;padding:.7rem 0;cursor:pointer;color:var(--blue)}
+.add-food-btn span{font-size:13px;font-weight:500}
+
+.water-section{background:var(--bg2);border-radius:14px;padding:1.2rem;margin-bottom:1rem}
+.water-glasses{display:flex;gap:6px;flex-wrap:wrap;margin:1rem 0}
+.glass{width:38px;height:38px;border-radius:8px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s}
+.glass.filled{background:#bfdbfe;border-color:#2563eb}
+
+/* BARCODE / AI SCAN */
+.scan-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem}
+.scan-opt{background:var(--bg2);border-radius:14px;padding:1.2rem;text-align:center;cursor:pointer;transition:background .2s;border:.5px solid var(--border)}
+.scan-opt:hover{background:var(--bg3)}
+.scan-opt-icon{font-size:28px;margin-bottom:8px}
+.scan-opt-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.scan-opt-sub{font-size:11.5px;color:var(--text2)}
+
+/* FOOD SEARCH */
+.food-search{display:flex;gap:8px;margin-bottom:1rem}
+.food-search input{flex:1;padding:10px 14px;border:.5px solid var(--border2);border-radius:10px;background:var(--bg2);color:var(--text);font-size:14px;outline:none;font-family:inherit}
+.food-result{display:flex;align-items:center;justify-content:space-between;padding:.8rem;border-radius:10px;background:var(--bg2);margin-bottom:6px;cursor:pointer;transition:background .2s}
+.food-result:hover{background:var(--bg3)}
+.fr-name{font-size:13.5px;font-weight:500;color:var(--text)}
+.fr-kcal{font-size:12px;color:var(--text3)}
+.fr-add{width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-fg);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+
+/* CALENDAR */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.cal-nav h3{font-size:16px;font-weight:700}
+.cal-nav button{width:32px;height:32px;border-radius:50%;border:.5px solid var(--border2);background:transparent;cursor:pointer;color:var(--text);font-size:16px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:1rem}
+.cal-day-hdr{font-size:10px;letter-spacing:.04em;text-align:center;color:var(--text3);padding:4px 0;text-transform:uppercase}
+.cal-day{height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .2s;color:var(--text2)}
+.cal-day:hover{background:var(--bg3);color:var(--text)}
+.cal-day.today{background:var(--accent);color:var(--accent-fg);font-weight:700}
+.cal-day.has-data::after{content:'';width:4px;height:4px;border-radius:50%;background:var(--blue);position:absolute;bottom:3px}
+.cal-day{position:relative}
+.cal-day.other-month{color:var(--text3);opacity:.4}
+
+/* ===================== TRACKING ===================== */
+.step-ring-wrap{text-align:center;padding:1.5rem;background:var(--bg2);border-radius:16px;margin-bottom:1rem}
+.step-count{font-size:48px;font-weight:800;letter-spacing:-.04em;color:var(--text)}
+.step-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.step-goal{font-size:13px;color:var(--text2);margin-top:4px}
+
+.weight-card{background:var(--bg2);border-radius:14px;padding:1.2rem;margin-bottom:10px}
+.wt-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.wt-current{font-size:36px;font-weight:800;letter-spacing:-.03em;color:var(--text)}
+.wt-unit{font-size:16px;font-weight:400;color:var(--text3)}
+.wt-target{font-size:13px;color:var(--text2)}
+.wt-diff{font-size:13px;font-weight:600;color:#16a34a}
+.wt-input-row{display:flex;gap:8px;align-items:center}
+.wt-input-row input{flex:1;padding:10px 14px;border:.5px solid var(--border2);border-radius:8px;background:var(--card);color:var(--text);font-size:16px;font-weight:600;outline:none;font-family:inherit}
+
+/* MENSTRUAL */
+.cycle-header{background:linear-gradient(135deg,var(--pink) 0%,#ff6b9d 100%);border-radius:16px;padding:1.5rem;margin-bottom:1.2rem;color:#fff}
+.cycle-phase{font-size:20px;font-weight:800;margin-bottom:4px}
+.cycle-day{font-size:13px;opacity:.8;margin-bottom:1rem}
+.cycle-dots{display:flex;gap:4px;flex-wrap:wrap}
+.cy-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3)}
+.cy-dot.period{background:#fff}
+.cy-dot.fertile{background:rgba(255,255,255,.7)}
+.cy-dot.ovulation{background:#ffeb3b;border:2px solid #fff}
+.cy-dot.today-marker{border:2px solid #fff}
+
+.symptom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
+.sym-btn{background:var(--bg2);border-radius:10px;padding:.8rem .5rem;text-align:center;cursor:pointer;border:.5px solid var(--border);transition:all .2s}
+.sym-btn.selected{border-color:var(--pink);background:rgba(233,30,140,.08)}
+.sym-btn .sym-icon{font-size:22px;margin-bottom:4px}
+.sym-btn .sym-label{font-size:11px;color:var(--text2)}
+
+/* ===================== BASKET ===================== */
+.supplement-card{display:flex;gap:.8rem;background:var(--bg2);border-radius:14px;padding:1rem;margin-bottom:10px;cursor:pointer;transition:background .2s}
+.supplement-card:hover{background:var(--bg3)}
+.supp-img{width:70px;height:70px;border-radius:10px;object-fit:cover;background:var(--bg3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px}
+.supp-info{flex:1}
+.supp-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3}
+.supp-desc{font-size:12px;color:var(--text2);margin-bottom:6px;line-height:1.4}
+.supp-price{font-size:16px;font-weight:700;color:var(--text)}
+.supp-add{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-fg);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:center}
+
+.cart-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#d0342c;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+.cart-item-row{display:flex;align-items:center;gap:.8rem;padding:.8rem 0;border-bottom:.5px solid var(--border)}
+.cart-item-row:last-child{border:none}
+.ci-name{flex:1;font-size:13.5px;font-weight:500;color:var(--text)}
+.ci-qty{display:flex;align-items:center;gap:8px}
+.qty-btn{width:26px;height:26px;border-radius:50%;border:.5px solid var(--border2);background:var(--bg2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.ci-price{font-size:13px;font-weight:600;color:var(--text);min-width:50px;text-align:right}
+
+/* ===================== PROFILE ===================== */
+.prof-hero{background:linear-gradient(135deg,#0f0f0f 0%,#2d2d2d 100%);padding:2rem 1.2rem 1.5rem;color:#fff}
+.prof-avatar{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;margin-bottom:.8rem;border:2px solid rgba(255,255,255,.3)}
+.prof-name-big{font-size:22px;font-weight:800;margin-bottom:3px}
+.prof-role{font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.04em;text-transform:uppercase}
+.prof-stats{display:flex;gap:1rem;margin-top:1rem}
+.prof-stat{text-align:center}
+.prof-stat .ps-val{font-size:18px;font-weight:700}
+.prof-stat .ps-lbl{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.04em}
+
+.trainer-badge{background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:12px;padding:1rem;color:#fff;margin-bottom:10px}
+.tb-label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.tb-code{font-size:22px;font-weight:800;letter-spacing:.1em}
+.tb-sub{font-size:12px;opacity:.7;margin-top:4px}
+
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:.9rem 0;border-bottom:.5px solid var(--border)}
+.setting-row:last-child{border:none}
+.sr-left h4{font-size:14px;font-weight:500;color:var(--text)}
+.sr-left p{font-size:12px;color:var(--text3);margin-top:2px}
+.sr-right{display:flex;align-items:center;gap:8px}
+.sr-val{font-size:13px;color:var(--text2)}
+.sr-action{font-size:11.5px;padding:5px 12px;border-radius:16px;border:.5px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;transition:all .2s}
+.sr-action:hover{background:var(--bg2)}
+.sr-action.danger{color:#d0342c;border-color:rgba(208,52,44,.3)}
+
+/* TRAINER CLIENT LIST */
+.client-row{display:flex;align-items:center;gap:.8rem;padding:.8rem;background:var(--bg2);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:background .2s}
+.client-row:hover{background:var(--bg3)}
+.client-av{width:40px;height:40px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--text2);flex-shrink:0}
+.client-info{flex:1}
+.client-name{font-size:14px;font-weight:600;color:var(--text)}
+.client-meta{font-size:12px;color:var(--text3)}
+.client-pts{font-size:13px;font-weight:700;color:var(--accent)}
+
+/* GYM MAP */
+.map-placeholder{height:220px;background:var(--bg3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;overflow:hidden;position:relative}
+.map-placeholder img{width:100%;height:100%;object-fit:cover;opacity:.6}
+.map-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.map-pin{font-size:32px}
+.gym-card{background:var(--bg2);border-radius:12px;padding:1rem;margin-bottom:8px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.8rem}
+.gym-card:hover{background:var(--bg3)}
+.gym-dist{font-size:11px;color:var(--text3);margin-left:auto}
 
 /* RESPONSIVE */
-@media(max-width:640px){
-  .home-cards{grid-template-columns:1fr}
-  .float-nav .nc{display:none}
-  .solid-nav .nc{display:none}
-  .slide-title{font-size:32px}
+@media(max-width:380px){
+  .slide-title{font-size:28px}
+  .stat-row.four{grid-template-columns:repeat(2,1fr)}
+  .pts-value{font-size:34px}
 }
 </style>
 </head>
 <body>
 
+<div class="app" id="app">
+
 <!-- ========== HOME ========== -->
 <div class="page active" id="page-home">
   <div style="position:relative">
     <nav class="float-nav">
-      <div class="logo" onclick="go('home')">FitPredictor</div>
-      <div class="nc">
-        <a onclick="go('dashboard')">Dashboard</a>
-        <a onclick="go('workouts')">Workouts</a>
-        <a onclick="go('nutrition')">Nutrition</a>
-        <a onclick="go('progress')">Progress</a>
-        <a onclick="go('pricing')">Plans</a>
+      <div class="fl" onclick="go('home')">
+        <svg width="22" height="22" viewBox="0 0 100 100" style="flex-shrink:0"><rect width="100" height="100" rx="16" fill="#fff"/><path d="M20 20 h45 q15 0 15 15 v0 q0 15-15 15 h0 q15 0 15 15 v15 q0 15-15 15 h-15 v-30 h-30z" fill="#0f0f0f"/></svg>
+        FitPredictor
       </div>
-      <div class="nr">
-        <button class="fnbtn icon" onclick="toggleTheme()" aria-label="theme">
-          <svg class="ic" id="sun1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg class="ic" id="moon1" viewBox="0 0 24 24" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <div class="fr">
+        <button class="f-icon" onclick="toggleTheme()">
+          <svg id="sun1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="moon1" viewBox="0 0 24 24" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
         </button>
-        <button class="fnbtn outline" onclick="go('login')">Log in</button>
-        <button class="fnbtn fill" onclick="go('signup')">Get started</button>
+        <button class="f-btn o" onclick="go('login')">Log in</button>
+        <button class="f-btn s" onclick="go('signup')">Join free</button>
       </div>
     </nav>
 
     <div class="hero">
       <div class="slide active" id="sl0">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80" alt="Gym">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&q=80" alt="">
         <div class="slide-overlay"></div>
         <div class="slide-content">
           <div class="slide-tag">FitPredictor — AI Fitness Platform</div>
@@ -239,33 +425,32 @@ svg.ic{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;str
         </div>
       </div>
       <div class="slide" id="sl1">
-        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1600&q=80" alt="Workout">
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1400&q=80" alt="">
         <div class="slide-overlay"></div>
         <div class="slide-content">
           <div class="slide-tag">AI Workout Plans</div>
           <div class="slide-title">Personalised<br>plans built<br>for you.</div>
-          <button class="slide-cta" onclick="go('workouts')">Explore workouts →</button>
+          <button class="slide-cta" onclick="go('training')">Explore →</button>
         </div>
       </div>
       <div class="slide" id="sl2">
-        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1600&q=80" alt="Nutrition">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1400&q=80" alt="">
         <div class="slide-overlay"></div>
         <div class="slide-content">
-          <div class="slide-tag">Nutrition Tracking</div>
+          <div class="slide-tag">Smart Nutrition</div>
           <div class="slide-title">Fuel your<br>body with<br>precision.</div>
-          <button class="slide-cta" onclick="go('nutrition')">Track nutrition →</button>
+          <button class="slide-cta" onclick="go('nutrition')">Track →</button>
         </div>
       </div>
       <div class="slide" id="sl3">
-        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1600&q=80" alt="Progress">
+        <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=1400&q=80" alt="">
         <div class="slide-overlay"></div>
         <div class="slide-content">
-          <div class="slide-tag">Progress Analytics</div>
-          <div class="slide-title">Watch your<br>body<br>transform.</div>
-          <button class="slide-cta" onclick="go('progress')">See analytics →</button>
+          <div class="slide-tag">Earn Rewards</div>
+          <div class="slide-title">Work out.<br>Earn points.<br>Claim cars.</div>
+          <button class="slide-cta" onclick="go('rewards')">See rewards →</button>
         </div>
       </div>
-
       <div class="slide-progress">
         <div class="sp-bar active" onclick="goSlide(0)"><div class="sp-fill" id="spf0"></div></div>
         <div class="sp-bar" onclick="goSlide(1)"><div class="sp-fill" id="spf1"></div></div>
@@ -275,457 +460,985 @@ svg.ic{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6;str
     </div>
   </div>
 
-  <div class="home-cards">
-    <div class="hc" onclick="go('workouts')">
-      <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800&q=70" alt="">
-      <div class="hc-inner">
-        <div class="hc-tag">Workout plans</div>
-        <div class="hc-title">AI-powered training programs</div>
+  <!-- Gym Finder -->
+  <div style="padding:1.2rem;border-bottom:.5px solid var(--border)">
+    <div class="sec-title">🏋️ Find a Jetts Gym Near You</div>
+    <div class="map-placeholder">
+      <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69c5c4?w=800&q=60" alt="map">
+      <div class="map-overlay">
+        <div class="map-pin">📍</div>
+        <div style="background:rgba(0,0,0,.7);color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600">Enable location to find gyms</div>
       </div>
+    </div>
+    <div class="gym-card" onclick="toast('Jetts Westfield selected!')">
+      <span style="font-size:22px">🏋️</span>
+      <div><div style="font-size:14px;font-weight:600;color:var(--text)">Jetts Westfield</div><div style="font-size:12px;color:var(--text3)">Ariel Way, London W12</div></div>
+      <div class="gym-dist">0.4 mi</div>
+    </div>
+    <div class="gym-card" onclick="toast('Jetts Canary Wharf selected!')">
+      <span style="font-size:22px">🏋️</span>
+      <div><div style="font-size:14px;font-weight:600;color:var(--text)">Jetts Canary Wharf</div><div style="font-size:12px;color:var(--text3)">Canada Square, London E14</div></div>
+      <div class="gym-dist">1.2 mi</div>
+    </div>
+    <div class="gym-card" onclick="toast('Jetts Kings Cross selected!')">
+      <span style="font-size:22px">🏋️</span>
+      <div><div style="font-size:14px;font-weight:600;color:var(--text)">Jetts Kings Cross</div><div style="font-size:12px;color:var(--text3)">Euston Rd, London N1</div></div>
+      <div class="gym-dist">2.1 mi</div>
+    </div>
+  </div>
+
+  <!-- Home cards -->
+  <div class="home-cards">
+    <div class="hc" onclick="go('training')">
+      <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=60" alt="">
+      <div class="hc-inner"><div class="hc-tag">Training</div><div class="hc-title">AI workout plans</div></div>
       <div class="hc-arr">→</div>
     </div>
     <div class="hc" onclick="go('nutrition')">
-      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=70" alt="">
-      <div class="hc-inner">
-        <div class="hc-tag">Nutrition</div>
-        <div class="hc-title">Smart meal tracking & macros</div>
-      </div>
+      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=60" alt="">
+      <div class="hc-inner"><div class="hc-tag">Nutrition</div><div class="hc-title">Smart tracking</div></div>
       <div class="hc-arr">→</div>
     </div>
-    <div class="hc" onclick="go('progress')">
-      <img src="https://images.unsplash.com/photo-1599058917765-a780eda9d6ae?w=800&q=70" alt="">
-      <div class="hc-inner">
-        <div class="hc-tag">Progress & analytics</div>
-        <div class="hc-title">Predict your results before you see them</div>
-      </div>
+    <div class="hc" onclick="go('rewards')">
+      <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=60" alt="">
+      <div class="hc-inner"><div class="hc-tag">Rewards</div><div class="hc-title">Earn luxury cars</div></div>
       <div class="hc-arr">→</div>
     </div>
-    <div class="hc" onclick="go('pricing')">
-      <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=70" alt="">
-      <div class="hc-inner">
-        <div class="hc-tag">Plans & pricing</div>
-        <div class="hc-title">Start free. Upgrade when ready.</div>
-      </div>
+    <div class="hc" onclick="go('basket')">
+      <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=60" alt="">
+      <div class="hc-inner"><div class="hc-tag">Supplements</div><div class="hc-title">Shop Welzo</div></div>
       <div class="hc-arr">→</div>
     </div>
   </div>
 </div>
 
-<!-- ========== DASHBOARD ========== -->
-<div class="page" id="page-dashboard">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc">
-      <a onclick="go('dashboard')" class="active">Dashboard</a>
-      <a onclick="go('workouts')">Workouts</a>
-      <a onclick="go('nutrition')">Nutrition</a>
-      <a onclick="go('progress')">Progress</a>
-      <a onclick="go('pricing')">Plans</a>
+<!-- ========== TRAINING ========== -->
+<div class="page" id="page-training">
+  <div class="top-nav">
+    <div class="t-logo" onclick="go('home')">
+      <svg width="20" height="20" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="var(--accent)"/><path d="M20 20 h45 q15 0 15 15 v0 q0 15-15 15 h0 q15 0 15 15 v15 q0 15-15 15 h-15 v-30 h-30z" fill="var(--accent-fg)"/></svg>
+      Training
     </div>
-    <div class="nr" id="dn1"></div>
-  </nav>
-  <div class="ph"><h1>Dashboard</h1><p>Welcome back. Here's your fitness overview for this week.</p></div>
-  <div class="pb">
-    <div class="stat-row">
-      <div class="sc"><div class="sc-lbl">Workouts this week</div><div class="sc-val">4</div><div class="sc-sub">↑ 1 from last week</div></div>
-      <div class="sc"><div class="sc-lbl">Calories burned</div><div class="sc-val">2,840</div><div class="sc-sub">↑ 12% vs avg</div></div>
-      <div class="sc"><div class="sc-lbl">Current streak</div><div class="sc-val">9d</div><div class="sc-sub">Personal best</div></div>
-      <div class="sc"><div class="sc-lbl">Goal progress</div><div class="sc-val">68%</div><div class="sc-sub">On track</div></div>
+    <div class="t-right">
+      <button class="icon-btn" onclick="toggleTheme()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
     </div>
-    <div class="cb"><h3>Today's plan</h3><p>Upper body strength — Bench press 4×8, Overhead press 3×10, Pull-ups 3×8, Dumbbell rows 3×12. Estimated duration: 55 minutes. Target: 480 calories.</p></div>
-    <div class="cb"><h3>AI prediction</h3><p>Based on your current trajectory, you are projected to reach your target body weight in <strong>8 weeks</strong>. Maintain your current calorie deficit and training frequency for optimal results.</p></div>
-    <div class="cb"><h3>Recent activity</h3><p>Mon — Lower body · Tue — Cardio HIIT · Wed — Rest · Thu — Upper body · Fri — Full body (scheduled)</p></div>
   </div>
-</div>
-
-<!-- ========== WORKOUTS ========== -->
-<div class="page" id="page-workouts">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc">
-      <a onclick="go('dashboard')">Dashboard</a>
-      <a onclick="go('workouts')" class="active">Workouts</a>
-      <a onclick="go('nutrition')">Nutrition</a>
-      <a onclick="go('progress')">Progress</a>
-      <a onclick="go('pricing')">Plans</a>
-    </div>
-    <div class="nr" id="dn2"></div>
-  </nav>
-  <div class="ph"><h1>Workout plans</h1><p>AI-generated training programs tailored to your goals, fitness level, and schedule.</p></div>
   <div class="pb">
     <div class="stat-row">
-      <div class="sc"><div class="sc-lbl">Active plan</div><div class="sc-val">PPL</div><div class="sc-sub">Push Pull Legs</div></div>
-      <div class="sc"><div class="sc-lbl">Week</div><div class="sc-val">6 / 12</div><div class="sc-sub">Halfway there</div></div>
+      <div class="sc"><div class="sc-lbl">This week</div><div class="sc-val">4</div><div class="sc-sub">Workouts done</div></div>
+      <div class="sc"><div class="sc-lbl">Streak</div><div class="sc-val">9d 🔥</div><div class="sc-sub">Personal best</div></div>
+    </div>
+    <div class="stat-row">
+      <div class="sc"><div class="sc-lbl">Calories burned</div><div class="sc-val">2,840</div><div class="sc-sub">This week</div></div>
       <div class="sc"><div class="sc-lbl">Avg duration</div><div class="sc-val">52m</div><div class="sc-sub">Per session</div></div>
     </div>
-    <div class="wp-grid">
-      <div class="wc"><div class="wc-day">Monday</div><div class="wc-name">Push Day</div><span class="wc-tag">Chest · Shoulders · Triceps</span><div class="wc-ex">Bench Press 4×8<br>Incline DB Press 3×10<br>OHP 3×10<br>Lateral Raises 4×15<br>Tricep Dips 3×12</div></div>
-      <div class="wc"><div class="wc-day">Tuesday</div><div class="wc-name">Pull Day</div><span class="wc-tag">Back · Biceps</span><div class="wc-ex">Deadlift 3×5<br>Pull-ups 4×8<br>Barbell Row 3×10<br>Face Pulls 3×15<br>Hammer Curls 3×12</div></div>
-      <div class="wc"><div class="wc-day">Wednesday</div><div class="wc-name">Leg Day</div><span class="wc-tag">Quads · Hamstrings · Glutes</span><div class="wc-ex">Squat 4×8<br>Romanian DL 3×10<br>Leg Press 3×12<br>Walking Lunges 3×12<br>Calf Raises 4×20</div></div>
-      <div class="wc"><div class="wc-day">Thursday</div><div class="wc-name">Rest / Cardio</div><span class="wc-tag">Recovery</span><div class="wc-ex">30 min Zone 2 cardio<br>Mobility work<br>Foam rolling</div></div>
-      <div class="wc"><div class="wc-day">Friday</div><div class="wc-name">Push Day B</div><span class="wc-tag">Chest · Shoulders · Triceps</span><div class="wc-ex">Incline Bench 4×8<br>Cable Fly 3×12<br>Arnold Press 3×10<br>Front Raises 3×12<br>Skull Crushers 3×10</div></div>
-      <div class="wc"><div class="wc-day">Saturday</div><div class="wc-name">Pull Day B</div><span class="wc-tag">Back · Biceps</span><div class="wc-ex">Weighted Pull-ups 4×6<br>Cable Row 3×12<br>Single Arm Row 3×10<br>Rear Delt Fly 3×15<br>Preacher Curl 3×10</div></div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="setTab(this,'training')">My Plan</div>
+      <div class="tab" onclick="setTab(this,'training')">Browse</div>
+      <div class="tab" onclick="setTab(this,'training')">History</div>
     </div>
-    <div class="cb"><h3>AI recommendation</h3><p>Your push days are progressing well. Consider increasing bench press weight by 2.5kg next week. Your pull sessions could benefit from adding one extra set of face pulls for rear delt balance.</p></div>
+
+    <div class="sec-title">This Week — Push Pull Legs</div>
+    <div class="workout-card">
+      <div class="wc-icon" style="background:#dbeafe">💪</div>
+      <div class="wc-info"><h4>Push Day — Chest & Shoulders</h4><p>Bench · OHP · Triceps · 55 min</p></div>
+      <span class="wc-badge badge-green">Done</span>
+    </div>
+    <div class="workout-card">
+      <div class="wc-icon" style="background:#dcfce7">🏋️</div>
+      <div class="wc-info"><h4>Pull Day — Back & Biceps</h4><p>Deadlift · Pull-ups · Rows · 50 min</p></div>
+      <span class="wc-badge badge-green">Done</span>
+    </div>
+    <div class="workout-card">
+      <div class="wc-icon" style="background:#fef9c3">🦵</div>
+      <div class="wc-info"><h4>Leg Day — Quads & Glutes</h4><p>Squats · Lunges · Calves · 60 min</p></div>
+      <span class="wc-badge badge-blue">Today</span>
+    </div>
+    <div class="workout-card">
+      <div class="wc-icon" style="background:#f3e8ff">🏃</div>
+      <div class="wc-info"><h4>Cardio & Core</h4><p>HIIT · Planks · 30 min</p></div>
+      <span class="wc-badge badge-orange">Tomorrow</span>
+    </div>
+    <div class="workout-card">
+      <div class="wc-icon" style="background:#ffe4e6">💤</div>
+      <div class="wc-info"><h4>Rest Day</h4><p>Active recovery · Stretching</p></div>
+      <span class="wc-badge" style="background:var(--bg3);color:var(--text3)">Fri</span>
+    </div>
+
+    <div class="sec-title">AI Recommendation</div>
+    <div class="cb"><p>Based on your progress, consider increasing bench press by 2.5kg this week. Your consistency score is 89% — keep it up to maintain your streak. 💪</p></div>
+  </div>
+</div>
+
+<!-- ========== REWARDS ========== -->
+<div class="page" id="page-rewards">
+  <div class="top-nav">
+    <div class="t-logo" onclick="go('home')">
+      <svg width="20" height="20" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="var(--accent)"/><path d="M20 20 h45 q15 0 15 15 v0 q0 15-15 15 h0 q15 0 15 15 v15 q0 15-15 15 h-15 v-30 h-30z" fill="var(--accent-fg)"/></svg>
+      Rewards
+    </div>
+    <div class="t-right"><button class="icon-btn" onclick="toggleTheme()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div>
+  </div>
+  <div class="pb">
+    <div class="points-header">
+      <div class="pts-label">Your points</div>
+      <div class="pts-value" id="pts-display">2,450</div>
+      <div class="pts-sub">Keep training to earn more</div>
+      <div class="pts-earn">
+        <div class="pts-earn-item"><div class="pe-val">+50</div><div class="pe-lbl">Per workout</div></div>
+        <div class="pts-earn-item"><div class="pe-val">+20</div><div class="pe-lbl">Meal logged</div></div>
+        <div class="pts-earn-item"><div class="pe-val">+100</div><div class="pe-lbl">Weekly streak</div></div>
+      </div>
+    </div>
+
+    <div class="sec-title">🏎️ Luxury Chauffeur Rewards</div>
+    <p style="font-size:12.5px;color:var(--text2);margin-bottom:1rem">Scroll to explore. Earn points through training and nutrition tracking to unlock.</p>
+    <div class="car-swiper" id="carSwiper">
+      <!-- Cars rendered via JS -->
+    </div>
+
+    <div class="sec-title">How to earn points</div>
+    <div class="cb"><h3>Workout Points</h3><p>Complete a tracked workout session: <strong>+50 pts</strong><br>7-day streak bonus: <strong>+100 pts</strong><br>Personal record broken: <strong>+75 pts</strong></p></div>
+    <div class="cb"><h3>Nutrition Points</h3><p>Log a full day of meals: <strong>+30 pts</strong><br>Hit your calorie goal: <strong>+20 pts</strong><br>Log water goal: <strong>+10 pts</strong></p></div>
   </div>
 </div>
 
 <!-- ========== NUTRITION ========== -->
 <div class="page" id="page-nutrition">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc">
-      <a onclick="go('dashboard')">Dashboard</a>
-      <a onclick="go('workouts')">Workouts</a>
-      <a onclick="go('nutrition')" class="active">Nutrition</a>
-      <a onclick="go('progress')">Progress</a>
-      <a onclick="go('pricing')">Plans</a>
+  <div class="top-nav">
+    <div class="t-logo" onclick="go('home')">
+      <svg width="20" height="20" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="var(--accent)"/><path d="M20 20 h45 q15 0 15 15 v0 q0 15-15 15 h0 q15 0 15 15 v15 q0 15-15 15 h-15 v-30 h-30z" fill="var(--accent-fg)"/></svg>
+      Nutrition
     </div>
-    <div class="nr" id="dn3"></div>
-  </nav>
-  <div class="ph"><h1>Nutrition</h1><p>Track your daily intake, monitor macros, and let AI optimise your diet for maximum performance.</p></div>
+    <div class="t-right">
+      <button class="icon-btn" onclick="openModal('calModal')"><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button>
+      <button class="icon-btn" onclick="toggleTheme()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+    </div>
+  </div>
   <div class="pb">
-    <div class="stat-row">
-      <div class="sc"><div class="sc-lbl">Calories today</div><div class="sc-val">1,840</div><div class="sc-sub">Target: 2,200</div></div>
-      <div class="sc"><div class="sc-lbl">Protein</div><div class="sc-val">142g</div><div class="sc-sub">Target: 180g</div></div>
-      <div class="sc"><div class="sc-lbl">Carbs</div><div class="sc-val">195g</div><div class="sc-sub">Target: 240g</div></div>
-      <div class="sc"><div class="sc-lbl">Fats</div><div class="sc-val">58g</div><div class="sc-sub">Target: 70g</div></div>
-    </div>
-
-    <div class="macro-ring-wrap">
-      <svg width="120" height="120" viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg3)" stroke-width="12"/>
-        <circle cx="60" cy="60" r="50" fill="none" stroke="#2563eb" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="94" stroke-linecap="round" transform="rotate(-90 60 60)"/>
-        <circle cx="60" cy="60" r="50" fill="none" stroke="#16a34a" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="220" stroke-linecap="round" transform="rotate(120 60 60)"/>
-        <circle cx="60" cy="60" r="50" fill="none" stroke="#d97706" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="265" stroke-linecap="round" transform="rotate(200 60 60)"/>
-        <text x="60" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--text)" font-family="Inter,sans-serif">1,840</text>
-        <text x="60" y="70" text-anchor="middle" font-size="9" fill="var(--text3)" font-family="Inter,sans-serif">kcal</text>
+    <!-- Calorie Ring -->
+    <div class="calorie-ring-wrap">
+      <svg width="100" height="100" viewBox="0 0 100 100" style="flex-shrink:0">
+        <circle cx="50" cy="50" r="42" fill="none" stroke="var(--bg3)" stroke-width="10"/>
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#2563eb" stroke-width="10" stroke-dasharray="264" stroke-dashoffset="80" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#16a34a" stroke-width="10" stroke-dasharray="264" stroke-dashoffset="190" stroke-linecap="round" transform="rotate(100 50 50)"/>
+        <circle cx="50" cy="50" r="42" fill="none" stroke="#d97706" stroke-width="10" stroke-dasharray="264" stroke-dashoffset="225" stroke-linecap="round" transform="rotate(170 50 50)"/>
+        <text x="50" y="46" text-anchor="middle" font-size="16" font-weight="800" fill="var(--text)" font-family="Inter,sans-serif">1,840</text>
+        <text x="50" y="60" text-anchor="middle" font-size="9" fill="var(--text3)" font-family="Inter,sans-serif">of 2,200</text>
       </svg>
       <div class="macro-labels">
-        <div class="ml-row"><div class="ml-dot" style="background:#2563eb"></div><span class="ml-name">Protein</span><span class="ml-val">142g</span></div>
-        <div class="ml-row"><div class="ml-dot" style="background:#16a34a"></div><span class="ml-name">Carbs</span><span class="ml-val">195g</span></div>
-        <div class="ml-row"><div class="ml-dot" style="background:#d97706"></div><span class="ml-name">Fats</span><span class="ml-val">58g</span></div>
+        <div class="ml-row"><div class="ml-dot" style="background:#2563eb"></div><span class="ml-name">Protein</span><div class="ml-prog"><div class="ml-bar" style="width:79%;background:#2563eb"></div></div><span class="ml-val">142g</span></div>
+        <div class="ml-row"><div class="ml-dot" style="background:#16a34a"></div><span class="ml-name">Carbs</span><div class="ml-prog"><div class="ml-bar" style="width:81%;background:#16a34a"></div></div><span class="ml-val">195g</span></div>
+        <div class="ml-row"><div class="ml-dot" style="background:#d97706"></div><span class="ml-name">Fat</span><div class="ml-prog"><div class="ml-bar" style="width:83%;background:#d97706"></div></div><span class="ml-val">58g</span></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px">360 kcal remaining</div>
       </div>
     </div>
 
-    <div class="cb" style="margin-bottom:1px"><h3>Today's meals</h3></div>
-    <div class="meal-list">
-      <div class="meal-item"><div><div class="mi-name">Overnight oats with banana</div><div class="mi-kcal">Breakfast · 7:30am</div></div><div class="mi-kcal">420 kcal</div></div>
-      <div class="meal-item"><div><div class="mi-name">Grilled chicken & rice bowl</div><div class="mi-kcal">Lunch · 12:45pm</div></div><div class="mi-kcal">680 kcal</div></div>
-      <div class="meal-item"><div><div class="mi-name">Greek yoghurt & almonds</div><div class="mi-kcal">Snack · 3:30pm</div></div><div class="mi-kcal">310 kcal</div></div>
-      <div class="meal-item"><div><div class="mi-name">Salmon, broccoli & sweet potato</div><div class="mi-kcal">Dinner · 7:00pm</div></div><div class="mi-kcal">430 kcal</div></div>
+    <!-- Scan options -->
+    <div class="scan-options">
+      <div class="scan-opt" onclick="openModal('scanModal')">
+        <div class="scan-opt-icon">📷</div>
+        <div class="scan-opt-title">Scan Barcode</div>
+        <div class="scan-opt-sub">Scan food packaging</div>
+      </div>
+      <div class="scan-opt" onclick="openModal('aiScanModal')">
+        <div class="scan-opt-icon">🤖</div>
+        <div class="scan-opt-title">AI Photo Scan</div>
+        <div class="scan-opt-sub">Photo your meal</div>
+      </div>
+    </div>
+
+    <!-- Meal sections -->
+    <div class="meal-section">
+      <div class="meal-header"><h4>🌅 Breakfast</h4><span class="meal-cals">420 kcal</span></div>
+      <div class="meal-item-row"><span class="mi-name">Overnight oats with banana</span><span class="mi-kcal">420 kcal</span><span class="mi-del" onclick="toast('Item removed')">×</span></div>
+      <div class="add-food-btn" onclick="openModal('foodSearchModal')"><span style="font-size:20px;color:var(--blue)">+</span><span>Add food</span></div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-header"><h4>☀️ Lunch</h4><span class="meal-cals">680 kcal</span></div>
+      <div class="meal-item-row"><span class="mi-name">Grilled chicken & rice bowl</span><span class="mi-kcal">680 kcal</span><span class="mi-del" onclick="toast('Item removed')">×</span></div>
+      <div class="add-food-btn" onclick="openModal('foodSearchModal')"><span style="font-size:20px;color:var(--blue)">+</span><span>Add food</span></div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-header"><h4>🌙 Dinner</h4><span class="meal-cals">430 kcal</span></div>
+      <div class="meal-item-row"><span class="mi-name">Salmon, broccoli & sweet potato</span><span class="mi-kcal">430 kcal</span><span class="mi-del" onclick="toast('Item removed')">×</span></div>
+      <div class="add-food-btn" onclick="openModal('foodSearchModal')"><span style="font-size:20px;color:var(--blue)">+</span><span>Add food</span></div>
+    </div>
+    <div class="meal-section">
+      <div class="meal-header"><h4>🍎 Snacks</h4><span class="meal-cals">310 kcal</span></div>
+      <div class="meal-item-row"><span class="mi-name">Greek yoghurt & almonds</span><span class="mi-kcal">310 kcal</span><span class="mi-del" onclick="toast('Item removed')">×</span></div>
+      <div class="add-food-btn" onclick="openModal('foodSearchModal')"><span style="font-size:20px;color:var(--blue)">+</span><span>Add food</span></div>
+    </div>
+
+    <!-- Water tracker -->
+    <div class="water-section">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+        <h3 style="font-size:14px;font-weight:700">💧 Water Intake</h3>
+        <span style="font-size:13px;color:var(--text2)" id="waterCount">6 / 8 glasses</span>
+      </div>
+      <div class="water-glasses" id="waterGlasses"></div>
+      <div class="prog-row"><div class="prog-track"><div class="prog-fill" id="waterBar" style="width:75%;background:#2563eb"></div></div></div>
+      <div style="font-size:12px;color:var(--text3)">Goal: 2 litres (8 glasses)</div>
     </div>
   </div>
 </div>
 
-<!-- ========== PROGRESS ========== -->
-<div class="page" id="page-progress">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc">
-      <a onclick="go('dashboard')">Dashboard</a>
-      <a onclick="go('workouts')">Workouts</a>
-      <a onclick="go('nutrition')">Nutrition</a>
-      <a onclick="go('progress')" class="active">Progress</a>
-      <a onclick="go('pricing')">Plans</a>
+<!-- ========== TRACKING ========== -->
+<div class="page" id="page-tracking">
+  <div class="top-nav">
+    <div class="t-logo" onclick="go('home')">
+      <svg width="20" height="20" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="var(--accent)"/><path d="M20 20 h45 q15 0 15 15 v0 q0 15-15 15 h0 q15 0 15 15 v15 q0 15-15 15 h-15 v-30 h-30z" fill="var(--accent-fg)"/></svg>
+      Tracking
     </div>
-    <div class="nr" id="dn4"></div>
-  </nav>
-  <div class="ph"><h1>Progress & analytics</h1><p>Track your transformation week by week. AI predictions update as your data grows.</p></div>
+    <div class="t-right"><button class="icon-btn" onclick="toggleTheme()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div>
+  </div>
   <div class="pb">
+    <!-- Steps -->
+    <div class="step-ring-wrap">
+      <svg width="150" height="150" viewBox="0 0 150 150" style="margin-bottom:.5rem">
+        <circle cx="75" cy="75" r="65" fill="none" stroke="var(--bg3)" stroke-width="12"/>
+        <circle cx="75" cy="75" r="65" fill="none" stroke="var(--accent)" stroke-width="12" stroke-dasharray="408" stroke-dashoffset="102" stroke-linecap="round" transform="rotate(-90 75 75)"/>
+      </svg>
+      <div class="step-count">7,842</div>
+      <div class="step-label">Steps today</div>
+      <div class="step-goal">Goal: 10,000 steps · 75% complete</div>
+    </div>
+
     <div class="stat-row">
-      <div class="sc"><div class="sc-lbl">Starting weight</div><div class="sc-val">87kg</div><div class="sc-sub">12 weeks ago</div></div>
-      <div class="sc"><div class="sc-lbl">Current weight</div><div class="sc-val">82kg</div><div class="sc-sub">↓ 5kg lost</div></div>
-      <div class="sc"><div class="sc-lbl">Body fat</div><div class="sc-val">17.4%</div><div class="sc-sub">↓ 2.1% vs start</div></div>
+      <div class="sc"><div class="sc-lbl">Distance</div><div class="sc-val">5.6km</div><div class="sc-sub">Today</div></div>
+      <div class="sc"><div class="sc-lbl">Active mins</div><div class="sc-val">48</div><div class="sc-sub">Today</div></div>
     </div>
-    <div class="cb"><h3>Goal progress</h3></div>
-    <div style="padding:1.5rem;background:var(--card);border:.5px solid var(--border);border-top:none;margin-bottom:1px">
-      <div class="prog-item"><div class="prog-lbl"><span>Weight loss goal</span><span>62%</span></div><div class="prog-track"><div class="prog-fill" style="width:62%"></div></div></div>
-      <div class="prog-item"><div class="prog-lbl"><span>Strength goal</span><span>78%</span></div><div class="prog-track"><div class="prog-fill" style="width:78%"></div></div></div>
-      <div class="prog-item"><div class="prog-lbl"><span>Cardio fitness</span><span>45%</span></div><div class="prog-track"><div class="prog-fill" style="width:45%"></div></div></div>
-      <div class="prog-item"><div class="prog-lbl"><span>Consistency score</span><span>89%</span></div><div class="prog-track"><div class="prog-fill" style="width:89%"></div></div></div>
+
+    <!-- Weight tracking -->
+    <div class="sec-title">⚖️ Weight</div>
+    <div class="weight-card">
+      <div class="wt-row">
+        <div><div class="wt-current">82<span class="wt-unit">kg</span></div><div class="wt-target">Target: 78kg</div></div>
+        <div class="wt-diff">↓ 5kg lost</div>
+      </div>
+      <div class="prog-row">
+        <div class="prog-lbl"><span>87kg start</span><span>78kg goal</span></div>
+        <div class="prog-track"><div class="prog-fill" style="width:55%;background:#16a34a"></div></div>
+      </div>
+      <div class="wt-input-row">
+        <input type="number" placeholder="Log today's weight (kg)" id="weightInput" style="font-size:14px">
+        <button class="btn btn-primary btn-sm" onclick="logWeight()">Log</button>
+      </div>
     </div>
-    <div class="cb"><h3>AI prediction</h3><p>At your current rate of progress you will hit your target weight of <strong>78kg</strong> in approximately <strong>7 weeks</strong>. Your strength metrics are ahead of schedule. Consider adjusting your calorie target to 2,000 kcal to accelerate fat loss while preserving muscle.</p></div>
-    <div class="cb"><h3>Weekly summary</h3><p>Week 12 was your strongest yet — 4 workouts completed, average session duration 54 minutes, calorie deficit maintained 6 out of 7 days. Keep it up.</p></div>
+
+    <!-- Weight history -->
+    <div class="sec-title">Weight History</div>
+    <div class="cb">
+      <div style="display:flex;flex-direction:column;gap:8px" id="weightHistory">
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Today</span><span style="font-weight:600">82.0 kg</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Yesterday</span><span style="font-weight:600">82.3 kg</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">2 days ago</span><span style="font-weight:600">82.5 kg</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">3 days ago</span><span style="font-weight:600">82.8 kg</span></div>
+      </div>
+    </div>
+
+    <!-- Female only: Cycle tracker -->
+    <div id="cycleSection" style="display:none">
+      <div class="sec-title">🌸 Cycle Tracker</div>
+      <div class="cycle-header">
+        <div class="cycle-phase">Follicular Phase</div>
+        <div class="cycle-day">Day 8 of your cycle · Next period in ~20 days</div>
+        <div class="cycle-dots" id="cycleDots"></div>
+      </div>
+      <div class="sec-title">Log symptoms</div>
+      <div class="symptom-grid">
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">😴</div><div class="sym-label">Tired</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">🤕</div><div class="sym-label">Cramps</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">😊</div><div class="sym-label">Happy</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">😰</div><div class="sym-label">Anxious</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">🤢</div><div class="sym-label">Nausea</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">💪</div><div class="sym-label">Energetic</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">🌊</div><div class="sym-label">Bloating</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">😤</div><div class="sym-label">Irritable</div></div>
+        <div class="sym-btn" onclick="toggleSym(this)"><div class="sym-icon">🥱</div><div class="sym-label">Low energy</div></div>
+      </div>
+      <div class="cb"><h3>Cycle insights</h3><p>You are in your <strong>follicular phase</strong>. Oestrogen is rising — this is a great time for high-intensity training. Your energy should be increasing over the next few days. Ovulation is predicted around <strong>day 14</strong>.</p></div>
+      <button class="btn btn-primary btn-full" onclick="openModal('periodModal')">Log Period</button>
+    </div>
   </div>
 </div>
 
-<!-- ========== PRICING ========== -->
-<div class="page" id="page-pricing">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc">
-      <a onclick="go('dashboard')">Dashboard</a>
-      <a onclick="go('workouts')">Workouts</a>
-      <a onclick="go('nutrition')">Nutrition</a>
-      <a onclick="go('progress')">Progress</a>
-      <a onclick="go('pricing')" class="active">Plans</a>
+<!-- ========== BASKET ========== -->
+<div class="page" id="page-basket">
+  <div class="top-nav">
+    <div class="t-logo" onclick="go('home')">
+      <svg width="20" height="20" viewBox="0 0 100 100"><rect width="100" height="100" rx="16" fill="var(--accent)"/><path d="M20 20 h45 q15 0 15 15 v0 q0 15-15 15 h0 q15 0 15 15 v15 q0 15-15 15 h-15 v-30 h-30z" fill="var(--accent-fg)"/></svg>
+      Supplements
     </div>
-    <div class="nr" id="dn5"></div>
-  </nav>
-  <div class="ph"><h1>Plans & pricing</h1><p>Start free. Upgrade when you're ready to unlock the full power of FitPredictor.</p></div>
+    <div class="t-right">
+      <div style="position:relative;cursor:pointer" onclick="openModal('cartModal')">
+        <button class="icon-btn"><svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="1.6"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></button>
+        <div class="cart-badge" id="cartBadge" style="display:none">0</div>
+      </div>
+      <button class="icon-btn" onclick="toggleTheme()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+    </div>
+  </div>
   <div class="pb">
-    <div class="plan-grid">
-      <div class="pc">
-        <div class="pc-name">Starter</div>
-        <div class="pc-price">Free</div>
-        <div class="pc-period">Forever</div>
-        <button class="pc-btn def" onclick="go('signup')">Get started</button>
-        <ul class="pc-feats">
-          <li>Basic workout tracking</li>
-          <li>3 AI workout plans</li>
-          <li>Calorie counter</li>
-          <li>7-day history</li>
-        </ul>
+    <div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:12px;padding:.8rem;margin-bottom:1rem">
+      <span style="font-size:20px">🤝</span>
+      <div><div style="font-size:12px;font-weight:600;color:var(--text)">Official Welzo Partner</div><div style="font-size:11px;color:var(--text3)">Premium supplements delivered to your door</div></div>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="setTab(this,'basket')">All</div>
+      <div class="tab" onclick="setTab(this,'basket')">Protein</div>
+      <div class="tab" onclick="setTab(this,'basket')">Vitamins</div>
+      <div class="tab" onclick="setTab(this,'basket')">Performance</div>
+    </div>
+    <div id="supplementList"></div>
+  </div>
+</div>
+
+<!-- ========== PROFILE ========== -->
+<div class="page" id="page-profile">
+  <div class="prof-hero" id="profHero">
+    <div class="prof-avatar" id="profAvatar">FP</div>
+    <div class="prof-name-big" id="profNameBig">—</div>
+    <div class="prof-role" id="profRoleLabel">Member</div>
+    <div class="prof-stats">
+      <div class="prof-stat"><div class="ps-val" id="ps-points">2,450</div><div class="ps-lbl">Points</div></div>
+      <div class="prof-stat"><div class="ps-val">9d 🔥</div><div class="ps-lbl">Streak</div></div>
+      <div class="prof-stat"><div class="ps-val">82kg</div><div class="ps-lbl">Weight</div></div>
+    </div>
+  </div>
+  <div class="pb">
+
+    <!-- Trainer referral code -->
+    <div id="trainerSection" style="display:none">
+      <div class="sec-title">Your trainer code</div>
+      <div class="trainer-badge">
+        <div class="tb-label">Referral Code</div>
+        <div class="tb-code" id="trainerCode">FP-XXXX</div>
+        <div class="tb-sub">Share this with your clients</div>
       </div>
-      <div class="pc featured">
-        <div class="pc-name">Pro</div>
-        <div class="pc-price">£9.99</div>
-        <div class="pc-period">per month</div>
-        <button class="pc-btn pri" onclick="go('signup')">Get started</button>
-        <ul class="pc-feats">
-          <li>Everything in Starter</li>
-          <li>Unlimited AI plans</li>
-          <li>Full macro tracking</li>
-          <li>AI progress predictions</li>
-          <li>Unlimited history</li>
-          <li>Priority support</li>
-        </ul>
-      </div>
-      <div class="pc">
-        <div class="pc-name">Elite</div>
-        <div class="pc-price">£24.99</div>
-        <div class="pc-period">per month</div>
-        <button class="pc-btn def" onclick="go('signup')">Get started</button>
-        <ul class="pc-feats">
-          <li>Everything in Pro</li>
-          <li>1-to-1 coach access</li>
-          <li>Custom meal plans</li>
-          <li>Body scan analysis</li>
-          <li>Advanced analytics</li>
-          <li>White-glove onboarding</li>
-        </ul>
+      <div class="sec-title">Your clients</div>
+      <div id="clientList">
+        <div class="client-row"><div class="client-av">AJ</div><div class="client-info"><div class="client-name">Alex Johnson</div><div class="client-meta">9d streak · Last active today</div></div><div class="client-pts">2,450 pts</div></div>
+        <div class="client-row"><div class="client-av">SR</div><div class="client-info"><div class="client-name">Sarah Roberts</div><div class="client-meta">3d streak · Last active yesterday</div></div><div class="client-pts">1,200 pts</div></div>
+        <div class="client-row"><div class="client-av">MK</div><div class="client-info"><div class="client-name">Mohammed Khan</div><div class="client-meta">1d streak · Last active 2h ago</div></div><div class="client-pts">850 pts</div></div>
       </div>
     </div>
+
+    <!-- Trainer info (for members) -->
+    <div id="myTrainerSection" style="display:none">
+      <div class="sec-title">Your trainer</div>
+      <div class="cb" id="myTrainerCard"></div>
+    </div>
+
+    <!-- Personal info -->
+    <div class="sec-title">Personal info</div>
+    <div class="cb">
+      <div class="setting-row"><div class="sr-left"><h4>Full name</h4><p id="sr-name">—</p></div><div class="sr-right"><button class="sr-action">Edit</button></div></div>
+      <div class="setting-row"><div class="sr-left"><h4>Username</h4><p id="sr-username">—</p></div><div class="sr-right"><button class="sr-action">Edit</button></div></div>
+      <div class="setting-row"><div class="sr-left"><h4>Email</h4><p id="sr-email">—</p></div><div class="sr-right"><button class="sr-action">Edit</button></div></div>
+      <div class="setting-row"><div class="sr-left"><h4>Gender</h4><p id="sr-gender">—</p></div></div>
+      <div class="setting-row"><div class="sr-left"><h4>Date of birth</h4><p id="sr-dob">—</p></div><div class="sr-right"><button class="sr-action">Edit</button></div></div>
+      <div class="setting-row"><div class="sr-left"><h4>Current weight</h4><p id="sr-weight">—</p></div><div class="sr-right"><button class="sr-action" onclick="go('tracking')">Update</button></div></div>
+    </div>
+
+    <div class="sec-title">Settings</div>
+    <div class="cb">
+      <div class="toggle-wrap"><div><div class="toggle-lbl">Dark mode</div><div class="toggle-sub">Switch theme</div></div><button class="toggle" id="themeToggle" onclick="toggleTheme()"></button></div>
+      <div class="toggle-wrap"><div><div class="toggle-lbl">Push notifications</div><div class="toggle-sub">Workout reminders</div></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+      <div class="toggle-wrap"><div><div class="toggle-lbl">Apple Health sync</div><div class="toggle-sub">Steps & activity</div></div><button class="toggle" onclick="toast('Apple Health: connect via iPhone app');this.classList.toggle('on')"></button></div>
+    </div>
+    <button class="btn btn-outline btn-full" style="margin-bottom:8px" onclick="toast('Signed out');doLogout()">Sign out</button>
   </div>
 </div>
 
 <!-- ========== LOGIN ========== -->
 <div class="page" id="page-login">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc"></div>
-    <div class="nr"><button class="snbtn outline" onclick="go('signup')">Create account</button></div>
-  </nav>
+  <div class="top-nav"><div class="t-logo" onclick="go('home')">FitPredictor</div><div class="t-right"><button class="f-btn o" style="color:var(--text);border-color:var(--border2)" onclick="go('signup')">Sign up</button></div></div>
   <div class="auth-wrap">
     <div class="auth-box">
       <h2>Welcome back</h2>
-      <p class="sub">Sign in with your username or email address.</p>
-      <div class="field"><label>Username or email</label><input type="text" id="li-id" placeholder="your@email.com or username"></div>
+      <p class="sub">Sign in with your username or email.</p>
+      <div class="field"><label>Username or email</label><input type="text" id="li-id" placeholder="username or email"></div>
       <div class="field"><label>Password</label><input type="password" id="li-pw" placeholder="••••••••"></div>
-      <button class="auth-submit" onclick="doLogin()">Log in</button>
-      <button class="auth-alt" onclick="go('signup')">Create an account</button>
+      <button class="btn btn-primary btn-full" style="margin-top:4px" onclick="doLogin()">Log in</button>
       <div class="err" id="li-err"></div>
-      <div class="auth-foot"><a>Forgot password?</a></div>
+      <div style="text-align:center;font-size:12px;color:var(--text3);margin-top:1rem">Don't have an account? <a onclick="go('signup')" style="color:var(--text2);cursor:pointer">Sign up</a></div>
     </div>
   </div>
 </div>
 
 <!-- ========== SIGNUP ========== -->
 <div class="page" id="page-signup">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc"></div>
-    <div class="nr"><button class="snbtn outline" onclick="go('login')">Log in</button></div>
-  </nav>
+  <div class="top-nav"><div class="t-logo" onclick="go('home')">FitPredictor</div><div class="t-right"><button class="f-btn o" style="color:var(--text);border-color:var(--border2)" onclick="go('login')">Log in</button></div></div>
   <div class="auth-wrap">
     <div class="auth-box">
       <h2>Get started</h2>
-      <p class="sub">Create your FitPredictor account. It's free.</p>
+      <p class="sub">Create your FitPredictor account.</p>
       <div class="field"><label>Full name</label><input type="text" id="su-name" placeholder="Alex Johnson"></div>
       <div class="field"><label>Username</label><input type="text" id="su-user" placeholder="alexj"></div>
       <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="your@email.com"></div>
-      <div class="field"><label>Password</label><input type="password" id="su-pw" placeholder="Min. 6 characters"></div>
-      <button class="auth-submit" onclick="doSignup()">Create account</button>
-      <div class="err" id="su-err"></div>
-      <div class="auth-foot">Already have an account? <a onclick="go('login')">Log in</a></div>
-    </div>
-  </div>
-</div>
-
-<!-- ========== PROFILE ========== -->
-<div class="page" id="page-profile">
-  <nav class="solid-nav">
-    <div class="logo" onclick="go('home')">FitPredictor</div>
-    <div class="nc">
-      <a onclick="go('dashboard')">Dashboard</a>
-      <a onclick="go('workouts')">Workouts</a>
-      <a onclick="go('nutrition')">Nutrition</a>
-      <a onclick="go('progress')">Progress</a>
-      <a onclick="go('pricing')">Plans</a>
-    </div>
-    <div class="nr" id="dn6"></div>
-  </nav>
-  <div class="ph"><h1>Profile</h1><p>Manage your account and preferences.</p></div>
-  <div class="pb">
-    <div class="prof-hdr">
-      <div class="avatar" id="prof-avatar">FP</div>
-      <div>
-        <div class="prof-name" id="prof-name">—</div>
-        <div class="prof-email" id="prof-email">—</div>
+      <div class="field"><label>Date of birth</label><input type="date" id="su-dob"></div>
+      <div class="field"><label>I am a</label>
+        <select id="su-role"><option value="member">Member</option><option value="trainer">Personal Trainer</option></select>
       </div>
-    </div>
-    <div class="cb">
-      <h3>Account settings</h3>
-      <div class="s-row"><div><div class="s-lbl">Username</div><div class="s-sub" id="prof-username">—</div></div><button class="s-btn">Edit</button></div>
-      <div class="s-row"><div><div class="s-lbl">Email address</div><div class="s-sub" id="prof-email2">—</div></div><button class="s-btn">Edit</button></div>
-      <div class="s-row"><div><div class="s-lbl">Password</div><div class="s-sub">Last changed: recently</div></div><button class="s-btn">Change</button></div>
-      <div class="s-row"><div><div class="s-lbl">Dark mode</div><div class="s-sub">Toggle light / dark theme</div></div><button class="s-btn" onclick="toggleTheme()">Toggle</button></div>
-      <div class="s-row"><div><div class="s-lbl">Current plan</div><div class="s-sub">Starter — Free</div></div><button class="s-btn" onclick="go('pricing')">Upgrade</button></div>
-      <div class="s-row"><div><div class="s-lbl">Sign out</div><div class="s-sub">Sign out of your account</div></div><button class="s-btn danger" onclick="doLogout()">Sign out</button></div>
+      <div class="field"><label>Referral / trainer code (optional)</label><input type="text" id="su-ref" placeholder="FP-XXXX"></div>
+      <div class="field"><label>Gender</label>
+        <div class="gender-row">
+          <button class="gender-btn" id="gb-male" onclick="selectGender('male')"><div class="g-icon">♂️</div><div class="g-label">Male</div></button>
+          <button class="gender-btn" id="gb-female" onclick="selectGender('female')"><div class="g-icon">♀️</div><div class="g-label">Female</div></button>
+        </div>
+      </div>
+      <div class="field"><label>Password</label><input type="password" id="su-pw" placeholder="Min. 6 characters"></div>
+      <button class="btn btn-primary btn-full" style="margin-top:4px" onclick="doSignup()">Create account</button>
+      <div class="err" id="su-err"></div>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
+</div><!-- end app -->
+
+<!-- =================== BOTTOM NAV =================== -->
+<div class="bottom-nav" id="bottomNav" style="display:none">
+  <div class="bn-item active" id="bn-home" onclick="go('home')">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div class="bn-label">Home</div>
+  </div>
+  <div class="bn-item" id="bn-training" onclick="go('training')">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><path d="M6.5 6.5h11M6.5 17.5h11M3 10.5h18M3 13.5h18"/></svg></div>
+    <div class="bn-label">Training</div>
+  </div>
+  <div class="bn-item" id="bn-rewards" onclick="go('rewards')">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+    <div class="bn-label">Rewards</div>
+  </div>
+  <div class="bn-item" id="bn-nutrition" onclick="go('nutrition')">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div>
+    <div class="bn-label">Nutrition</div>
+  </div>
+  <div class="bn-item" id="bn-tracking" onclick="go('tracking')">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+    <div class="bn-label">Tracking</div>
+  </div>
+  <div class="bn-item" id="bn-basket" onclick="go('basket')" style="position:relative">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+    <div class="bn-label">Basket</div>
+  </div>
+  <div class="bn-item" id="bn-profile" onclick="go('profile')">
+    <div class="bn-circle"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+    <div class="bn-label">Profile</div>
+  </div>
+</div>
+
+<!-- =================== MODALS =================== -->
+
+<!-- Calendar modal -->
+<div class="modal-overlay" id="calModal" onclick="closeModalOutside(event,'calModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="cal-nav">
+      <button onclick="changeMonth(-1)">‹</button>
+      <h3 id="calTitle"></h3>
+      <button onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <button class="btn btn-primary btn-full" onclick="closeModal('calModal')">Done</button>
+  </div>
+</div>
+
+<!-- Food search modal -->
+<div class="modal-overlay" id="foodSearchModal" onclick="closeModalOutside(event,'foodSearchModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>Add food</h3>
+    <div class="food-search">
+      <input type="text" id="foodSearchInput" placeholder="Search food..." oninput="searchFood(this.value)">
+    </div>
+    <div id="foodResults"></div>
+  </div>
+</div>
+
+<!-- Barcode scan modal -->
+<div class="modal-overlay" id="scanModal" onclick="closeModalOutside(event,'scanModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>📷 Scan Barcode</h3>
+    <div style="background:var(--bg3);border-radius:14px;height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;flex-direction:column;gap:.5rem">
+      <div style="font-size:48px">📦</div>
+      <div style="font-size:13px;color:var(--text2)">Point camera at barcode</div>
+    </div>
+    <div style="background:var(--bg2);border-radius:12px;padding:1rem;margin-bottom:1rem">
+      <div style="font-size:15px;font-weight:700;margin-bottom:4px">Vanilla Protein Bar</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:8px">Per bar (60g): 174 kcal · P: 20g · C: 14g · F: 4g</div>
+      <button class="btn btn-primary btn-full btn-sm" onclick="toast('Added: Vanilla Protein Bar (+174 kcal)');closeModal('scanModal')">Add to diary</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI meal scan modal -->
+<div class="modal-overlay" id="aiScanModal" onclick="closeModalOutside(event,'aiScanModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>🤖 AI Meal Scanner</h3>
+    <div style="background:var(--bg3);border-radius:14px;height:180px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;flex-direction:column;gap:.5rem">
+      <div style="font-size:48px">🥗</div>
+      <div style="font-size:13px;color:var(--text2)">Take a photo of your meal</div>
+    </div>
+    <label class="btn btn-outline btn-full" style="display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">
+      <input type="file" accept="image/*" capture="environment" style="display:none" onchange="analysePhoto(this)">
+      📸 Take / Upload Photo
+    </label>
+    <div id="aiResult" style="margin-top:1rem"></div>
+  </div>
+</div>
+
+<!-- Period log modal -->
+<div class="modal-overlay" id="periodModal" onclick="closeModalOutside(event,'periodModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>🩸 Log Period</h3>
+    <div class="field"><label>Period start date</label><input type="date" id="periodStart"></div>
+    <div class="field"><label>Flow</label><select><option>Light</option><option selected>Medium</option><option>Heavy</option></select></div>
+    <button class="btn btn-primary btn-full" onclick="toast('Period logged! Cycle updated.');closeModal('periodModal')">Save</button>
+  </div>
+</div>
+
+<!-- Cart modal -->
+<div class="modal-overlay" id="cartModal" onclick="closeModalOutside(event,'cartModal')">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>🛒 Your basket</h3>
+    <div id="cartItems"></div>
+    <div style="border-top:.5px solid var(--border);padding-top:1rem;margin-top:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;margin-bottom:1rem"><span>Total</span><span id="cartTotal">£0.00</span></div>
+      <button class="btn btn-primary btn-full" onclick="toast('Checkout coming soon — Stripe integration pending');closeModal('cartModal')">Checkout</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-let dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+// ===== STATE =====
+let dark = window.matchMedia('(prefers-color-scheme:dark)').matches;
 let manualTheme = false;
 let currentUser = null;
-let slide = 0;
-const TOTAL = 4;
-let timer;
+let selectedGender = null;
+let slide = 0; const TOTAL = 4; let timer;
+let cart = [];
+let waterFilled = 6;
+let calDate = new Date();
+let pts = 2450;
 
-// THEME
-function applyTheme() {
-  document.body[dark ? 'setAttribute' : 'removeAttribute']('data-dark', '1');
-  document.querySelectorAll('[id^=sun]').forEach(e => e.style.display = dark ? 'none' : '');
-  document.querySelectorAll('[id^=moon]').forEach(e => e.style.display = dark ? '' : 'none');
+// ===== CARS DATA =====
+const cars = [
+  {name:'Rolls-Royce Ghost',desc:'Ultimate luxury sedan with chauffeur',pts:50000,img:'https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=400&q=70'},
+  {name:'Lamborghini Urus',desc:'Super SUV chauffeur experience',pts:35000,img:'https://images.unsplash.com/photo-1612825173281-9a193378527e?w=400&q=70'},
+  {name:'Mercedes-Maybach S',desc:'Premium executive chauffeur',pts:30000,img:'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=400&q=70'},
+  {name:'Bentley Bentayga',desc:'Luxury SUV experience',pts:28000,img:'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=400&q=70'},
+  {name:'Mercedes G-Wagon',desc:'Iconic G-Class chauffeur ride',pts:22000,img:'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=400&q=70'},
+  {name:'Porsche Cayenne',desc:'Sport luxury SUV transfer',pts:18000,img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=70'},
+  {name:'Range Rover SV',desc:'British luxury SUV chauffeur',pts:16000,img:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=70'},
+  {name:'BMW 7 Series',desc:'Premium executive transfer',pts:12000,img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&q=70'},
+  {name:'Audi A8 L',desc:'Executive saloon experience',pts:10000,img:'https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&q=70'},
+  {name:'Tesla Model S Plaid',desc:'Electric luxury experience',pts:8000,img:'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&q=70'},
+  {name:'Mercedes E-Class',desc:'Classic executive transfer',pts:5000,img:'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&q=70'},
+  {name:'BMW 5 Series',desc:'Business class transfer',pts:3000,img:'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?w=400&q=70'},
+];
+
+// ===== SUPPLEMENTS DATA =====
+const supplements = [
+  {name:'Welzo Whey Protein 1kg',desc:'Premium whey protein isolate. 25g protein per serving.',price:34.99,emoji:'💪',category:'protein'},
+  {name:'Creatine Monohydrate 250g',desc:'Pure micronised creatine for strength & power.',price:14.99,emoji:'⚡',category:'performance'},
+  {name:'Welzo Omega-3 Fish Oil',desc:'High strength EPA & DHA for heart and brain health.',price:19.99,emoji:'🐟',category:'vitamins'},
+  {name:'Vitamin D3 + K2 (2000IU)',desc:'Essential vitamin D with K2 for bone health.',price:12.99,emoji:'☀️',category:'vitamins'},
+  {name:'Magnesium Glycinate 400mg',desc:'High absorption magnesium for sleep and recovery.',price:16.99,emoji:'😴',category:'vitamins'},
+  {name:'Pre-Workout Energy Formula',desc:'Caffeine, beta-alanine, citrulline blend.',price:29.99,emoji:'🔥',category:'performance'},
+  {name:'BCAA 2:1:1 Powder 300g',desc:'Branch chain amino acids for muscle recovery.',price:22.99,emoji:'🏋️',category:'protein'},
+  {name:'Collagen Peptides 300g',desc:'Hydrolysed collagen for joints and skin.',price:24.99,emoji:'✨',category:'vitamins'},
+  {name:'Ashwagandha 600mg KSM-66',desc:'Clinically studied extract for stress and testosterone.',price:18.99,emoji:'🌿',category:'performance'},
+  {name:'Zinc + Magnesium ZMA',desc:'ZMA formula for testosterone and recovery.',price:13.99,emoji:'⚗️',category:'performance'},
+  {name:'Multivitamin Daily Complex',desc:'Complete 26-nutrient daily multivitamin.',price:9.99,emoji:'💊',category:'vitamins'},
+  {name:'Welzo Plant Protein 1kg',desc:'Vegan pea & rice protein blend. 23g per serving.',price:32.99,emoji:'🌱',category:'protein'},
+];
+
+// ===== FOOD DATABASE =====
+const foods = [
+  {name:'Chicken Breast (100g)',kcal:165,p:31,c:0,f:3.6},
+  {name:'Brown Rice (cooked 100g)',kcal:112,p:2.6,c:24,f:0.9},
+  {name:'Whole Egg',kcal:78,p:6,c:0.6,f:5.3},
+  {name:'Banana (medium)',kcal:89,p:1.1,c:23,f:0.3},
+  {name:'Greek Yoghurt (150g)',kcal:130,p:18,c:6,f:3},
+  {name:'Oats (40g dry)',kcal:148,p:5,c:25,f:3},
+  {name:'Salmon Fillet (120g)',kcal:250,p:28,c:0,f:15},
+  {name:'Broccoli (80g)',kcal:28,p:2.4,c:4.7,f:0.4},
+  {name:'Almonds (25g)',kcal:146,p:5.3,c:4.7,f:13},
+  {name:'Protein Bar (60g)',kcal:220,p:20,c:18,f:7},
+  {name:'Sweet Potato (150g)',kcal:130,p:3,c:30,f:0.2},
+  {name:'Avocado (half)',kcal:120,p:1.5,c:6,f:11},
+  {name:'Whole Milk (200ml)',kcal:130,p:6.4,c:9.6,f:7.2},
+  {name:'Tuna (tin 120g)',kcal:116,p:26,c:0,f:1},
+  {name:'White Rice (cooked 100g)',kcal:130,p:2.7,c:28,f:0.3},
+];
+
+// ===== THEME =====
+function applyTheme(){
+  document.body[dark?'setAttribute':'removeAttribute']('data-dark','1');
+  document.querySelectorAll('[id^=sun]').forEach(e=>e.style.display=dark?'none':'');
+  document.querySelectorAll('[id^=moon]').forEach(e=>e.style.display=dark?'':'none');
+  const t=document.getElementById('themeToggle');
+  if(t)t.classList[dark?'add':'remove']('on');
 }
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => { if (!manualTheme) { dark = e.matches; applyTheme(); } });
-function toggleTheme() { manualTheme = true; dark = !dark; applyTheme(); }
+window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',e=>{if(!manualTheme){dark=e.matches;applyTheme();}});
+function toggleTheme(){manualTheme=true;dark=!dark;applyTheme();}
 applyTheme();
 
-// PAGES
-function go(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const t = document.getElementById('page-' + page);
-  if (t) { t.classList.add('active'); window.scrollTo(0, 0); }
-  renderNavRight();
-  if (page === 'profile') renderProfile();
+// ===== NAVIGATION =====
+const navPages = ['home','training','rewards','nutrition','tracking','basket','profile'];
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById('page-'+page);
+  if(t){t.classList.add('active');window.scrollTo(0,0);}
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  const bn=document.getElementById('bn-'+page);
+  if(bn)bn.classList.add('active');
+  if(page==='profile')renderProfile();
+  if(page==='tracking')renderCycleSection();
 }
 
-// DYNAMIC NAV RIGHT BUTTONS
-function navRightHTML() {
-  if (currentUser) {
-    return `<button class="snbtn icon" onclick="toggleTheme()" aria-label="theme" style="margin-right:4px">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
-    <button class="snbtn outline" onclick="go('profile')" style="max-width:120px;overflow:hidden;text-overflow:ellipsis">${currentUser.username}</button>`;
+// ===== CAROUSEL =====
+function goSlide(n){
+  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===n));
+  document.querySelectorAll('.sp-bar').forEach((b,i)=>{
+    b.classList.toggle('active',i===n);
+    const f=b.querySelector('.sp-fill');
+    f.style.animation='none';f.offsetHeight;
+    if(i===n)f.style.animation='spFill 5.5s linear forwards';
+  });
+  slide=n;
+}
+function startTimer(){clearInterval(timer);timer=setInterval(()=>goSlide((slide+1)%TOTAL),5500);}
+goSlide(0);startTimer();
+
+// ===== TOAST =====
+function toast(msg,dur=2800){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+// ===== MODAL =====
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModalOutside(e,id){if(e.target.classList.contains('modal-overlay'))closeModal(id);}
+
+// ===== AUTH =====
+async function doLogin(){
+  const identifier=document.getElementById('li-id').value.trim();
+  const password=document.getElementById('li-pw').value;
+  const err=document.getElementById('li-err');
+  err.textContent='';
+  if(!identifier||!password){err.textContent='Please fill in all fields.';return;}
+  try{
+    const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({identifier,password})});
+    const d=await r.json();
+    if(!r.ok){err.textContent=d.error;return;}
+    currentUser=d.user;
+    showApp();
+    toast('Welcome back, '+currentUser.name.split(' ')[0]+'! 👋');
+    go('home');
+  }catch{err.textContent='Something went wrong.';}
+}
+
+async function doSignup(){
+  const name=document.getElementById('su-name').value.trim();
+  const username=document.getElementById('su-user').value.trim();
+  const email=document.getElementById('su-email').value.trim();
+  const dob=document.getElementById('su-dob').value;
+  const role=document.getElementById('su-role').value;
+  const referral=document.getElementById('su-ref').value.trim();
+  const password=document.getElementById('su-pw').value;
+  const gender=selectedGender;
+  const err=document.getElementById('su-err');
+  err.textContent='';
+  if(!name||!username||!email||!password||!gender){err.textContent='Please fill all fields and select gender.';return;}
+  try{
+    const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,username,email,password,gender,dob,role,referral})});
+    const d=await r.json();
+    if(!r.ok){err.textContent=d.error;return;}
+    currentUser=d.user;
+    showApp();
+    toast('Welcome to FitPredictor, '+currentUser.name.split(' ')[0]+'! 🎉');
+    go('home');
+  }catch{err.textContent='Something went wrong.';}
+}
+
+async function doLogout(){
+  await fetch('/api/logout',{method:'POST'});
+  currentUser=null;hideApp();go('home');
+}
+
+function showApp(){
+  document.getElementById('bottomNav').style.display='flex';
+  document.getElementById('page-home').querySelector('.float-nav .fr').innerHTML=`
+    <button class="f-icon" onclick="toggleTheme()"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+    <button class="f-btn s" onclick="go('profile')">${currentUser.username}</button>`;
+}
+function hideApp(){
+  document.getElementById('bottomNav').style.display='none';
+}
+
+function selectGender(g){
+  selectedGender=g;
+  document.getElementById('gb-male').classList.toggle('selected',g==='male');
+  document.getElementById('gb-female').classList.toggle('selected',g==='female');
+}
+
+// ===== PROFILE =====
+function renderProfile(){
+  if(!currentUser)return;
+  const initials=currentUser.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('profAvatar').textContent=initials;
+  document.getElementById('profNameBig').textContent=currentUser.name;
+  document.getElementById('profRoleLabel').textContent=currentUser.role==='trainer'?'Personal Trainer ⭐':'Member';
+  document.getElementById('sr-name').textContent=currentUser.name;
+  document.getElementById('sr-username').textContent='@'+currentUser.username;
+  document.getElementById('sr-email').textContent=currentUser.email;
+  document.getElementById('sr-gender').textContent=currentUser.gender?currentUser.gender.charAt(0).toUpperCase()+currentUser.gender.slice(1):'—';
+  document.getElementById('sr-dob').textContent=currentUser.dob||'—';
+  document.getElementById('sr-weight').textContent='82 kg';
+  if(currentUser.role==='trainer'){
+    document.getElementById('trainerSection').style.display='block';
+    document.getElementById('trainerCode').textContent='FP-'+currentUser.username.toUpperCase().slice(0,4);
   }
-  return `<button class="snbtn icon" onclick="toggleTheme()" aria-label="theme" style="margin-right:4px">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
-    <button class="snbtn outline" onclick="go('login')">Log in</button>
-    <button class="snbtn fill" onclick="go('signup')">Get started</button>`;
+  if(currentUser.referral){
+    document.getElementById('myTrainerSection').style.display='block';
+    document.getElementById('myTrainerCard').innerHTML=`<h3>Your Trainer</h3><p>Connected via code <strong>${currentUser.referral}</strong>. Your trainer can view your progress and dashboard.</p>`;
+  }
 }
-function renderNavRight() {
-  ['dn1','dn2','dn3','dn4','dn5','dn6'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.innerHTML = navRightHTML();
+
+function renderCycleSection(){
+  if(currentUser&&currentUser.gender==='female'){
+    document.getElementById('cycleSection').style.display='block';
+    const dots=document.getElementById('cycleDots');
+    dots.innerHTML='';
+    for(let i=0;i<28;i++){
+      const d=document.createElement('div');
+      d.className='cy-dot';
+      if(i<5)d.classList.add('period');
+      else if(i===13)d.classList.add('ovulation');
+      else if(i>=11&&i<=15)d.classList.add('fertile');
+      if(i===7)d.classList.add('today-marker');
+      dots.appendChild(d);
+    }
+  }
+}
+
+// ===== WATER =====
+function renderWater(){
+  const wrap=document.getElementById('waterGlasses');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  for(let i=0;i<8;i++){
+    const g=document.createElement('div');
+    g.className='glass'+(i<waterFilled?' filled':'');
+    g.textContent='💧';
+    g.onclick=()=>{waterFilled=i+1;renderWater();document.getElementById('waterCount').textContent=waterFilled+' / 8 glasses';document.getElementById('waterBar').style.width=(waterFilled/8*100)+'%';};
+    wrap.appendChild(g);
+  }
+}
+renderWater();
+
+// ===== WEIGHT LOG =====
+function logWeight(){
+  const v=document.getElementById('weightInput').value;
+  if(!v)return;
+  toast('Weight logged: '+v+'kg ✓');
+  document.getElementById('weightInput').value='';
+  const hist=document.getElementById('weightHistory');
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;justify-content:space-between;font-size:13px';
+  row.innerHTML=`<span style="color:var(--text2)">Just now</span><span style="font-weight:600">${v} kg</span>`;
+  hist.prepend(row);
+}
+
+// ===== TABS =====
+function setTab(el,page){
+  const tabs=el.parentElement.querySelectorAll('.tab');
+  tabs.forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== SYMPTOM TOGGLE =====
+function toggleSym(el){el.classList.toggle('selected');}
+
+// ===== CALENDAR =====
+function renderCal(){
+  const t=document.getElementById('calTitle');
+  const g=document.getElementById('calGrid');
+  if(!t||!g)return;
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  t.textContent=months[calDate.getMonth()]+' '+calDate.getFullYear();
+  g.innerHTML='';
+  ['M','T','W','T','F','S','S'].forEach(d=>{
+    const h=document.createElement('div');h.className='cal-day-hdr';h.textContent=d;g.appendChild(h);
   });
+  const first=new Date(calDate.getFullYear(),calDate.getMonth(),1);
+  const last=new Date(calDate.getFullYear(),calDate.getMonth()+1,0);
+  let startDay=(first.getDay()+6)%7;
+  for(let i=0;i<startDay;i++){const d=document.createElement('div');d.className='cal-day other-month';d.textContent=new Date(calDate.getFullYear(),calDate.getMonth(),-(startDay-1-i)).getDate();g.appendChild(d);}
+  const today=new Date();
+  for(let i=1;i<=last.getDate();i++){
+    const d=document.createElement('div');d.className='cal-day';
+    if(calDate.getFullYear()===today.getFullYear()&&calDate.getMonth()===today.getMonth()&&i===today.getDate())d.classList.add('today');
+    if([3,7,10,14,18,21].includes(i))d.classList.add('has-data');
+    d.textContent=i;
+    d.onclick=()=>toast('Viewing: '+months[calDate.getMonth()]+' '+i);
+    g.appendChild(d);
+  }
+}
+function changeMonth(dir){calDate.setMonth(calDate.getMonth()+dir);renderCal();}
+renderCal();
+
+// ===== FOOD SEARCH =====
+function searchFood(q){
+  const res=document.getElementById('foodResults');
+  if(!q){res.innerHTML='';return;}
+  const filtered=foods.filter(f=>f.name.toLowerCase().includes(q.toLowerCase())).slice(0,6);
+  res.innerHTML=filtered.map(f=>`
+    <div class="food-result" onclick="addFood('${f.name}',${f.kcal})">
+      <div><div class="fr-name">${f.name}</div><div class="fr-kcal">P:${f.p}g · C:${f.c}g · F:${f.f}g</div></div>
+      <div style="display:flex;align-items:center;gap:8px"><span class="fr-kcal">${f.kcal} kcal</span><button class="fr-add">+</button></div>
+    </div>`).join('');
+}
+function addFood(name,kcal){
+  toast(name+' added (+'+kcal+' kcal)');
+  closeModal('foodSearchModal');
+  pts+=20;
+  document.getElementById('pts-display').textContent=pts.toLocaleString();
 }
 
-// TOAST
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
+// ===== AI PHOTO =====
+function analysePhoto(input){
+  if(!input.files[0])return;
+  const r=document.getElementById('aiResult');
+  r.innerHTML='<div style="text-align:center;padding:1rem;color:var(--text2)">🤖 Analysing meal...</div>';
+  setTimeout(()=>{
+    const meals=[
+      {name:'Grilled chicken salad',kcal:380,p:35,c:18,f:14},
+      {name:'Pasta bolognese',kcal:520,p:28,c:62,f:16},
+      {name:'Avocado toast with eggs',kcal:420,p:18,c:32,f:22},
+      {name:'Protein smoothie bowl',kcal:340,p:24,c:38,f:8},
+    ];
+    const m=meals[Math.floor(Math.random()*meals.length)];
+    r.innerHTML=`<div style="background:var(--bg2);border-radius:12px;padding:1rem">
+      <div style="font-size:15px;font-weight:700;margin-bottom:6px">📊 ${m.name}</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:10px">Estimated: ${m.kcal} kcal · P:${m.p}g · C:${m.c}g · F:${m.f}g</div>
+      <button class="btn btn-primary btn-full btn-sm" onclick="toast('${m.name} added to diary!');closeModal('aiScanModal');pts+=20;document.getElementById('pts-display').textContent=pts.toLocaleString()">Add to diary</button>
+    </div>`;
+  },1800);
 }
 
-// AUTH
-async function doLogin() {
-  const identifier = document.getElementById('li-id').value.trim();
-  const password = document.getElementById('li-pw').value;
-  const err = document.getElementById('li-err');
-  err.textContent = '';
-  if (!identifier || !password) { err.textContent = 'Please fill in all fields.'; return; }
-  try {
-    const r = await fetch('/api/login', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ identifier, password }) });
-    const d = await r.json();
-    if (!r.ok) { err.textContent = d.error; return; }
-    currentUser = d.user;
-    renderNavRight();
-    toast('Welcome back, ' + currentUser.name.split(' ')[0] + '!');
-    go('dashboard');
-  } catch { err.textContent = 'Something went wrong. Please try again.'; }
+// ===== CARS =====
+function renderCars(){
+  const sw=document.getElementById('carSwiper');
+  if(!sw)return;
+  sw.innerHTML=cars.map((c,i)=>{
+    const locked=pts<c.pts;
+    return `<div class="car-card ${locked?'car-locked':''}">
+      <div class="car-img" style="background:#111;overflow:hidden">
+        <svg class="car-render" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="cg${i}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${['#1a1a2e','#16213e','#0f3460','#1a1a1a','#2d1b69','#1b4332','#831843','#1e3a5f','#2d2d2d','#0d1b2a','#1a1a2e','#111'][i%12]};stop-opacity:1"/><stop offset="100%" style="stop-color:${['#16213e','#0f3460','#533483','#333','#533483','#40916c','#c2185b','#2980b9','#555','#1b263b','#0f3460','#222'][i%12]};stop-opacity:1"/></linearGradient></defs>
+          <rect width="300" height="150" fill="url(#cg${i})"/>
+          <ellipse cx="150" cy="110" rx="140" ry="20" fill="rgba(0,0,0,0.4)"/>
+          <path d="M40 95 Q60 60 100 55 Q130 48 150 48 Q185 48 210 55 Q245 60 260 80 L270 95 Q275 100 270 105 L255 108 Q240 95 215 90 Q185 86 150 86 Q115 86 85 90 Q60 95 45 108 L30 105 Q25 100 40 95Z" fill="#c0c0c0" stroke="#999" stroke-width="1"/>
+          <path d="M100 55 Q130 30 170 30 Q205 30 210 55Z" fill="rgba(150,200,255,0.4)" stroke="#aaa" stroke-width="0.5"/>
+          <ellipse cx="90" cy="100" rx="18" ry="18" fill="#222" stroke="#555" stroke-width="3"/>
+          <ellipse cx="90" cy="100" rx="10" ry="10" fill="#444"/>
+          <ellipse cx="90" cy="100" rx="4" ry="4" fill="#666"/>
+          <ellipse cx="210" cy="100" rx="18" ry="18" fill="#222" stroke="#555" stroke-width="3"/>
+          <ellipse cx="210" cy="100" rx="10" ry="10" fill="#444"/>
+          <ellipse cx="210" cy="100" rx="4" ry="4" fill="#666"/>
+          <rect x="35" y="88" width="20" height="8" rx="2" fill="#ffee44" opacity="0.9"/>
+          <rect x="245" y="88" width="20" height="8" rx="2" fill="#ff3333" opacity="0.9"/>
+          <text x="150" y="140" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.3)" font-family="Inter,sans-serif">${c.name.split(' ')[0].toUpperCase()}</text>
+        </svg>
+      </div>
+      <div class="car-info">
+        <div class="car-name">${c.name}</div>
+        <div class="car-desc">${c.desc}</div>
+        <div class="car-pts">🏆 ${c.pts.toLocaleString()} points</div>
+        <button class="car-claim" ${locked?'onclick="toast(\'Keep earning! You need '+c.pts.toLocaleString()+' pts\')"':'onclick="claimCar(\''+c.name+'\')"'}>${locked?'🔒 '+c.pts.toLocaleString()+' pts needed':'Claim reward'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function claimCar(name){toast('🎉 '+name+' claimed! Our team will contact you.');}
+
+// ===== SUPPLEMENTS =====
+function renderSupplements(){
+  const list=document.getElementById('supplementList');
+  if(!list)return;
+  list.innerHTML=supplements.map((s,i)=>`
+    <div class="supplement-card">
+      <div class="supp-img">${s.emoji}</div>
+      <div class="supp-info">
+        <div class="supp-name">${s.name}</div>
+        <div class="supp-desc">${s.desc}</div>
+        <div class="supp-price">£${s.price.toFixed(2)}</div>
+      </div>
+      <button class="supp-add" onclick="addToCart(${i})">+</button>
+    </div>`).join('');
 }
 
-async function doSignup() {
-  const name = document.getElementById('su-name').value.trim();
-  const username = document.getElementById('su-user').value.trim();
-  const email = document.getElementById('su-email').value.trim();
-  const password = document.getElementById('su-pw').value;
-  const err = document.getElementById('su-err');
-  err.textContent = '';
-  if (!name || !username || !email || !password) { err.textContent = 'Please fill in all fields.'; return; }
-  try {
-    const r = await fetch('/api/register', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name, username, email, password }) });
-    const d = await r.json();
-    if (!r.ok) { err.textContent = d.error; return; }
-    currentUser = d.user;
-    renderNavRight();
-    toast('Account created! Welcome to FitPredictor.');
-    go('dashboard');
-  } catch { err.textContent = 'Something went wrong. Please try again.'; }
+function addToCart(i){
+  const s=supplements[i];
+  const existing=cart.find(c=>c.name===s.name);
+  if(existing)existing.qty++;
+  else cart.push({name:s.name,price:s.price,qty:1});
+  updateCartBadge();
+  toast(s.name+' added to basket 🛒');
+}
+function updateCartBadge(){
+  const b=document.getElementById('cartBadge');
+  const total=cart.reduce((a,c)=>a+c.qty,0);
+  b.style.display=total?'flex':'none';
+  b.textContent=total;
+  renderCart();
+}
+function renderCart(){
+  const items=document.getElementById('cartItems');
+  const totalEl=document.getElementById('cartTotal');
+  if(!items)return;
+  if(!cart.length){items.innerHTML='<div style="text-align:center;padding:2rem;color:var(--text3)">Your basket is empty</div>';if(totalEl)totalEl.textContent='£0.00';return;}
+  items.innerHTML=cart.map((c,i)=>`
+    <div class="cart-item-row">
+      <div class="ci-name">${c.name}</div>
+      <div class="ci-qty">
+        <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+        <span>${c.qty}</span>
+        <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+      </div>
+      <div class="ci-price">£${(c.price*c.qty).toFixed(2)}</div>
+    </div>`).join('');
+  const total=cart.reduce((a,c)=>a+c.price*c.qty,0);
+  if(totalEl)totalEl.textContent='£'+total.toFixed(2);
+}
+function changeQty(i,dir){
+  cart[i].qty+=dir;
+  if(cart[i].qty<=0)cart.splice(i,1);
+  updateCartBadge();
 }
 
-async function doLogout() {
-  await fetch('/api/logout', { method: 'POST' });
-  currentUser = null;
-  renderNavRight();
-  toast('You have been signed out.');
-  go('home');
-}
+// ===== CHECK SESSION =====
+fetch('/api/me').then(r=>r.ok?r.json():null).then(d=>{
+  if(d&&d.user){currentUser=d.user;showApp();}
+}).catch(()=>{});
 
-function renderProfile() {
-  if (!currentUser) { go('login'); return; }
-  const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('prof-avatar').textContent = initials;
-  document.getElementById('prof-name').textContent = currentUser.name;
-  document.getElementById('prof-email').textContent = currentUser.email;
-  document.getElementById('prof-username').textContent = '@' + currentUser.username;
-  document.getElementById('prof-email2').textContent = currentUser.email;
-}
-
-// Check existing session
-fetch('/api/me').then(r => r.ok ? r.json() : null).then(d => {
-  if (d && d.user) { currentUser = d.user; renderNavRight(); }
-}).catch(() => {});
-
-// CAROUSEL
-function goSlide(n) {
-  document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === n));
-  document.querySelectorAll('.sp-bar').forEach((b, i) => {
-    b.classList.toggle('active', i === n);
-    const f = b.querySelector('.sp-fill');
-    f.style.animation = 'none';
-    f.offsetHeight;
-    if (i === n) f.style.animation = 'spFill 5.5s linear forwards';
-  });
-  slide = n;
-}
-function startTimer() {
-  clearInterval(timer);
-  timer = setInterval(() => goSlide((slide + 1) % TOTAL), 5500);
-}
-goSlide(0);
-startTimer();
-
-renderNavRight();
+// ===== INIT =====
+renderCars();
+renderSupplements();
+renderCart();
 </script>
 </body>
 </html>
