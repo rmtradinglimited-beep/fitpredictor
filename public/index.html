@@ -106,14 +106,15 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 
 /* HOME CARDS */
 .home-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
-.hc{position:relative;min-height:180px;background:var(--bg2);cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;transition:background .2s}
-.hc:hover{background:var(--bg3)}
-.hc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.4;transition:opacity .3s}
-.hc:hover img{opacity:.55}
+.hc{position:relative;min-height:220px;background:#111;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem;transition:background .2s}
+.hc::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.1) 60%,transparent 100%);pointer-events:none}
 .hc-inner{position:relative;z-index:2}
+.hc-arr{position:absolute;top:1rem;right:1rem;z-index:2}
+.hc:hover{background:var(--bg3)}
+.hc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .3s}
+.hc:hover img{opacity:.9}
 .hc-tag{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px}
 .hc-title{font-size:17px;font-weight:700;letter-spacing:-.01em;color:#fff}
-.hc-arr{position:absolute;top:1rem;right:1rem;font-size:18px;color:rgba(255,255,255,.6);z-index:2}
 
 /* PAGE LAYOUTS */
 .ph{padding:1.5rem 1.2rem 1rem;border-bottom:.5px solid var(--border)}
@@ -538,22 +539,22 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
   <!-- Home cards -->
   <div class="home-cards">
     <div class="hc" onclick="go('training')">
-      <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=60" alt="">
+      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=90" alt="">
       <div class="hc-inner"><div class="hc-tag">Training</div><div class="hc-title">AI workout plans</div></div>
       <div class="hc-arr">→</div>
     </div>
     <div class="hc" onclick="go('nutrition')">
-      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=60" alt="">
+      <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=90" alt="">
       <div class="hc-inner"><div class="hc-tag">Nutrition</div><div class="hc-title">Smart tracking</div></div>
       <div class="hc-arr">→</div>
     </div>
     <div class="hc" onclick="go('rewards')">
-      <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=60" alt="">
+      <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&q=90" alt="">
       <div class="hc-inner"><div class="hc-tag">Rewards</div><div class="hc-title">Earn luxury cars</div></div>
       <div class="hc-arr">→</div>
     </div>
     <div class="hc" onclick="go('basket')">
-      <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=60" alt="">
+      <img src="https://images.unsplash.com/photo-1576072858396-7484d4d4c97c?w=800&q=90" alt="">
       <div class="hc-inner"><div class="hc-tag">Supplements</div><div class="hc-title">Shop Welzo</div></div>
       <div class="hc-arr">→</div>
     </div>
@@ -1024,6 +1025,70 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
     </div>
   </div>
 </div>
+
+<!-- ========== FOOTER ========== -->
+<footer style="background:#0f0f0f;color:#fff;padding:3rem 1.5rem 2rem;margin-top:0">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:2rem">
+    <img src="" id="footerLogo" style="width:32px;height:32px;filter:invert(0)" alt="FP" onerror="this.style.display='none'">
+    <span style="font-size:18px;font-weight:800;letter-spacing:-.01em">FitPredictor</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2rem;margin-bottom:2.5rem">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.8rem">Platform</div>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <a onclick="go('training')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Training</a>
+        <a onclick="go('nutrition')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Nutrition</a>
+        <a onclick="go('tracking')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Tracking</a>
+        <a onclick="go('rewards')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Rewards</a>
+        <a onclick="go('basket')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Shop</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.8rem">For Trainers</div>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <a onclick="go('signup')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Create trainer account</a>
+        <a onclick="go('signup')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Client management</a>
+        <a onclick="go('pricing')" style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Trainer pricing</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.8rem">Company</div>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">About us</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Blog</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Careers</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Press</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.8rem">Support</div>
+      <div style="display:flex;flex-direction:column;gap:.5rem">
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Help centre</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Contact us</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Privacy policy</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Terms of service</a>
+        <a style="font-size:13.5px;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:none">Cookie policy</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="border-top:.5px solid rgba(255,255,255,.1);padding-top:2rem;margin-bottom:2rem">
+    <div style="font-size:16px;font-weight:700;margin-bottom:1.2rem">Frequently asked questions</div>
+    <div id="faqList"></div>
+  </div>
+
+  <!-- Social + copyright -->
+  <div style="border-top:.5px solid rgba(255,255,255,.1);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <div style="font-size:12px;color:rgba(255,255,255,.3)">© 2026 FitPredictor Ltd. All rights reserved.</div>
+    <div style="display:flex;gap:1rem">
+      <span style="font-size:12px;color:rgba(255,255,255,.3);cursor:pointer">Instagram</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.3);cursor:pointer">TikTok</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.3);cursor:pointer">X (Twitter)</span>
+    </div>
+  </div>
+</footer>
 
 </div><!-- end app -->
 
@@ -1643,6 +1708,38 @@ function updateGender(g){
 renderCars();
 renderSupplements();
 renderCart();
+
+// FAQ
+const faqs = [
+  {q:"Is FitPredictor free to use?", a:"Yes — the Starter plan is completely free forever. You can upgrade to Pro or Elite for advanced features like unlimited AI plans, full analytics and coaching."},
+  {q:"How do I connect with a personal trainer?", a:"During sign up, enter your trainer's referral code in the Referral / trainer code field. Your trainer will appear on your dashboard and can track your progress."},
+  {q:"How does the rewards system work?", a:"You earn points by logging workouts (+50 pts), meals (+20 pts), hitting your calorie goal (+20 pts) and maintaining streaks (+100 pts weekly). Redeem points for luxury chauffeur experiences."},
+  {q:"Can I track my menstrual cycle on FitPredictor?", a:"Yes — female users get a full cycle tracker in the Tracking section. It shows your current phase, predicts ovulation, and lets you log symptoms day by day."},
+  {q:"How does the AI food scanner work?", a:"Take a photo of your meal and our AI estimates the calories, protein, carbs and fat. You can also scan barcodes from food packaging to log items instantly."},
+  {q:"Are the supplements from Welzo genuine?", a:"Yes — FitPredictor is an official Welzo partner. All products are sourced directly from Welzo and delivered to your door."},
+  {q:"How do personal trainers create accounts?", a:"Select Personal Trainer in the role dropdown when signing up. You will receive a unique referral code that clients can use to connect with you."},
+  {q:"Is my health data secure?", a:"Absolutely. All data is encrypted and stored securely. We never sell your personal data to third parties. You can download or delete your data at any time from Settings."},
+];
+
+const faqEl = document.getElementById('faqList');
+if(faqEl){
+  faqEl.innerHTML = faqs.map((f,i)=>`
+    <div style="border-bottom:.5px solid rgba(255,255,255,.08);padding:.9rem 0">
+      <div onclick="toggleFaq(${i})" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+        <span style="font-size:14px;font-weight:500;color:rgba(255,255,255,.85)">${f.q}</span>
+        <span id="faq-icon-${i}" style="color:rgba(255,255,255,.4);font-size:18px;flex-shrink:0;margin-left:1rem">+</span>
+      </div>
+      <div id="faq-ans-${i}" style="display:none;font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;margin-top:.6rem">${f.a}</div>
+    </div>`).join('');
+}
+
+function toggleFaq(i){
+  const ans=document.getElementById('faq-ans-'+i);
+  const icon=document.getElementById('faq-icon-'+i);
+  const open=ans.style.display==='block';
+  ans.style.display=open?'none':'block';
+  icon.textContent=open?'+':'−';
+}
 
 // ===== NUTRITION CALENDAR =====
 let nutCalDate = new Date();
