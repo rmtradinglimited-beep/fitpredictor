@@ -1359,7 +1359,16 @@ async function doSignup(){
 
 async function doLogout(){
   await fetch('/api/logout',{method:'POST'});
-  currentUser=null;hideApp();go('home');
+  currentUser=null;
+  hideApp();
+  // Reset home nav back to login/signup buttons
+  const fr=document.getElementById('page-home').querySelector('.float-nav .fr');
+  if(fr){
+    fr.innerHTML=`
+      <button class="f-btn o" onclick="go('login')">Log in</button>
+      <button class="f-btn s" onclick="go('signup')">Join free</button>`;
+  }
+  go('login');
 }
 
 function showApp(){
