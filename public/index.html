@@ -466,13 +466,57 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
   <!-- Gym Finder -->
   <div style="padding:1.2rem;border-bottom:.5px solid var(--border)">
     <div class="sec-title">🏋️ Find a Jetts Gym Near You</div>
-    <div class="map-placeholder">
-      <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69c5c4?w=800&q=60" alt="map">
-      <div class="map-overlay">
-        <div class="map-pin">📍</div>
-        <div style="background:rgba(0,0,0,.7);color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600">Enable location to find gyms</div>
-      </div>
-    </div>
+    <div id="gymMap" style="height:240px;border-radius:14px;overflow:hidden;margin-bottom:1rem;background:var(--bg3)"></div>
+    <script>
+    var MAPS_KEY = "AIzaSyAPGXXN6HfW1Gvio491CVgZfbokZhzC0nE";
+    var mapLoaded = false;
+    function loadGymMap() {
+      if(mapLoaded) return;
+      mapLoaded = true;
+      var s = document.createElement('script');
+      s.src = 'https://maps.googleapis.com/maps/api/js?key=' + MAPS_KEY + '&callback=initGymMap&libraries=places';
+      s.async = true; s.defer = true;
+      document.head.appendChild(s);
+    }
+    window.initGymMap = function() {
+      var jetts = [
+        {name:'Jetts Westfield London', lat:51.5074, lng:-0.2213, addr:'Ariel Way, London W12'},
+        {name:'Jetts Canary Wharf', lat:51.5035, lng:-0.0176, addr:'Canada Square, London E14'},
+        {name:'Jetts Kings Cross', lat:51.5309, lng:-0.1233, addr:'Euston Rd, London N1'},
+        {name:'Jetts Shoreditch', lat:51.5229, lng:-0.0777, addr:'Old Street, London EC1'},
+        {name:'Jetts Clapham', lat:51.4612, lng:-0.1380, addr:'Clapham High St, London SW4'},
+      ];
+      var defaultPos = {lat:51.505, lng:-0.09};
+      var map = new google.maps.Map(document.getElementById('gymMap'), {
+        zoom:12, center:defaultPos,
+        styles:[{featureType:'poi',stylers:[{visibility:'off'}]}],
+        mapTypeControl:false, streetViewControl:false, fullscreenControl:false
+      });
+      var infoWindow = new google.maps.InfoWindow();
+      jetts.forEach(function(g) {
+        var marker = new google.maps.Marker({
+          position:{lat:g.lat,lng:g.lng},
+          map:map, title:g.name,
+          icon:{path:google.maps.SymbolPath.CIRCLE,scale:10,fillColor:'#0f0f0f',fillOpacity:1,strokeColor:'#fff',strokeWeight:2}
+        });
+        marker.addListener('click', function() {
+          infoWindow.setContent('<div style="font-family:Inter,sans-serif;padding:4px"><strong>'+g.name+'</strong><br><span style="font-size:12px;color:#666">'+g.addr+'</span></div>');
+          infoWindow.open(map, marker);
+        });
+      });
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          var userPos = {lat:pos.coords.latitude, lng:pos.coords.longitude};
+          map.setCenter(userPos);
+          new google.maps.Marker({position:userPos,map:map,title:'You are here',icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:'#2563eb',fillOpacity:1,strokeColor:'#fff',strokeWeight:2}});
+        });
+      }
+    };
+    // Load map when home page is visible
+    document.addEventListener('DOMContentLoaded', function() {
+      loadGymMap();
+    });
+    </script>
     <div class="gym-card" onclick="toast('Jetts Westfield selected!')">
       <span style="font-size:22px">🏋️</span>
       <div><div style="font-size:14px;font-weight:600;color:var(--text)">Jetts Westfield</div><div style="font-size:12px;color:var(--text3)">Ariel Way, London W12</div></div>
