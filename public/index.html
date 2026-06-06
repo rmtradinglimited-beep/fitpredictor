@@ -1393,23 +1393,10 @@ function renderCars(){
   sw.innerHTML=cars.map((c,i)=>{
     const locked=pts<c.pts;
     return `<div class="car-card ${locked?'car-locked':''}">
-      <div class="car-img" style="background:#111;overflow:hidden">
-        <svg class="car-render" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="cg${i}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${['#1a1a2e','#16213e','#0f3460','#1a1a1a','#2d1b69','#1b4332','#831843','#1e3a5f','#2d2d2d','#0d1b2a','#1a1a2e','#111'][i%12]};stop-opacity:1"/><stop offset="100%" style="stop-color:${['#16213e','#0f3460','#533483','#333','#533483','#40916c','#c2185b','#2980b9','#555','#1b263b','#0f3460','#222'][i%12]};stop-opacity:1"/></linearGradient></defs>
-          <rect width="300" height="150" fill="url(#cg${i})"/>
-          <ellipse cx="150" cy="110" rx="140" ry="20" fill="rgba(0,0,0,0.4)"/>
-          <path d="M40 95 Q60 60 100 55 Q130 48 150 48 Q185 48 210 55 Q245 60 260 80 L270 95 Q275 100 270 105 L255 108 Q240 95 215 90 Q185 86 150 86 Q115 86 85 90 Q60 95 45 108 L30 105 Q25 100 40 95Z" fill="#c0c0c0" stroke="#999" stroke-width="1"/>
-          <path d="M100 55 Q130 30 170 30 Q205 30 210 55Z" fill="rgba(150,200,255,0.4)" stroke="#aaa" stroke-width="0.5"/>
-          <ellipse cx="90" cy="100" rx="18" ry="18" fill="#222" stroke="#555" stroke-width="3"/>
-          <ellipse cx="90" cy="100" rx="10" ry="10" fill="#444"/>
-          <ellipse cx="90" cy="100" rx="4" ry="4" fill="#666"/>
-          <ellipse cx="210" cy="100" rx="18" ry="18" fill="#222" stroke="#555" stroke-width="3"/>
-          <ellipse cx="210" cy="100" rx="10" ry="10" fill="#444"/>
-          <ellipse cx="210" cy="100" rx="4" ry="4" fill="#666"/>
-          <rect x="35" y="88" width="20" height="8" rx="2" fill="#ffee44" opacity="0.9"/>
-          <rect x="245" y="88" width="20" height="8" rx="2" fill="#ff3333" opacity="0.9"/>
-          <text x="150" y="140" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.3)" font-family="Inter,sans-serif">${c.name.split(' ')[0].toUpperCase()}</text>
-        </svg>
+      <div style="width:100%;height:160px;overflow:hidden;background:#111;position:relative">
+        <img src="${c.img}" style="width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 60%)"></div>
+        <div style="position:absolute;bottom:8px;left:10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);font-family:Inter,sans-serif">${locked?'🔒 Locked':'✨ Available'}</div>
       </div>
       <div class="car-info">
         <div class="car-name">${c.name}</div>
