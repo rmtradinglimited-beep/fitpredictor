@@ -1455,7 +1455,7 @@ function renderSupplements(filter='all'){
   const filtered=filter==='all'?supplements:supplements.filter(s=>s.category===filter);
   list.innerHTML=filtered.map((s,i)=>{
     const idx=supplements.indexOf(s);
-    return `<div class="supplement-card" onclick="window.open('${s.link}','_blank')">
+    return `<div class="supplement-card" data-link="${s.link}" onclick="window.open(this.getAttribute('data-link'),'_blank')">
       <div class="supp-img" style="overflow:hidden;background:#f5f5f3">
         <img src="${s.img}" style="width:70px;height:70px;object-fit:cover;border-radius:10px" onerror="this.parentElement.textContent='💊'">
       </div>
@@ -1583,9 +1583,7 @@ function renderNutCal(){
   t.textContent=months[nutCalDate.getMonth()]+' '+nutCalDate.getFullYear();
   g.innerHTML='';
   ['M','T','W','T','F','S','S'].forEach(d=>{
-    const h=document.createElement('div');h.className='cal-day-hdr';h.textContent=d;g.appendChild(d=>{
-      const el=document.createElement('div');el.className='cal-day-hdr';el.textContent=d;return el;
-    }(d));
+    const el=document.createElement('div');el.className='cal-day-hdr';el.textContent=d;g.appendChild(el);
   });
   const first=new Date(nutCalDate.getFullYear(),nutCalDate.getMonth(),1);
   const last=new Date(nutCalDate.getFullYear(),nutCalDate.getMonth()+1,0);
