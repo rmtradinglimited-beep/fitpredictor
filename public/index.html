@@ -728,6 +728,26 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
       <div class="prog-row"><div class="prog-track"><div class="prog-fill" id="waterBar" style="width:75%;background:#2563eb"></div></div></div>
       <div style="font-size:12px;color:var(--text3)">Goal: 2 litres (8 glasses)</div>
     </div>
+
+    <!-- NUTRITION CALENDAR -->
+    <div class="sec-title">📅 Food Diary History</div>
+    <div class="cb" style="padding:1rem">
+      <div class="cal-nav">
+        <button onclick="nutCalChange(-1)">‹</button>
+        <h3 id="nutCalTitle"></h3>
+        <button onclick="nutCalChange(1)">›</button>
+      </div>
+      <div class="cal-grid" id="nutCalGrid"></div>
+    </div>
+
+    <!-- DAY DETAIL -->
+    <div id="nutDayDetail" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem">
+        <div class="sec-title" style="margin:0" id="nutDayTitle">Monday 2 June</div>
+        <button onclick="document.getElementById('nutDayDetail').style.display='none'" style="font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer">✕ Close</button>
+      </div>
+      <div class="cb" id="nutDayContent"></div>
+    </div>
   </div>
 </div>
 
@@ -775,14 +795,21 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
     </div>
 
     <!-- Weight history -->
-    <div class="sec-title">Weight History</div>
-    <div class="cb">
-      <div style="display:flex;flex-direction:column;gap:8px" id="weightHistory">
-        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Today</span><span style="font-weight:600">82.0 kg</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Yesterday</span><span style="font-weight:600">82.3 kg</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">2 days ago</span><span style="font-weight:600">82.5 kg</span></div>
-        <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">3 days ago</span><span style="font-weight:600">82.8 kg</span></div>
+    <div class="sec-title">⚖️ Weight History Calendar</div>
+    <div class="cb" style="padding:1rem">
+      <div class="cal-nav">
+        <button onclick="wtCalChange(-1)">‹</button>
+        <h3 id="wtCalTitle"></h3>
+        <button onclick="wtCalChange(1)">›</button>
       </div>
+      <div class="cal-grid" id="wtCalGrid"></div>
+    </div>
+    <div id="wtDayDetail" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem">
+        <div class="sec-title" style="margin:0" id="wtDayTitle"></div>
+        <button onclick="document.getElementById('wtDayDetail').style.display='none'" style="font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer">✕ Close</button>
+      </div>
+      <div class="cb" id="wtDayContent"></div>
     </div>
 
     <!-- Female only: Cycle tracker -->
@@ -1493,6 +1520,198 @@ fetch('/api/me').then(r=>r.ok?r.json():null).then(d=>{
 renderCars();
 renderSupplements();
 renderCart();
+
+// ===== NUTRITION CALENDAR =====
+let nutCalDate = new Date();
+
+// Sample food diary data
+const nutDiary = {
+  [fmtDate(new Date())]: {
+    kcal:1840, protein:142, carbs:195, fat:58,
+    meals:[
+      {name:'Overnight oats with banana',kcal:420,meal:'Breakfast'},
+      {name:'Grilled chicken & rice bowl',kcal:680,meal:'Lunch'},
+      {name:'Greek yoghurt & almonds',kcal:310,meal:'Snack'},
+      {name:'Salmon, broccoli & sweet potato',kcal:430,meal:'Dinner'},
+    ]
+  },
+  [fmtDate(new Date(Date.now()-86400000))]: {
+    kcal:2050, protein:158, carbs:210, fat:62,
+    meals:[
+      {name:'Scrambled eggs on toast',kcal:380,meal:'Breakfast'},
+      {name:'Tuna pasta salad',kcal:520,meal:'Lunch'},
+      {name:'Protein bar',kcal:220,meal:'Snack'},
+      {name:'Beef stir fry with rice',kcal:650,meal:'Dinner'},
+      {name:'Banana',kcal:89,meal:'Snack'},
+    ]
+  },
+  [fmtDate(new Date(Date.now()-172800000))]: {
+    kcal:1920, protein:145, carbs:200, fat:55,
+    meals:[
+      {name:'Protein smoothie',kcal:320,meal:'Breakfast'},
+      {name:'Turkey wrap',kcal:480,meal:'Lunch'},
+      {name:'Apple & peanut butter',kcal:280,meal:'Snack'},
+      {name:'Grilled salmon & veg',kcal:520,meal:'Dinner'},
+      {name:'Cottage cheese',kcal:120,meal:'Snack'},
+    ]
+  },
+};
+
+// Sample weight data
+const wtDiary = {
+  [fmtDate(new Date())]: 82.0,
+  [fmtDate(new Date(Date.now()-86400000))]: 82.3,
+  [fmtDate(new Date(Date.now()-172800000))]: 82.5,
+  [fmtDate(new Date(Date.now()-259200000))]: 82.8,
+  [fmtDate(new Date(Date.now()-345600000))]: 83.1,
+  [fmtDate(new Date(Date.now()-432000000))]: 83.0,
+  [fmtDate(new Date(Date.now()-518400000))]: 83.4,
+  [fmtDate(new Date(Date.now()-604800000))]: 83.6,
+  [fmtDate(new Date(Date.now()-691200000))]: 84.0,
+  [fmtDate(new Date(Date.now()-777600000))]: 84.2,
+};
+
+function fmtDate(d){
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function renderNutCal(){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const t=document.getElementById('nutCalTitle');
+  const g=document.getElementById('nutCalGrid');
+  if(!t||!g)return;
+  t.textContent=months[nutCalDate.getMonth()]+' '+nutCalDate.getFullYear();
+  g.innerHTML='';
+  ['M','T','W','T','F','S','S'].forEach(d=>{
+    const h=document.createElement('div');h.className='cal-day-hdr';h.textContent=d;g.appendChild(d=>{
+      const el=document.createElement('div');el.className='cal-day-hdr';el.textContent=d;return el;
+    }(d));
+  });
+  const first=new Date(nutCalDate.getFullYear(),nutCalDate.getMonth(),1);
+  const last=new Date(nutCalDate.getFullYear(),nutCalDate.getMonth()+1,0);
+  let startDay=(first.getDay()+6)%7;
+  const today=new Date();
+  for(let i=0;i<startDay;i++){const d=document.createElement('div');d.className='cal-day other-month';g.appendChild(d);}
+  for(let i=1;i<=last.getDate();i++){
+    const d=document.createElement('div');d.className='cal-day';
+    const dateKey=nutCalDate.getFullYear()+'-'+String(nutCalDate.getMonth()+1).padStart(2,'0')+'-'+String(i).padStart(2,'0');
+    const isToday=nutCalDate.getFullYear()===today.getFullYear()&&nutCalDate.getMonth()===today.getMonth()&&i===today.getDate();
+    const hasData=nutDiary[dateKey];
+    if(isToday)d.classList.add('today');
+    if(hasData){
+      d.style.fontWeight='700';
+      d.style.color=isToday?'':'var(--blue)';
+      d.style.cursor='pointer';
+      d.title=hasData.kcal+' kcal logged';
+    }
+    d.textContent=i;
+    if(hasData){
+      d.onclick=()=>showNutDay(dateKey,i);
+    }
+    g.appendChild(d);
+  }
+}
+
+function showNutDay(dateKey,day){
+  const data=nutDiary[dateKey];
+  if(!data)return;
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('nutDayTitle').textContent=months[nutCalDate.getMonth()]+' '+day+' — Food Diary';
+  document.getElementById('nutDayContent').innerHTML=`
+    <div style="display:flex;gap:12px;margin-bottom:1rem;flex-wrap:wrap">
+      <div style="flex:1;min-width:60px;text-align:center;background:var(--bg3);border-radius:8px;padding:.6rem"><div style="font-size:18px;font-weight:700">${data.kcal}</div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em">kcal</div></div>
+      <div style="flex:1;min-width:60px;text-align:center;background:#dbeafe;border-radius:8px;padding:.6rem"><div style="font-size:18px;font-weight:700;color:#2563eb">${data.protein}g</div><div style="font-size:10px;color:#2563eb;text-transform:uppercase;letter-spacing:.04em">protein</div></div>
+      <div style="flex:1;min-width:60px;text-align:center;background:#dcfce7;border-radius:8px;padding:.6rem"><div style="font-size:18px;font-weight:700;color:#16a34a">${data.carbs}g</div><div style="font-size:10px;color:#16a34a;text-transform:uppercase;letter-spacing:.04em">carbs</div></div>
+      <div style="flex:1;min-width:60px;text-align:center;background:#fef9c3;border-radius:8px;padding:.6rem"><div style="font-size:18px;font-weight:700;color:#d97706">${data.fat}g</div><div style="font-size:10px;color:#d97706;text-transform:uppercase;letter-spacing:.04em">fat</div></div>
+    </div>
+    ${data.meals.map(m=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:.5px solid var(--border)">
+        <div>
+          <div style="font-size:13.5px;font-weight:500;color:var(--text)">${m.name}</div>
+          <div style="font-size:11px;color:var(--text3)">${m.meal}</div>
+        </div>
+        <div style="font-size:13px;font-weight:600;color:var(--text)">${m.kcal} kcal</div>
+      </div>`).join('')}
+  `;
+  document.getElementById('nutDayDetail').style.display='block';
+  document.getElementById('nutDayDetail').scrollIntoView({behavior:'smooth'});
+}
+
+function nutCalChange(dir){
+  nutCalDate.setMonth(nutCalDate.getMonth()+dir);
+  renderNutCal();
+  document.getElementById('nutDayDetail').style.display='none';
+}
+renderNutCal();
+
+// ===== WEIGHT CALENDAR =====
+let wtCalDate = new Date();
+
+function renderWtCal(){
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const t=document.getElementById('wtCalTitle');
+  const g=document.getElementById('wtCalGrid');
+  if(!t||!g)return;
+  t.textContent=months[wtCalDate.getMonth()]+' '+wtCalDate.getFullYear();
+  g.innerHTML='';
+  ['M','T','W','T','F','S','S'].forEach(d=>{
+    const el=document.createElement('div');el.className='cal-day-hdr';el.textContent=d;g.appendChild(el);
+  });
+  const first=new Date(wtCalDate.getFullYear(),wtCalDate.getMonth(),1);
+  const last=new Date(wtCalDate.getFullYear(),wtCalDate.getMonth()+1,0);
+  let startDay=(first.getDay()+6)%7;
+  const today=new Date();
+  for(let i=0;i<startDay;i++){const d=document.createElement('div');d.className='cal-day other-month';g.appendChild(d);}
+  for(let i=1;i<=last.getDate();i++){
+    const d=document.createElement('div');d.className='cal-day';
+    const dateKey=wtCalDate.getFullYear()+'-'+String(wtCalDate.getMonth()+1).padStart(2,'0')+'-'+String(i).padStart(2,'0');
+    const isToday=wtCalDate.getFullYear()===today.getFullYear()&&wtCalDate.getMonth()===today.getMonth()&&i===today.getDate();
+    const weight=wtDiary[dateKey];
+    if(isToday)d.classList.add('today');
+    if(weight){
+      d.style.fontWeight='700';
+      d.style.color=isToday?'':'#16a34a';
+      d.style.cursor='pointer';
+      d.title=weight+'kg';
+      d.onclick=()=>showWtDay(dateKey,i,weight);
+    }
+    d.textContent=i;
+    g.appendChild(d);
+  }
+}
+
+function showWtDay(dateKey,day,weight){
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('wtDayTitle').textContent=months[wtCalDate.getMonth()]+' '+day+' — Weight Log';
+  const target=78;
+  const diff=(weight-target).toFixed(1);
+  document.getElementById('wtDayContent').innerHTML=`
+    <div style="text-align:center;padding:1rem 0">
+      <div style="font-size:48px;font-weight:800;letter-spacing:-.04em;color:var(--text)">${weight}<span style="font-size:20px;font-weight:400;color:var(--text3)">kg</span></div>
+      <div style="font-size:13px;color:var(--text2);margin-top:4px">Target: ${target}kg · ${diff>0?'+'+diff:diff}kg to go</div>
+      <div style="margin-top:1rem;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${Math.min(100,Math.max(0,((87-weight)/(87-target))*100)).toFixed(0)}%;background:#16a34a;border-radius:3px"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:4px"><span>87kg start</span><span>${target}kg goal</span></div>
+    </div>
+  `;
+  document.getElementById('wtDayDetail').style.display='block';
+  document.getElementById('wtDayDetail').scrollIntoView({behavior:'smooth'});
+}
+
+function wtCalChange(dir){
+  wtCalDate.setMonth(wtCalDate.getMonth()+dir);
+  renderWtCal();
+  document.getElementById('wtDayDetail').style.display='none';
+}
+
+// Hook into go() to render calendars when pages load
+const _origGo = go;
+go = function(page){
+  _origGo(page);
+  if(page==='nutrition'){setTimeout(()=>{renderNutCal();},50);}
+  if(page==='tracking'){setTimeout(()=>{renderWtCal();},50);}
+};
 </script>
 </body>
 </html>
