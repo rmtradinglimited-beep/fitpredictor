@@ -299,6 +299,177 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
 @media(max-width:900px){.plans-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.science-inner,.ft-top{grid-template-columns:1fr}.ft-top{gap:2rem}.nav-links{display:none}.form-row{grid-template-columns:1fr}.pop-cols{grid-template-columns:1fr}}
 @media(max-width:480px){.plans-grid,.s4-grid{grid-template-columns:1fr}.hero-title{font-size:30px}}
+
+/* ===== APP PAGES ===== */
+.app-page{display:none;padding-bottom:70px;min-height:100vh;background:var(--bg)}
+.app-page.active{display:block}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:#fff;border-top:.5px solid var(--border);display:none;align-items:center;justify-content:space-around;z-index:800;padding-bottom:env(safe-area-inset-bottom)}
+.bottom-nav.visible{display:flex}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:8px 16px;border-radius:12px;transition:all .2s;background:none;border:none;font-family:inherit;flex:1}
+.bn-item svg{width:22px;height:22px;stroke:var(--text3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.bn-item span{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.02em;transition:color .2s}
+.bn-item.active svg{stroke:var(--text)}
+.bn-item.active span{color:var(--text)}
+
+/* APP HEADER */
+.app-header{padding:calc(var(--nav-h) + 1rem) 1.5rem 1rem;background:var(--bg)}
+.app-header h1{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.app-header p{font-size:13px;color:var(--text2);margin-top:2px}
+
+/* SUBPAGE HERO WITH BG IMAGE */
+.sp-hero-img{position:relative;height:340px;overflow:hidden}
+.sp-hero-img img{width:100%;height:100%;object-fit:cover}
+.sp-hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.65) 100%)}
+.sp-hero-img-content{position:absolute;bottom:0;left:0;right:0;padding:2rem}
+.sp-hero-img-content .sec-label{color:rgba(255,255,255,.65)}
+.sp-hero-img-content h1{font-size:clamp(24px,4vw,42px);font-weight:800;letter-spacing:-.025em;color:#fff;margin-bottom:.5rem}
+.sp-hero-img-content p{font-size:15px;color:rgba(255,255,255,.75);max-width:540px;line-height:1.6}
+
+/* PROGRAM CARDS */
+.program-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:2rem}
+.program-card{border-radius:14px;overflow:hidden;border:.5px solid var(--border);background:#fff;transition:transform .2s,box-shadow .2s;cursor:pointer}
+.program-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.1)}
+.program-card-img{width:100%;height:180px;object-fit:cover;display:block}
+.program-card-body{padding:1.2rem}
+.program-card-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.4rem}
+.program-card-title{font-size:17px;font-weight:700;margin-bottom:.4rem}
+.program-card-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:.8rem}
+.program-card-meta{display:flex;gap:12px}
+.pcm{font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:4px}
+
+/* NUTRITION APP */
+.macro-ring-wrap{display:flex;flex-direction:column;align-items:center;padding:1.5rem;background:#fff;border-radius:16px;border:.5px solid var(--border);margin:0 1.5rem 1rem}
+.macro-ring-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:.8rem}
+.macro-bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 1.5rem 1rem}
+.macro-bar-item{background:#fff;border-radius:12px;padding:1rem;border:.5px solid var(--border);text-align:center}
+.mb-val{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.mb-lbl{font-size:11px;color:var(--text3);margin-top:2px}
+.mb-bar{height:4px;border-radius:2px;background:var(--bg3);margin-top:.5rem;overflow:hidden}
+.mb-fill{height:100%;border-radius:2px}
+.meal-section{padding:0 1.5rem;margin-bottom:1rem}
+.meal-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem}
+.meal-section-hdr h3{font-size:15px;font-weight:700}
+.add-meal-btn{width:28px;height:28px;border-radius:50%;background:var(--text);color:#fff;border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.meal-item{display:flex;align-items:center;justify-content:space-between;padding:.7rem .9rem;background:#fff;border-radius:10px;border:.5px solid var(--border);margin-bottom:6px}
+.mi-name{font-size:13.5px;font-weight:600}
+.mi-cals{font-size:12px;color:var(--text3)}
+.water-tracker{padding:0 1.5rem;margin-bottom:1rem}
+.water-bar{height:12px;background:var(--bg3);border-radius:6px;overflow:hidden;margin:.6rem 0}
+.water-fill{height:100%;background:linear-gradient(to right,#60a5fa,#3b82f6);border-radius:6px;transition:width .4s}
+.water-btns{display:flex;gap:8px;flex-wrap:wrap}
+.water-btn{padding:8px 16px;border-radius:8px;font-size:12.5px;font-weight:600;border:1.5px solid var(--border2);background:transparent;cursor:pointer;font-family:inherit;transition:all .2s}
+.water-btn:hover{background:var(--text);color:#fff;border-color:var(--text)}
+.scan-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 1.5rem;margin-bottom:1rem}
+.scan-btn{padding:14px;border-radius:12px;border:1.5px solid var(--border2);background:#fff;cursor:pointer;text-align:center;font-family:inherit;transition:all .2s}
+.scan-btn:hover{border-color:var(--text);background:var(--bg2)}
+.scan-btn-icon{font-size:24px;margin-bottom:6px}
+.scan-btn-label{font-size:13px;font-weight:600;color:var(--text)}
+.scan-btn-sub{font-size:11px;color:var(--text3)}
+
+/* TRACKING APP */
+.tracking-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:1rem 1.5rem}
+.tracking-card{background:#fff;border-radius:14px;padding:1.2rem;border:.5px solid var(--border)}
+.tc-icon{font-size:24px;margin-bottom:.5rem}
+.tc-val{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.tc-lbl{font-size:11.5px;color:var(--text3);margin-top:2px}
+.log-btn{width:100%;padding:12px;border-radius:10px;border:none;background:var(--text);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:.8rem;transition:opacity .2s}
+.log-btn:hover{opacity:.85}
+.cycle-section{padding:0 1.5rem;margin-bottom:1.5rem}
+.cycle-card{background:#fff;border-radius:16px;border:.5px solid var(--border);overflow:hidden}
+.cycle-header{background:linear-gradient(135deg,#f9a8d4,#c084fc);padding:1.5rem;color:#fff}
+.cycle-header h3{font-size:18px;font-weight:800;margin-bottom:4px}
+.cycle-header p{font-size:13px;opacity:.85}
+.cycle-phase{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.cp-item{background:#fff;padding:1rem;text-align:center}
+.cp-item.active{background:#fdf4ff}
+.cp-name{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.cp-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.cp-item.active .cp-name{color:#a855f7}
+.cycle-insights{padding:1rem}
+.ci-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:.8rem}
+.ci-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.ci-text h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.ci-text p{font-size:12px;color:var(--text2);line-height:1.5}
+.cycle-log-btn{width:calc(100% - 2rem);margin:0 1rem 1rem;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#f9a8d4,#a855f7);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.cycle-log-btn:hover{opacity:.88}
+
+/* SUPPLEMENTS / SHOP */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding:1.5rem}
+.product-card{background:#fff;border-radius:14px;border:.5px solid var(--border);overflow:hidden;transition:transform .2s,box-shadow .2s}
+.product-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.product-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--bg2)}
+.product-body{padding:1rem}
+.product-cat{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px}
+.product-name{font-size:14px;font-weight:700;margin-bottom:4px}
+.product-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:.8rem}
+.product-price{font-size:16px;font-weight:800;margin-bottom:.6rem}
+.product-add-btn{width:100%;padding:9px;border-radius:8px;border:none;background:var(--text);color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.product-add-btn:hover{opacity:.82}
+.basket-preview{background:#fff;border-top:.5px solid var(--border);padding:1rem 1.5rem;position:sticky;bottom:0}
+.stripe-mock{background:#fff;border-radius:16px;border:.5px solid var(--border);padding:1.5rem;margin:1.5rem}
+.stripe-header{display:flex;align-items:center;gap:8px;margin-bottom:1.2rem}
+.stripe-logo{font-size:13px;font-weight:700;color:#635bff}
+.stripe-field{margin-bottom:.8rem}
+.stripe-field label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:4px}
+.stripe-field input{width:100%;padding:10px 12px;border:1.5px solid var(--border2);border-radius:8px;font-size:14px;background:#fff;color:var(--text);font-family:inherit;outline:none}
+.stripe-field input:focus{border-color:#635bff}
+.stripe-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stripe-pay-btn{width:100%;padding:13px;border-radius:8px;background:#635bff;color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:.5rem;transition:opacity .2s}
+.stripe-pay-btn:hover{opacity:.88}
+
+/* REWARDS APP */
+.rewards-app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:1.5rem}
+.reward-app-card{background:#fff;border-radius:14px;border:.5px solid var(--border);overflow:hidden;position:relative}
+.reward-app-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--bg2)}
+.reward-app-body{padding:1rem}
+.ra-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.ra-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:.6rem}
+.ra-pts{font-size:13px;font-weight:700;color:var(--text);margin-bottom:.7rem}
+.ra-progress{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:.7rem}
+.ra-progress-fill{height:100%;background:var(--text);border-radius:3px}
+.ra-btn{width:100%;padding:9px;border-radius:8px;border:1.5px solid var(--text);background:transparent;color:var(--text);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.ra-btn:hover{background:var(--text);color:#fff}
+.suggest-form{max-width:520px;margin:0 auto;padding:2rem 1.5rem}
+.suggest-form h2{font-size:22px;font-weight:800;margin-bottom:.4rem}
+.suggest-form p{font-size:14px;color:var(--text2);margin-bottom:2rem;line-height:1.6}
+.points-banner{background:var(--text);color:#fff;border-radius:14px;padding:1.2rem 1.5rem;margin:1.5rem;display:flex;align-items:center;justify-content:space-between}
+.pb-pts{font-size:28px;font-weight:800}
+.pb-lbl{font-size:12px;opacity:.65;margin-top:2px}
+.pb-badge{background:rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1100;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;padding:1.5rem}
+.modal-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 1.2rem}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:1rem}
+
+/* TRAINER MAP */
+.map-container{height:400px;border-radius:14px;overflow:hidden;margin:1.5rem;border:.5px solid var(--border)}
+.trainer-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:0 1.5rem 1.5rem}
+.trainer-card{background:#fff;border-radius:14px;padding:1.2rem;border:.5px solid var(--border);display:flex;gap:1rem;align-items:flex-start}
+.trainer-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--bg3);flex-shrink:0}
+.trainer-info h4{font-size:15px;font-weight:700;margin-bottom:2px}
+.trainer-info p{font-size:12px;color:var(--text2);margin-bottom:.5rem;line-height:1.5}
+.trainer-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.7rem}
+.trainer-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg2);color:var(--text2)}
+.trainer-contact-btn{font-size:12px;font-weight:600;padding:7px 16px;border-radius:8px;border:none;background:var(--text);color:#fff;cursor:pointer;font-family:inherit;transition:opacity .2s}
+.trainer-contact-btn:hover{opacity:.82}
+
+/* DASHBOARD HOME */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 1.5rem 1rem}
+.dash-card{background:#fff;border-radius:14px;padding:1.2rem;border:.5px solid var(--border);cursor:pointer;transition:transform .2s}
+.dash-card:hover{transform:translateY(-2px)}
+.dash-card-wide{grid-column:span 2}
+.dc-icon{font-size:22px;margin-bottom:.5rem}
+.dc-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.dc-val{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.dc-sub{font-size:11.5px;color:var(--text3);margin-top:2px}
+.streak-banner{background:linear-gradient(135deg,#0a0a0a,#333);border-radius:14px;padding:1.2rem;margin:0 1.5rem 1rem;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.sb-left h3{font-size:15px;font-weight:700;margin-bottom:2px}
+.sb-left p{font-size:12px;opacity:.6}
+.sb-pts{font-size:28px;font-weight:800}
+
 </style>
 </head>
 <body>
@@ -732,12 +903,8 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
 <!-- SUBPAGE -->
 <div id="page-subpage" class="page">
   <div class="subpage">
-    <div class="sp-hero"><div style="max-width:800px;margin:0 auto">
-      <div class="sec-label" id="spLabel"></div>
-      <h1 id="spTitle"></h1>
-      <p id="spSub"></p>
-    </div></div>
-    <div class="sp-body" id="spBody"></div>
+    <div id="spHero"></div>
+    <div id="spBody"></div>
   </div>
 </div>
 
@@ -760,6 +927,290 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
         <button class="pop-nav-btn" id="popupNext" onclick="popupNav(1)">Next &rarr;</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV (shown when logged in) -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bn-item active" id="bn-home" onclick="showApp('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="bn-item" id="bn-training" onclick="showApp('training')">
+    <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11v11h-11z"/><path d="M2 9h4M18 9h4M2 15h4M18 15h4M9 2v4M15 2v4M9 18v4M15 18v4"/></svg>
+    <span>Training</span>
+  </button>
+  <button class="bn-item" id="bn-nutrition" onclick="showApp('nutrition')">
+    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+    <span>Nutrition</span>
+  </button>
+  <button class="bn-item" id="bn-tracking" onclick="showApp('tracking')">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Tracking</span>
+  </button>
+  <button class="bn-item" id="bn-rewards" onclick="showApp('rewards')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+    <span>Rewards</span>
+  </button>
+  <button class="bn-item" id="bn-profile" onclick="showApp('profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profile</span>
+  </button>
+</nav>
+
+<!-- APP: HOME DASHBOARD -->
+<div id="app-home" class="app-page">
+  <div style="padding:calc(var(--nav-h) + 1rem) 1.5rem .5rem">
+    <div class="sec-label">Good morning</div>
+    <h1 style="font-size:24px;font-weight:800;letter-spacing:-.02em" id="dashGreeting">Welcome back</h1>
+  </div>
+  <div class="streak-banner">
+    <div class="sb-left"><h3>&#128293; Training streak</h3><p>Keep it going — don't break the chain</p></div>
+    <div><div class="sb-pts" id="dashStreak">0</div><div style="font-size:11px;opacity:.5;text-align:right">days</div></div>
+  </div>
+  <div class="dash-grid">
+    <div class="dash-card" onclick="showApp('nutrition')">
+      <div class="dc-icon">&#127869;</div>
+      <div class="dc-title">Calories today</div>
+      <div class="dc-val" id="dashCals">0</div>
+      <div class="dc-sub">/ 2,000 kcal goal</div>
+    </div>
+    <div class="dash-card" onclick="showApp('tracking')">
+      <div class="dc-icon">&#128694;</div>
+      <div class="dc-title">Steps today</div>
+      <div class="dc-val" id="dashSteps">0</div>
+      <div class="dc-sub">/ 10,000 goal</div>
+    </div>
+    <div class="dash-card" onclick="showApp('nutrition')">
+      <div class="dc-icon">&#128167;</div>
+      <div class="dc-title">Water today</div>
+      <div class="dc-val" id="dashWater">0</div>
+      <div class="dc-sub">/ 8 glasses goal</div>
+    </div>
+    <div class="dash-card" onclick="showApp('rewards')">
+      <div class="dc-icon">&#127942;</div>
+      <div class="dc-title">Reward points</div>
+      <div class="dc-val" id="dashPoints">0</div>
+      <div class="dc-sub">pts accumulated</div>
+    </div>
+    <div class="dash-card dash-card-wide" onclick="showApp('training')">
+      <div class="dc-icon">&#9889;</div>
+      <div class="dc-title">Today's training</div>
+      <div style="font-size:14px;color:var(--text2);margin-top:4px">No session logged yet. Tap to start training.</div>
+      <div style="margin-top:.8rem;display:inline-block;padding:8px 18px;background:var(--text);color:#fff;border-radius:8px;font-size:12.5px;font-weight:600">Start session &#8594;</div>
+    </div>
+  </div>
+  <div style="padding:0 1.5rem 1rem">
+    <div class="sec-label" style="margin-bottom:.8rem">Quick actions</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <button onclick="openLogModal('food')" style="padding:12px 8px;border-radius:11px;border:1.5px solid var(--border2);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">&#127869; Log food</button>
+      <button onclick="openLogModal('weight')" style="padding:12px 8px;border-radius:11px;border:1.5px solid var(--border2);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">&#9878; Log weight</button>
+      <button onclick="openLogModal('workout')" style="padding:12px 8px;border-radius:11px;border:1.5px solid var(--border2);background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">&#128170; Log workout</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP: TRAINING -->
+<div id="app-training" class="app-page">
+  <div style="padding:calc(var(--nav-h) + 1rem) 1.5rem 1rem">
+    <div class="sec-label">Your programme</div>
+    <h1 style="font-size:22px;font-weight:800;letter-spacing:-.02em">Training</h1>
+  </div>
+  <div style="padding:0 1.5rem;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+    <button class="edge-tab active" onclick="switchAppTraining('strength',this)">Strength</button>
+    <button class="edge-tab" onclick="switchAppTraining('recomposition',this)">Recomposition</button>
+    <button class="edge-tab" onclick="switchAppTraining('endurance',this)">Endurance</button>
+  </div>
+  <div id="appTrainingCards" class="program-grid" style="padding:0 1.5rem 1rem"></div>
+</div>
+
+<!-- APP: NUTRITION -->
+<div id="app-nutrition" class="app-page">
+  <div style="padding:calc(var(--nav-h) + 1rem) 1.5rem .5rem">
+    <div class="sec-label">Daily intake</div>
+    <h1 style="font-size:22px;font-weight:800;letter-spacing:-.02em">Nutrition</h1>
+  </div>
+  <div class="macro-ring-wrap">
+    <div class="macro-ring-title">Today's calories</div>
+    <div style="position:relative;width:120px;height:120px;margin-bottom:.8rem">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg3)" stroke-width="12"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#0a0a0a" stroke-width="12" stroke-dasharray="314" stroke-dashoffset="251" stroke-linecap="round" transform="rotate(-90 60 60)" id="calRing"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <div style="font-size:22px;font-weight:800" id="nutCals">0</div>
+        <div style="font-size:10px;color:var(--text3)">kcal</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--text3)">Goal: 2,000 kcal &nbsp;|&nbsp; Remaining: <span id="nutRemaining">2000</span> kcal</div>
+  </div>
+  <div class="macro-bars">
+    <div class="macro-bar-item">
+      <div class="mb-val" style="color:#3b82f6" id="nutCarbs">0g</div>
+      <div class="mb-lbl">Carbs</div>
+      <div class="mb-bar"><div class="mb-fill" style="background:#3b82f6;width:0%" id="carbBar"></div></div>
+    </div>
+    <div class="macro-bar-item">
+      <div class="mb-val" style="color:#ef4444" id="nutProtein">0g</div>
+      <div class="mb-lbl">Protein</div>
+      <div class="mb-bar"><div class="mb-fill" style="background:#ef4444;width:0%" id="proteinBar"></div></div>
+    </div>
+    <div class="macro-bar-item">
+      <div class="mb-val" style="color:#f59e0b" id="nutFat">0g</div>
+      <div class="mb-lbl">Fat</div>
+      <div class="mb-bar"><div class="mb-fill" style="background:#f59e0b;width:0%" id="fatBar"></div></div>
+    </div>
+  </div>
+  <div class="scan-btns">
+    <button class="scan-btn" onclick="toast('Barcode scanner coming soon — add via phone camera')">
+      <div class="scan-btn-icon">&#x1F4F7;</div>
+      <div class="scan-btn-label">Scan barcode</div>
+      <div class="scan-btn-sub">Scan food packaging</div>
+    </button>
+    <button class="scan-btn" onclick="toast('AI photo scan coming soon')">
+      <div class="scan-btn-icon">&#x1F916;</div>
+      <div class="scan-btn-label">AI photo scan</div>
+      <div class="scan-btn-sub">Photograph your meal</div>
+    </button>
+  </div>
+  <div class="water-tracker">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
+      <h3 style="font-size:15px;font-weight:700">&#128167; Water intake</h3>
+      <span style="font-size:13px;font-weight:700" id="waterCount">0 / 8 glasses</span>
+    </div>
+    <div class="water-bar"><div class="water-fill" id="waterBar" style="width:0%"></div></div>
+    <div class="water-btns">
+      <button class="water-btn" onclick="addWater(1)">+ 1 glass</button>
+      <button class="water-btn" onclick="addWater(2)">+ 2 glasses</button>
+      <button class="water-btn" onclick="addWater(-1)">- 1 glass</button>
+    </div>
+  </div>
+  <div id="mealSections"></div>
+  <div style="padding:0 1.5rem 1rem">
+    <button onclick="openLogModal('food')" class="log-btn">+ Log food manually</button>
+  </div>
+</div>
+
+<!-- APP: TRACKING -->
+<div id="app-tracking" class="app-page">
+  <div style="padding:calc(var(--nav-h) + 1rem) 1.5rem .5rem">
+    <div class="sec-label">Health tracking</div>
+    <h1 style="font-size:22px;font-weight:800;letter-spacing:-.02em">Tracking</h1>
+  </div>
+  <div class="tracking-cards">
+    <div class="tracking-card">
+      <div class="tc-icon">&#128694;</div>
+      <div class="tc-val" id="trackSteps">0</div>
+      <div class="tc-lbl">Steps today</div>
+      <button class="log-btn" onclick="openLogModal('steps')">Log steps</button>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-icon">&#9878;</div>
+      <div class="tc-val" id="trackWeight">--</div>
+      <div class="tc-lbl">Weight (kg)</div>
+      <button class="log-btn" onclick="openLogModal('weight')">Log weight</button>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-icon">&#128167;</div>
+      <div class="tc-val" id="trackWater2">0</div>
+      <div class="tc-lbl">Glasses today</div>
+      <button class="log-btn" onclick="addWater(1)">Add glass</button>
+    </div>
+    <div class="tracking-card">
+      <div class="tc-icon">&#128170;</div>
+      <div class="tc-val" id="trackWorkouts">0</div>
+      <div class="tc-lbl">Workouts logged</div>
+      <button class="log-btn" onclick="openLogModal('workout')">Log workout</button>
+    </div>
+  </div>
+  <div id="cycleSection" style="display:none">
+    <div class="cycle-section">
+      <div class="sec-label" style="padding:0 0 .5rem">Menstrual cycle</div>
+      <div class="cycle-card">
+        <div class="cycle-header">
+          <h3>&#127801; Cycle tracking</h3>
+          <p id="cyclePhaseText">Log your last period to get started</p>
+        </div>
+        <div class="cycle-phase">
+          <div class="cp-item active" id="cp-menstrual">
+            <div class="cp-name">Menstrual</div>
+            <div class="cp-desc">Days 1-5. Rest & gentle movement. Iron-rich foods.</div>
+          </div>
+          <div class="cp-item" id="cp-follicular">
+            <div class="cp-name">Follicular</div>
+            <div class="cp-desc">Days 6-13. Energy rising. Push harder in training.</div>
+          </div>
+          <div class="cp-item" id="cp-ovulatory">
+            <div class="cp-name">Ovulatory</div>
+            <div class="cp-desc">Days 14-16. Peak strength. Best time for PRs.</div>
+          </div>
+          <div class="cp-item" id="cp-luteal">
+            <div class="cp-name">Luteal</div>
+            <div class="cp-desc">Days 17-28. Energy drops. Reduce intensity. Magnesium.</div>
+          </div>
+        </div>
+        <div class="cycle-insights">
+          <div class="ci-item"><div class="ci-icon">&#9889;</div><div class="ci-text"><h4>Training this phase</h4><p id="cycleTrainingTip">Log your cycle to get personalised training advice.</p></div></div>
+          <div class="ci-item"><div class="ci-icon">&#127869;</div><div class="ci-text"><h4>Nutrition focus</h4><p id="cycleNutritionTip">Log your cycle to get personalised nutrition advice.</p></div></div>
+          <div class="ci-item"><div class="ci-icon">&#128164;</div><div class="ci-text"><h4>Recovery</h4><p id="cycleRecoveryTip">Log your cycle to get personalised recovery advice.</p></div></div>
+        </div>
+        <button class="cycle-log-btn" onclick="openLogModal('cycle')">&#128197; Log period / symptoms</button>
+      </div>
+    </div>
+  </div>
+  <div style="padding:0 1.5rem 1rem">
+    <div class="sec-label" style="margin-bottom:.8rem">Recent weight</div>
+    <div id="weightHistory" style="display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+</div>
+
+<!-- APP: REWARDS -->
+<div id="app-rewards" class="app-page">
+  <div style="padding:calc(var(--nav-h) + 1rem) 1.5rem .5rem">
+    <div class="sec-label">Your rewards</div>
+    <h1 style="font-size:22px;font-weight:800;letter-spacing:-.02em">Rewards</h1>
+  </div>
+  <div class="points-banner">
+    <div><div class="pb-pts" id="appPoints">0</div><div class="pb-lbl">Total points</div></div>
+    <div class="pb-badge">&#127942; Active member</div>
+  </div>
+  <div style="padding:0 1.5rem;display:flex;gap:8px;margin-bottom:.5rem;flex-wrap:wrap">
+    <button class="tgl-btn active" onclick="switchAppRewards('transport',this)" style="flex:none">&#128663; Transport</button>
+    <button class="tgl-btn" onclick="switchAppRewards('rewards',this)" style="flex:none">&#127873; Rewards</button>
+  </div>
+  <div class="rewards-app-grid" id="appRewardsGrid"></div>
+</div>
+
+<!-- APP: PROFILE -->
+<div id="app-profile" class="app-page">
+  <div style="padding:calc(var(--nav-h) + 1rem) 1.5rem 1.5rem">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem">
+      <div style="width:64px;height:64px;border-radius:50%;background:var(--text);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;font-weight:800" id="profileAvatar">?</div>
+      <div>
+        <div style="font-size:18px;font-weight:800" id="profileName">-</div>
+        <div style="font-size:13px;color:var(--text3)" id="profileUsername">-</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px" id="profilePlan">Free plan</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button onclick="showPage('signup')" style="width:100%;padding:13px;border-radius:10px;border:none;background:var(--text);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Upgrade plan</button>
+      <button onclick="doLogout()" style="width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--border2);background:#fff;color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">Sign out</button>
+    </div>
+    <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:8px">
+      <div onclick="toast('Settings coming soon')" style="padding:1rem;background:#fff;border-radius:11px;border:.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500">Settings <span style="color:var(--text3)">&#8250;</span></div>
+      <div onclick="toast('Notifications coming soon')" style="padding:1rem;background:#fff;border-radius:11px;border:.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500">Notifications <span style="color:var(--text3)">&#8250;</span></div>
+      <div onclick="toast('Privacy settings coming soon')" style="padding:1rem;background:#fff;border-radius:11px;border:.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500">Privacy <span style="color:var(--text3)">&#8250;</span></div>
+      <div onclick="showSubpage('faq');toggleAppMode(false)" style="padding:1rem;background:#fff;border-radius:11px;border:.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:500">FAQs <span style="color:var(--text3)">&#8250;</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG MODAL -->
+<div class="modal-overlay" id="logModal" onclick="closeLogModalOutside(event)">
+  <div class="modal-sheet" id="logModalSheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="logModalTitle">Log</div>
+    <div id="logModalContent"></div>
   </div>
 </div>
 
@@ -863,27 +1314,131 @@ const trainingStyles = {
 };
 
 const subpages = {
-  'womens-training':{label:'Training',title:"Women's Training",sub:"Built for women. Not scaled from men.",body:`<div class="cb"><h2>Built for Women. Not Scaled From Men</h2><p>Most training platforms are based on male data and adapted for women. FitPredictor is designed to account for hormonal fluctuations, nutrient needs, and cycle-related adaptations that are typically ignored. Training diagnostics use real hormonal and physiological data to adjust intensity, recovery, and progression.</p></div><div class="cb"><h2>What This Means</h2><p>Training that works with your body, not against it. Hormonal changes, fatigue, and recovery variation are recognised and accounted for, not misinterpreted. Health and performance guidance aligns with your biology, not trends.</p></div><div class="cb"><h2>Included</h2><ul><li>Cycle-aware training periodisation</li><li>Hormone & cycle management</li><li>Pre & post natal coaching</li><li>Senior health and wellness programmes</li><li>Personalised supplement guidance</li></ul></div>`},
-  'mens-training':{label:'Training',title:"Men's Training",sub:"Precision training for every level.",body:`<div class="cb"><h2>Precision Training for Every Level</h2><p>FitPredictor supports men from beginners to elite athletes. Training scales with experience, workload tolerance, and recovery capacity, adjusting intensity, volume, and progression based on lifestyle stress and performance trends.</p></div><div class="cb"><h2>Hormone & Testosterone Test Kits</h2><p>Test kits add deeper personalisation by assessing testosterone levels, stress load, sleep quality, recovery status, and nutrient deficiencies. This data refines training load, recovery strategies, supplementation, and progression timing.</p></div>`},
-  'find-trainer':{label:'Training',title:'Find a Personal Trainer',sub:'Connect with a certified FitPredictor trainer near you.',body:`<div class="cb"><h2>Find your trainer</h2><p>Search by country, city, and gym to find a certified FitPredictor personal trainer. Once connected, your trainer can view your dashboard, track your progress, and adjust your programme in real time.</p></div><div class="cb"><h2>How it works</h2><ul><li>Browse trainers by location</li><li>Enter your trainer's unique referral code at signup</li><li>Your trainer is connected to your profile instantly</li><li>They can view your progress and adjust plans</li></ul></div>`},
-  'insert-program':{label:'Training',title:'Insert Your Program',sub:'Already have a programme? Upload it and let FitPredictor enhance it.',body:`<div class="cb"><h2>Bring your own programme</h2><p>Already working with a coach or following a specific programme? Upload it to FitPredictor and use our tracking, analytics, and predictive tools on top of it. We will highlight recovery risks, suggest progressions, and keep your nutrition aligned without changing what you are doing.</p></div>`},
-  'tour-management':{label:'Training',title:'Tour & Medical Management',sub:'For professional athletes and touring performers.',body:`<div class="cb"><h2>Your performance. Your rewards. Your career accelerated.</h2><p>FP Ascend member access includes global sports, concerts, luxury, and lifestyle experiences alongside data-driven tools for performance, creative, and social growth. Sponsorships, affiliate pathways, and monetisation frameworks for elite performers.</p></div>`},
-  'hormone-management':{label:'Training',title:'Hormone & Cycle Management',sub:'Science-backed hormonal insight integrated into your training.',body:`<div class="cb"><h2>Training around your biology</h2><p>FitPredictor integrates at-home hormone, cortisol, and testosterone testing kits to inform training load, recovery strategies, supplementation, and progression timing. Decisions are based on your actual biology, not assumptions.</p></div><div class="cb"><h2>For women</h2><p>80% of women notice changes in energy, strength, or recovery across their cycle. Cycle-aware programming means training with your hormones, not against them. Every phase is accounted for.</p></div><div class="cb"><h2>For men</h2><p>Testosterone and cortisol directly affect muscle growth, fat metabolism, recovery, and energy. Men who integrate recovery-focused programming and monitor hormonal factors report faster strength gains and reduced fatigue.</p></div>`},
-  'meal-prep':{label:'Nutrition',title:'Flexible Meal Prep',sub:'Nutrition that works around your life.',body:`<div class="cb"><h2>Flexible, not rigid</h2><p>FitPredictor's nutrition approach is built around consistency, not perfection. Flexible meal prep means hitting your macros and micronutrients without rigid meal plans that do not survive real life. Adjust on the fly. Track with photos or barcodes. The system adapts your targets as your training changes.</p></div>`},
-  'allergies':{label:'Nutrition',title:'Allergies',sub:'Safe, personalised nutrition for every allergy.',body:`<div class="cb"><h2>Allergen-aware nutrition</h2><p>FitPredictor accounts for all major allergens including gluten, dairy, nuts, eggs, soy, shellfish, and more. Every meal suggestion, supplement recommendation, and nutrition target is filtered through your allergy profile.</p></div>`},
-  'dietary':{label:'Nutrition',title:'Dietary Intolerance',sub:'Tailored guidance for every dietary need.',body:`<div class="cb"><h2>Intolerance-aware guidance</h2><p>Whether you are lactose intolerant, vegan, vegetarian, or managing FODMAP requirements, FitPredictor adjusts every nutrition recommendation accordingly. Your dietary requirements are never an afterthought.</p></div>`},
-  'womens-supplements':{label:'Supplements',title:"Women's Supplements",sub:'Formulated for female physiology.',body:`<div class="cb"><h2>Built for women</h2><p>Supplement recommendations are personalised to female hormonal patterns, cycle phases, and common deficiencies including iron, vitamin D, magnesium, and omega-3. Guidance adjusts across menstrual phases for optimal timing.</p></div>`},
-  'mens-supplements':{label:'Supplements',title:"Men's Supplements",sub:'Optimised for male performance.',body:`<div class="cb"><h2>Performance-focused</h2><p>From creatine and protein to testosterone-supporting ZMA and hormone test kits, supplement guidance is aligned with your training load, hormonal data, and recovery status.</p></div>`},
-  'free-supplements':{label:'Supplements',title:'Free Supplements',sub:'Earn supplements through your training.',body:`<div class="cb"><h2>Train to earn</h2><p>Pro and Premium members earn supplement credits through consistent training, nutrition logging, and streak bonuses. Redeem for Welzo supplement bundles delivered directly to your door.</p></div>`},
-  'free-rewards':{label:'Rewards',title:'Free Rewards',sub:'Real rewards for real effort.',body:`<div class="cb"><h2>Free monthly member rewards</h2><p>Every FitPredictor member earns points through training and nutrition. Points accumulate and unlock transport experiences, lifestyle rewards, event tickets, and more at zero additional cost.</p></div>`},
-  'view-rewards':{label:'Rewards',title:'View All Rewards',sub:'From chauffeurs to courtside seats.',body:`<div class="cb"><h2>What you can earn</h2><ul><li>Luxury chauffeur experiences (Rolls-Royce, Lamborghini, G-Wagon and more)</li><li>Premier League & NBA match tickets</li><li>Skydiving experiences</li><li>5-star hotel weekends</li><li>F1 Grand Prix tickets</li><li>Private chef dinners</li><li>Yacht day charters</li><li>Welzo supplement bundles</li><li>Personal trainer sessions</li></ul></div>`},
-  'how-rewards':{label:'Rewards',title:'How Rewards Work',sub:'Train. Earn. Claim.',body:`<div class="cb"><h2>Earn points</h2><ul><li>Complete a workout: +50 points</li><li>Log a full day of meals: +30 points</li><li>Hit your calorie goal: +20 points</li><li>Log your water goal: +10 points</li><li>7-day streak bonus: +100 points</li><li>Personal record: +75 points</li></ul></div><div class="cb"><h2>Redeem rewards</h2><p>Browse the rewards catalogue, select your target, and work toward it. When you have enough points, claim your reward and our team arranges everything.</p></div>`},
-  'suggest-rewards':{label:'Rewards',title:'Submit a Suggestion',sub:'Help us build the rewards you actually want.',body:`<div class="cb"><h2>We listen</h2><p>FitPredictor's rewards catalogue is shaped by our members. If there is an experience you would love to work towards, tell us. Suggestions are reviewed monthly and popular ones are added to the catalogue.</p></div>`},
-  'mission':{label:'About us',title:'Our Mission',sub:"The world's largest exercise-specific predictive training system.",body:`<div class="cb"><h2>What we do</h2><p>FitPredictor analyses hundreds of data points from your training inputs, lifestyle, and recovery metrics to produce a programme from 1.3 quadrillion possible options.</p></div><div class="cb"><h2>Net Zero Carbon</h2><p>FitPredictor operates as a carbon net-zero platform today, not as a future goal. All operational emissions are fully accounted for and offset. Measure first. Account fully. Optimise continuously.</p></div>`},
-  'careers':{label:'About us',title:'Careers',sub:'Join the team building the future of fitness.',body:`<div class="cb"><h2>Work with us</h2><p>We are looking for people who are obsessed with performance science and building great products. Send your CV to <strong>careers@fitpredictor.com</strong></p></div>`},
-  'accessibility':{label:'About us',title:'Accessibility',sub:'FitPredictor is built for everyone.',body:`<div class="cb"><h2>Our commitment</h2><p>We are committed to making FitPredictor accessible to all users regardless of ability. Our platform meets WCAG 2.1 AA standards and we continuously audit accessibility across all features. Contact <strong>accessibility@fitpredictor.com</strong> for support.</p></div>`},
-  'faq':{label:'About us',title:'FAQs',sub:'Everything you need to know.',body:'__FAQ__'},
-  'returns':{label:'About us',title:'Return Policy',sub:'Simple and fair.',body:`<div class="cb"><h2>Digital subscriptions</h2><p>You may cancel at any time. Cancellations take effect at the end of the current billing period. We do not offer refunds for partial months.</p></div><div class="cb"><h2>Physical products</h2><p>Unused physical products may be returned within 30 days in original packaging. Contact support@fitpredictor.com. Return postage is covered for faulty or incorrect items.</p></div>`},
+  'womens-training':{label:'Training',title:"Women's Training",sub:"Built for women. Not scaled from men.",heroImg:'https://images.unsplash.com/photo-1518310383802-640c2de311b6?w=1200&q=80',body:`
+    <div class="cb"><h2>Built for Women. Not Scaled From Men.</h2><p>Most fitness platforms are built on male data and adjusted for women as an afterthought. FitPredictor is different. Every programme, every recovery protocol, and every nutrition guide accounts for the hormonal, physiological, and psychological factors unique to women.</p></div>
+    <div class="program-grid" style="padding:0">
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b6?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">12 weeks</div><div class="program-card-title">Body Recomposition</div><div class="program-card-desc">Lose fat, build lean muscle simultaneously. Nutrition and training synced to your cycle phases.</div><div class="program-card-meta"><span class="pcm">&#128170; 4x/week</span><span class="pcm">&#127869; Macros included</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">8 weeks</div><div class="program-card-title">Strength Foundations</div><div class="program-card-desc">Progressive overload built around your schedule. Compound lifts, accessory work, mobility.</div><div class="program-card-meta"><span class="pcm">&#128170; 3x/week</span><span class="pcm">&#9967; Gym required</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1518644961665-ed172691aaa1?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">6 weeks</div><div class="program-card-title">HIIT & Conditioning</div><div class="program-card-desc">High-intensity intervals designed around female recovery rates and hormonal cycles.</div><div class="program-card-meta"><span class="pcm">&#128170; 5x/week</span><span class="pcm">&#127968; Home or gym</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">16 weeks</div><div class="program-card-title">Bikini Competition Prep</div><div class="program-card-desc">Stage-ready physique development. Peak week protocol and posing guidance included.</div><div class="program-card-meta"><span class="pcm">&#128170; 6x/week</span><span class="pcm">&#127775; Advanced</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">Ongoing</div><div class="program-card-title">Post-Natal Recovery</div><div class="program-card-desc">Safe, progressive return to exercise after pregnancy. Pelvic floor, core restoration, mobility.</div><div class="program-card-meta"><span class="pcm">&#128338; 20-40 min</span><span class="pcm">&#127968; Home-friendly</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1486218119243-13883505764c?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">10 weeks</div><div class="program-card-title">Run Your First 5K</div><div class="program-card-desc">Zero to 5K with structured run/walk intervals, breathing techniques, and race-day prep.</div><div class="program-card-meta"><span class="pcm">&#128170; 3x/week</span><span class="pcm">&#127937; Beginner</span></div></div></div>
+    </div>
+    <div class="cb" style="margin-top:1.5rem"><h2>Cycle-Aware Programming</h2><p>80% of women notice changes in energy, strength, and recovery across their cycle. FitPredictor accounts for all four phases — menstrual, follicular, ovulatory, and luteal — adjusting training intensity, nutrition targets, and recovery strategies accordingly. You train with your body, not against it.</p></div>
+  `},
+  'mens-training':{label:'Training',title:"Men's Training",sub:"Precision training for every level.",heroImg:'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=1200&q=80',body:`
+    <div class="cb"><h2>Data-Driven. Performance-First.</h2><p>FitPredictor supports men from complete beginners to competitive athletes. Training scales with experience, workload tolerance, and recovery capacity. Every programme adapts based on your actual performance data — not a static plan.</p></div>
+    <div class="program-grid" style="padding:0">
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">12 weeks</div><div class="program-card-title">Powerlifting Total</div><div class="program-card-desc">Add kilos to your squat, bench, and deadlift. Peaking blocks, technique work, meet prep.</div><div class="program-card-meta"><span class="pcm">&#128170; 4x/week</span><span class="pcm">&#127775; Intermediate+</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">16 weeks</div><div class="program-card-title">Muscle Hypertrophy</div><div class="program-card-desc">Science-backed volume and frequency for maximum muscle growth. Includes nutrition guide.</div><div class="program-card-meta"><span class="pcm">&#128170; 5x/week</span><span class="pcm">&#9967; Gym required</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1599058917765-a780eda9d6ae?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">12 weeks</div><div class="program-card-title">HYROX Prep</div><div class="program-card-desc">Race-specific preparation. Station mechanics, sled conditioning, run economy.</div><div class="program-card-meta"><span class="pcm">&#128170; 5x/week</span><span class="pcm">&#127937; All levels</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">20 weeks</div><div class="program-card-title">Bodybuilding Prep</div><div class="program-card-desc">Contest-ready physique development. Cut, peak week, and stage protocol.</div><div class="program-card-meta"><span class="pcm">&#128170; 6x/week</span><span class="pcm">&#127775; Advanced</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">16 weeks</div><div class="program-card-title">Marathon Training</div><div class="program-card-desc">Base building, tempo runs, long runs, taper week. Nutrition strategy included.</div><div class="program-card-meta"><span class="pcm">&#128170; 5x/week</span><span class="pcm">&#127937; Intermediate</span></div></div></div>
+      <div class="program-card"><img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&q=80" class="program-card-img"><div class="program-card-body"><div class="program-card-tag">8 weeks</div><div class="program-card-title">Beginner Foundations</div><div class="program-card-desc">Full-body training 3x/week. Learn movement patterns, build habits, see results fast.</div><div class="program-card-meta"><span class="pcm">&#128170; 3x/week</span><span class="pcm">&#127937; Beginner</span></div></div></div>
+    </div>
+    <div class="cb" style="margin-top:1.5rem"><h2>Hormone & Testosterone Testing</h2><p>Pro and Premium members receive bi-monthly at-home test kits measuring testosterone, cortisol, and key biomarkers. Results integrate directly into your programme — adjusting training load, recovery protocols, supplementation, and progression timing based on your actual biology.</p></div>
+  `},
+  'find-trainer':{label:'Training',title:'Find a Personal Trainer',sub:'Connect with a certified FitPredictor trainer near you.',heroImg:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1200&q=80',body:`
+    <div id="trainerMapSection">
+      <div style="padding:1.5rem 0 .5rem"><p style="font-size:14px;color:var(--text2);line-height:1.7">Browse certified FitPredictor trainers. Enter your trainer's referral code during signup to link instantly — they'll be able to view your progress, adjust programmes, and message you directly.</p></div>
+      <div class="map-container" id="trainerMap"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg2);border-radius:14px;flex-direction:column;gap:.5rem"><div style="font-size:32px">&#128205;</div><div style="font-size:13px;color:var(--text3)">Loading map...</div></div></div>
+      <div class="trainer-cards">
+        <div class="trainer-card"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=100&q=80" class="trainer-avatar"><div class="trainer-info"><h4>James Mitchell</h4><p>Specialises in strength & conditioning, powerlifting prep, and body recomposition. 8 years experience.</p><div class="trainer-tags"><span class="trainer-tag">Strength</span><span class="trainer-tag">Powerlifting</span><span class="trainer-tag">Recomp</span></div><button class="trainer-contact-btn" onclick="toast('Contact feature coming with full app')">Contact</button></div></div>
+        <div class="trainer-card"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b6?w=100&q=80" class="trainer-avatar"><div class="trainer-info"><h4>Sophie Clarke</h4><p>Women's health specialist. Cycle-aware programming, post-natal recovery, and HIIT coaching.</p><div class="trainer-tags"><span class="trainer-tag">Women's Health</span><span class="trainer-tag">Post-natal</span><span class="trainer-tag">HIIT</span></div><button class="trainer-contact-btn" onclick="toast('Contact feature coming with full app')">Contact</button></div></div>
+        <div class="trainer-card"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=100&q=80" class="trainer-avatar"><div class="trainer-info"><h4>Marcus Webb</h4><p>HYROX specialist and endurance coach. From first 5K to sub-3 marathon and HYROX podiums.</p><div class="trainer-tags"><span class="trainer-tag">HYROX</span><span class="trainer-tag">Running</span><span class="trainer-tag">Endurance</span></div><button class="trainer-contact-btn" onclick="toast('Contact feature coming with full app')">Contact</button></div></div>
+        <div class="trainer-card"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=100&q=80" class="trainer-avatar"><div class="trainer-info"><h4>Aaron Davies</h4><p>Bodybuilding & physique coach with 12 years on stage. Contest prep, offseason building, posing.</p><div class="trainer-tags"><span class="trainer-tag">Bodybuilding</span><span class="trainer-tag">Contest Prep</span></div><button class="trainer-contact-btn" onclick="toast('Contact feature coming with full app')">Contact</button></div></div>
+      </div>
+    </div>
+  `},
+  'insert-program':{label:'Training',title:'Insert Your Program',sub:'Already have a programme? Upload it and supercharge it with FitPredictor.',heroImg:'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&q=80',body:`
+    <div class="cb"><h2>Bring Your Own Programme</h2><p>Already working with a coach or following a specific programme? Upload it to FitPredictor and layer our tracking, analytics, and predictive tools on top. We'll flag recovery risks, suggest progressions, and keep your nutrition aligned — without changing what you're doing.</p></div>
+    <div class="cb"><h2>What You Get</h2><ul><li>Session-by-session performance tracking</li><li>Auto-calculated volume and intensity load</li><li>Recovery risk warnings before overtraining occurs</li><li>Nutrition targets that adjust to your training days</li><li>Progress charts and trend analysis</li></ul></div>
+    <div style="background:var(--bg2);border-radius:14px;padding:1.5rem;margin-top:1rem;border:2px dashed var(--border2);text-align:center;cursor:pointer" onclick="toast('Programme upload coming with full app release')">
+      <div style="font-size:32px;margin-bottom:.5rem">&#128196;</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.3rem">Upload your programme</div>
+      <div style="font-size:13px;color:var(--text3)">PDF, Excel, or plain text — we'll parse it automatically</div>
+    </div>
+  `},
+  'tour-management':{label:'Training',title:'Tour & Medical Management',sub:'For professional athletes, teams, and touring performers.',heroImg:'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&q=80',body:`
+    <div class="cb"><h2>Elite-Level Performance Management</h2><p>FitPredictor's tour and medical management tools are built for professional athletes and touring performers who need precise control over training loads, travel recovery, and performance scheduling across a full season or tour.</p></div>
+    <div class="cb"><h2>What's Included</h2><ul><li>Travel fatigue and jet lag recovery protocols</li><li>Match-to-match / show-to-show load management</li><li>Medical data integration and injury management</li><li>Team dashboard for coaching staff</li><li>Performance reporting for agents and sponsors</li></ul></div>
+    <div class="cb"><h2>Trusted By</h2><p>FitPredictor's systems are trusted by Premier League academies, EFL clubs, Paralympic programmes, and NFL conditioning teams. Our data models have been validated against professional athlete datasets.</p></div>
+  `},
+  'hormone-management':{label:'Training',title:'Hormone & Cycle Management',sub:'Science-backed hormonal insight integrated into every session.',heroImg:'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1200&q=80',body:`
+    <div class="cb"><h2>Training Around Your Biology</h2><p>Hormones directly influence muscle growth, fat metabolism, recovery speed, energy levels, and mood. FitPredictor is the only fitness platform that integrates at-home hormonal testing directly into your training programme.</p></div>
+    <div class="cb"><h2>For Women</h2><p>80% of women notice measurable changes across their cycle. Oestrogen peaks before ovulation, boosting strength and mood. Progesterone rises in the luteal phase, increasing fatigue and body temperature. FitPredictor maps your training intensity, nutrition targets, and recovery protocols to each phase — automatically.</p></div>
+    <div class="cb"><h2>For Men</h2><p>Testosterone and cortisol directly affect how fast you build muscle, how quickly you recover, and how well you sleep. Pro and Premium members receive bi-monthly test kits. Results adjust your training load, sleep targets, supplementation, and progression pace in real time.</p></div>
+    <div class="cb"><h2>The Testing Process</h2><ul><li>Receive your test kit at home</li><li>Simple finger-prick or saliva sample</li><li>Send it back in the pre-paid envelope</li><li>Results in your FitPredictor dashboard within 5 days</li><li>Programme automatically adjusts based on findings</li></ul></div>
+  `},
+  'meal-prep':{label:'Nutrition',title:'Flexible Meal Prep',sub:'Nutrition that actually fits your life.',heroImg:'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&q=80',body:`
+    <div class="cb"><h2>Flexible, Not Rigid</h2><p>Most nutrition plans fail because they're too strict. FitPredictor uses flexible dieting principles — hit your calorie and macro targets however works for your life. Meal out? Track it. Forgot lunch? It adjusts. Consistency over perfection.</p></div>
+    <div class="cb"><h2>How It Works</h2><ul><li>Set your calorie and macro targets (auto-calculated from your BMR)</li><li>Log meals via barcode scan, AI photo, or manual search</li><li>Targets adjust on training days vs rest days</li><li>Weekly nutrition reports show trends over time</li></ul></div>
+    <div class="cb"><h2>Meal Prep Tips</h2><ul><li>Batch cook protein sources on Sundays (chicken, eggs, fish)</li><li>Pre-portion grains and vegetables in containers</li><li>Keep healthy snacks visible and accessible</li><li>Log food before eating to avoid over-consuming</li></ul></div>
+  `},
+  'allergies':{label:'Nutrition',title:'Allergy Management',sub:'Safe, personalised nutrition for every allergy and intolerance.',heroImg:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=80',body:`
+    <div class="cb"><h2>Your Allergies, Fully Accounted For</h2><p>FitPredictor filters every meal suggestion, supplement recommendation, and nutrition target through your allergy profile. All 14 major allergens are supported — and you can add custom allergens too.</p></div>
+    <div class="cb"><h2>Supported Allergens</h2><ul><li>Gluten (wheat, barley, rye)</li><li>Dairy / lactose</li><li>Nuts (all varieties)</li><li>Eggs</li><li>Soy</li><li>Shellfish and fish</li><li>Sesame</li><li>Sulphites</li><li>Custom allergens</li></ul></div>
+  `},
+  'dietary':{label:'Nutrition',title:'Dietary Requirements',sub:'Tailored guidance for every dietary choice and medical need.',heroImg:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1200&q=80',body:`
+    <div class="cb"><h2>Your Diet. Your Rules.</h2><p>Whether you follow a specific diet for ethical, religious, or medical reasons, FitPredictor adapts all nutrition guidance accordingly. No generic plans — everything is personalised to what you actually eat.</p></div>
+    <div class="cb"><h2>Supported Dietary Preferences</h2><ul><li>Vegan &amp; vegetarian</li><li>Pescatarian</li><li>Halal and Kosher</li><li>Keto and low-carb</li><li>FODMAP</li><li>Paleo</li><li>Intermittent fasting</li><li>Medical diets (coeliac, IBS, Crohn's)</li></ul></div>
+  `},
+  'womens-supplements':{label:'Supplements',title:"Women's Supplements",sub:'Formulated for female physiology. Timed to your cycle.',heroImg:'https://images.unsplash.com/photo-1595348020949-87cdfbb44174?w=1200&q=80',body:`
+    <div class="cb"><h2>Built for Women's Biology</h2><p>Generic supplement advice ignores the fact that women's nutritional needs shift significantly across their cycle. FitPredictor's supplement recommendations adjust based on your cycle phase, hormonal data, and training load.</p></div>
+    <div class="cb"><h2>Key Supplements for Women</h2><ul><li><strong>Iron</strong> — critical during menstruation. Many women are deficient without knowing.</li><li><strong>Magnesium</strong> — reduces PMS symptoms, improves sleep in the luteal phase.</li><li><strong>Vitamin D3 + K2</strong> — bone health, immune function, mood regulation.</li><li><strong>Omega-3</strong> — anti-inflammatory. Reduces period pain and aids recovery.</li><li><strong>Collagen</strong> — joint health, skin, and ligament support.</li><li><strong>Ashwagandha</strong> — cortisol management and stress reduction.</li></ul></div>
+    <div style="text-align:center;margin-top:1rem"><button class="btn btn-dark" onclick="showSubpage('womens-supplements-shop')">Shop Women's Supplements</button></div>
+  `},
+  'mens-supplements':{label:'Supplements',title:"Men's Supplements",sub:'Optimised for male performance, recovery, and hormonal health.',heroImg:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=1200&q=80',body:`
+    <div class="cb"><h2>Performance-Focused Supplementation</h2><p>FitPredictor's supplement recommendations for men are built around your training load, hormonal data (from test kits), and recovery metrics. No generic stacks — everything is personalised and timed for maximum effect.</p></div>
+    <div class="cb"><h2>Key Supplements for Men</h2><ul><li><strong>Creatine monohydrate</strong> — the most researched supplement in existence. 3-5g/day.</li><li><strong>Whey protein</strong> — convenient post-workout protein source.</li><li><strong>ZMA</strong> — zinc, magnesium, B6. Supports testosterone and sleep quality.</li><li><strong>Vitamin D3</strong> — most men in the UK are deficient. Critical for testosterone.</li><li><strong>Omega-3</strong> — anti-inflammatory, supports joint health and brain function.</li><li><strong>Ashwagandha (KSM-66)</strong> — clinically proven to raise testosterone and reduce cortisol.</li></ul></div>
+  `},
+  'free-supplements':{label:'Supplements',title:'Free Supplements',sub:'Earn supplements through consistent training and nutrition.',heroImg:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=1200&q=80',body:`
+    <div class="cb"><h2>Train to Earn</h2><p>Pro and Premium members earn supplement credits through consistent training sessions, daily nutrition logging, and streak bonuses. Credits are redeemable against the full Welzo supplement catalogue, delivered directly to your door at no extra cost.</p></div>
+    <div class="cb"><h2>How to Earn Credits</h2><ul><li>Complete a logged workout: +50 points</li><li>Log all 3 meals in a day: +30 points</li><li>7-day training streak: +200 points</li><li>30-day streak: +1,000 points</li><li>Personal record achieved: +75 points</li></ul></div>
+    <div class="cb"><h2>What You Can Redeem</h2><p>Credits can be used on any Welzo product — protein powders, vitamins, hormone test kits, and more. 3,000 points = £150 supplement bundle, delivered free.</p></div>
+  `},
+  'free-rewards':{label:'Rewards',title:'Free Rewards',sub:'Real experiences. Zero extra cost.',heroImg:'https://images.unsplash.com/photo-1563720223185-11003d516935?w=1200&q=80',body:`
+    <div class="cb"><h2>The World's Most Rewarding Fitness Platform</h2><p>Every FitPredictor member earns points automatically through training sessions, nutrition logging, hydration tracking, and streaks. Points accumulate and unlock extraordinary rewards — chauffeur experiences, event tickets, hotel stays, and more — all completely free.</p></div>
+    <div class="cb"><h2>How to Earn</h2><ul><li>Complete a workout: +50 points</li><li>Log a full day of meals: +30 points</li><li>Hit your water goal: +10 points</li><li>7-day streak: +100 points</li><li>Personal record: +75 points</li><li>Monthly streak (30 days): +500 points</li></ul></div>
+    <div style="text-align:center;margin-top:1rem"><button class="btn btn-dark" onclick="showPage('signup')">Start earning now</button></div>
+  `},
+  'view-rewards':{label:'Rewards',title:'View All Rewards',sub:'From luxury chauffeurs to courtside seats.',heroImg:'https://images.unsplash.com/photo-1563720223185-11003d516935?w=1200&q=80',body:`<div class="rewards-app-grid" id="viewRewardsGrid" style="padding:0"></div>`},
+  'how-rewards':{label:'Rewards',title:'How Rewards Work',sub:'Train. Earn. Claim.',heroImg:'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80',body:`
+    <div class="cb"><h2>Step 1: Earn Points</h2><p>Points accumulate automatically every time you train, log food, hit hydration goals, or maintain streaks. No manual claiming required.</p></div>
+    <div class="cb"><h2>Step 2: Choose Your Reward</h2><p>Browse the catalogue of transport experiences, event tickets, stays, and lifestyle rewards. Select the one you want to work toward — it becomes your active reward goal.</p></div>
+    <div class="cb"><h2>Step 3: Claim It</h2><p>Once you hit the points threshold for your selected reward, claim it directly from the app. Our team arranges everything within 48 hours — no third parties, no hidden costs.</p></div>
+    <div class="cb"><h2>Points Table</h2><ul><li>Workout completed: +50 pts</li><li>Full day of meals logged: +30 pts</li><li>Water goal hit: +10 pts</li><li>7-day streak: +100 pts</li><li>30-day streak: +500 pts</li><li>Personal record: +75 pts</li><li>Pro member bonus: 1.5x multiplier</li><li>Premium member bonus: 2x multiplier</li></ul></div>
+  `},
+  'suggest-rewards':{label:'Rewards',title:'Suggest a Reward',sub:"Help us build the rewards catalogue you actually want.",heroImg:'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80',body:`
+    <div class="suggest-form" style="padding:0">
+      <p style="font-size:14px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6">Suggestions are reviewed monthly. The most popular ones are added to the catalogue the following month.</p>
+      <div class="field"><label>Full name</label><input type="text" id="sug-name" placeholder="Your name"></div>
+      <div class="field"><label>Username</label><input type="text" id="sug-user" placeholder="Your FitPredictor username"></div>
+      <div class="field"><label>Reward suggestion</label><input type="text" id="sug-reward" placeholder="e.g. Wimbledon Centre Court tickets"></div>
+      <div class="field"><label>Why would members love this?</label><textarea id="sug-reason" rows="3" style="width:100%;padding:11px 13px;border:1.5px solid var(--border2);border-radius:9px;background:var(--bg2);font-family:inherit;font-size:14px;outline:none;resize:vertical" placeholder="Tell us why this reward would be popular..."></textarea></div>
+      <button class="btn btn-dark" style="width:100%;margin-top:.5rem" onclick="submitSuggestion()">Send suggestion</button>
+      <div class="err" id="sug-err" style="margin-top:.5rem"></div>
+    </div>
+  `},
+  'mission':{label:'About us',title:'Our Mission',sub:"The world's largest exercise-specific predictive training system.",heroImg:'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&q=80',body:`
+    <div class="cb"><h2>Why We Exist</h2><p>Most fitness platforms stop at logging. They record what you've done but can't tell you what to do next — or why. FitPredictor was built to close that gap: a system that doesn't just track your training but predicts, adapts, and optimises it in real time.</p></div>
+    <div class="cb"><h2>The Technology</h2><p>FitPredictor analyses 209 million+ exercise sets to produce a programme from 1.3 quadrillion possible combinations. Every session, every meal logged, every recovery metric feeds back into the model — making your programme smarter over time.</p></div>
+    <div class="cb"><h2>Net Zero Carbon</h2><p>FitPredictor operates as a carbon net-zero platform today. All operational emissions are measured, reduced, and fully offset. We believe performance and responsibility aren't mutually exclusive.</p></div>
+  `},
+  'careers':{label:'About us',title:'Careers',sub:'Join the team building the future of fitness.',heroImg:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',body:`
+    <div class="cb"><h2>Work With Us</h2><p>We're building the world's most advanced fitness platform and we need exceptional people to do it. We're looking for those who are obsessed with both performance science and building great products.</p></div>
+    <div class="cb"><h2>Open Roles</h2><ul><li>Senior Full-Stack Engineer (Node.js / React)</li><li>Sports Science Data Analyst</li><li>Product Designer (App & Web)</li><li>Performance Coach (Remote)</li><li>Growth & Partnerships Manager</li></ul></div>
+    <div class="cb"><h2>Apply</h2><p>Send your CV and a short note about what you'd bring to <strong>careers@fitpredictor.com</strong>. We respond to every application within 5 working days.</p></div>
+  `},
+  'accessibility':{label:'About us',title:'Accessibility',sub:'FitPredictor is built for everyone.',heroImg:'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1200&q=80',body:`
+    <div class="cb"><h2>Our Commitment</h2><p>FitPredictor is committed to being accessible to all users regardless of ability. Our platform is designed to meet WCAG 2.1 AA standards and we conduct regular audits across all features and interfaces.</p></div>
+    <div class="cb"><h2>Contact Us</h2><p>If you encounter any accessibility issues, please contact <strong>accessibility@fitpredictor.com</strong>. We aim to respond within 48 hours and resolve all accessibility issues within 5 working days.</p></div>
+  `},
+  'faq':{label:'About us',title:'FAQs',sub:'Everything you need to know.',heroImg:'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=1200&q=80',body:'__FAQ__'},
+  'returns':{label:'About us',title:'Return Policy',sub:'Simple and fair.',heroImg:'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=1200&q=80',body:`
+    <div class="cb"><h2>Digital Subscriptions</h2><p>You may cancel at any time from your profile settings. Cancellations take effect at the end of the current billing period. We do not offer refunds for partial months of service.</p></div>
+    <div class="cb"><h2>Physical Products (Supplements & Test Kits)</h2><p>Unused physical products may be returned within 30 days of receipt in their original packaging. Contact <strong>support@fitpredictor.com</strong> to initiate a return. Return postage is covered by FitPredictor for faulty or incorrectly delivered items.</p></div>
+  `},
 };
 
 const faqData = [
@@ -975,14 +1530,35 @@ function showPage(p){
 function showSubpage(key){
   const d = subpages[key];
   if(!d) return;
-  document.getElementById('spLabel').textContent = d.label;
-  document.getElementById('spTitle').textContent = d.title;
-  document.getElementById('spSub').textContent = d.sub;
+  let heroHtml = '';
+  if(d.heroImg){
+    heroHtml = `<div class="sp-hero-img"><img src="${d.heroImg}" alt="${d.title}" loading="lazy"><div class="sp-hero-img-overlay"></div><div class="sp-hero-img-content"><div class="sec-label">${d.label}</div><h1>${d.title}</h1><p>${d.sub}</p></div></div>`;
+  } else {
+    heroHtml = `<div class="sp-hero"><div style="max-width:800px;margin:0 auto"><div class="sec-label">${d.label}</div><h1>${d.title}</h1><p>${d.sub}</p></div></div>`;
+  }
   let body = d.body;
   if(body === '__FAQ__'){
-    body = faqData.map((f,i)=>`<div class="faq-item" id="fqi${i}"><div class="faq-q" onclick="toggleFaqItem(${i})"><span>${f.q}</span><span class="faq-icon">+</span></div><div class="faq-a">${f.a}</div></div>`).join('');
+    body = faqData.map((f,i)=>`<div class="faq-item" id="fqi${i}"><div class="faq-q" onclick="document.getElementById('fqi${i}').classList.toggle('open')"><span>${f.q}</span><span class="faq-icon">+</span></div><div class="faq-a">${f.a}</div></div>`).join('');
   }
-  document.getElementById('spBody').innerHTML = body;
+  document.getElementById('spHero').innerHTML = heroHtml;
+  document.getElementById('spBody').innerHTML = `<div style="max-width:900px;margin:0 auto;padding:2rem">${body}</div>`;
+  if(key === 'find-trainer') setTimeout(initTrainerMap, 400);
+  if(key === 'supplements') setTimeout(()=>renderSupplementShop('All'), 100);
+  if(key === 'view-rewards') setTimeout(()=>{
+    const g = document.getElementById('viewRewardsGrid');
+    if(g){
+      const all = [...transportRewards,...otherRewards];
+      g.innerHTML = all.map(r=>`<div class="reward-app-card">
+        <img src="${r.img}" class="reward-app-img" loading="lazy">
+        <div class="reward-app-body">
+          <div class="ra-name">${r.name}</div>
+          <div class="ra-desc">${r.desc}</div>
+          <div class="ra-pts">&#127942; ${r.pts}</div>
+          <button class="ra-btn" onclick="showPage('signup')">Work toward this</button>
+        </div>
+      </div>`).join('');
+    }
+  }, 100);
   showPage('subpage');
 }
 
@@ -1311,6 +1887,82 @@ function switchS4Billing(mode,btn){
   renderS4Plans();
 }
 
+// completeSignup defined in app section below
+
+// doLogin defined in app section below
+
+async function doLogout(){
+  await fetch('/api/logout',{method:'POST'});
+  currentUser=null;
+  document.getElementById('navRight').innerHTML='<a onclick="showPage(\'login\')">Log in</a><a onclick="showPage(\'signup\')" class="solid">Join free</a>';
+  showPage('home');
+  toast('Signed out successfully');
+}
+
+function toast(msg,dur=2800){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+// ========== APP STATE ==========
+let waterGlasses = 0;
+let nutData = {cals:0,carbs:0,protein:0,fat:0};
+let trackData = {steps:0,weight:null,workouts:0};
+let weightHistory = [];
+let userPoints = 0;
+let appRewardsMode = 'transport';
+
+// ========== APP MODE TOGGLE ==========
+function toggleAppMode(on){
+  const bn = document.getElementById('bottomNav');
+  const nav = document.getElementById('mainNav');
+  if(on){
+    bn.classList.add('visible');
+    nav.style.display = 'flex';
+  } else {
+    bn.classList.remove('visible');
+    nav.style.display = '';
+  }
+}
+
+function showApp(section){
+  // Hide all pages and app pages
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById('app-'+section);
+  if(el){ el.classList.add('active'); window.scrollTo(0,0); }
+  // Update bottom nav
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  const bn = document.getElementById('bn-'+section);
+  if(bn) bn.classList.add('active');
+  // Refresh data
+  if(section==='home') refreshDash();
+  if(section==='nutrition') refreshNutrition();
+  if(section==='tracking') refreshTracking();
+  if(section==='rewards') renderAppRewards(appRewardsMode);
+  if(section==='profile') refreshProfile();
+  if(section==='training') renderAppTraining('strength');
+}
+
+// Override showPage to handle app mode
+const _origShowPage = showPage;
+function showPage(p){
+  document.querySelectorAll('.app-page').forEach(ap=>ap.classList.remove('active'));
+  _origShowPage(p);
+  if(p==='home' && currentUser){
+    // If logged in and going "home", go to app home
+    setTimeout(()=>{
+      document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+      showApp('home');
+    },0);
+    return;
+  }
+  const isApp = !!currentUser;
+  toggleAppMode(isApp);
+}
+
+// ========== LOGIN INTEGRATION ==========
+const _origCompleteSignup = completeSignup;
 async function completeSignup(){
   const name=document.getElementById('su-name').value.trim();
   const username=document.getElementById('su-user').value.trim();
@@ -1328,11 +1980,13 @@ async function completeSignup(){
     if(!r.ok){toast(d.error||'Error creating account');return;}
     currentUser=d.user;
     updateNavForUser();
-    toast('Welcome to FitPredictor, '+currentUser.name.split(' ')[0]+'! ');
-    showPage('home');
+    toggleAppMode(true);
+    toast('Welcome to FitPredictor, '+currentUser.name.split(' ')[0]+'!');
+    showApp('home');
   }catch(e){toast('Something went wrong. Please try again.');}
 }
 
+const _origDoLogin = doLogin;
 async function doLogin(){
   const identifier=document.getElementById('li-id').value.trim();
   const password=document.getElementById('li-pw').value;
@@ -1345,24 +1999,432 @@ async function doLogin(){
     if(!r.ok){err.textContent=d.error;return;}
     currentUser=d.user;
     updateNavForUser();
+    toggleAppMode(true);
     toast('Welcome back, '+currentUser.name.split(' ')[0]+'!');
-    showPage('home');
+    showApp('home');
   }catch{err.textContent='Something went wrong.';}
 }
 
 async function doLogout(){
   await fetch('/api/logout',{method:'POST'});
   currentUser=null;
-  document.getElementById('navRight').innerHTML='<a onclick="showPage(\'login\')">Log in</a><a onclick="showPage(\'signup\')" class="solid">Join free</a>';
+  updateNavForUser();
+  toggleAppMode(false);
   showPage('home');
   toast('Signed out successfully');
+  document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('active'));
 }
 
-function toast(msg,dur=2800){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);
+// ========== DASHBOARD ==========
+function refreshDash(){
+  if(!currentUser) return;
+  const hr = new Date().getHours();
+  const greet = hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
+  const el = document.getElementById('dashGreeting');
+  if(el) el.textContent = greet+', '+currentUser.name.split(' ')[0];
+  const dc = document.getElementById('dashCals'); if(dc) dc.textContent = nutData.cals;
+  const ds = document.getElementById('dashSteps'); if(ds) ds.textContent = trackData.steps.toLocaleString();
+  const dw = document.getElementById('dashWater'); if(dw) dw.textContent = waterGlasses;
+  const dp = document.getElementById('dashPoints'); if(dp) dp.textContent = userPoints.toLocaleString();
+  const dsk = document.getElementById('dashStreak'); if(dsk) dsk.textContent = Math.floor(Math.random()*14)+1;
 }
+
+// ========== NUTRITION ==========
+function addWater(n){
+  waterGlasses = Math.max(0, Math.min(8, waterGlasses + n));
+  const wc = document.getElementById('waterCount');
+  const wb = document.getElementById('waterBar');
+  const tw = document.getElementById('trackWater2');
+  const dw = document.getElementById('dashWater');
+  if(wc) wc.textContent = waterGlasses + ' / 8 glasses';
+  if(wb) wb.style.width = (waterGlasses/8*100)+'%';
+  if(tw) tw.textContent = waterGlasses;
+  if(dw) dw.textContent = waterGlasses;
+  if(waterGlasses>=8) toast('Daily water goal reached! +10 pts');
+  userPoints += 1;
+}
+
+function refreshNutrition(){
+  const nc = document.getElementById('nutCals'); if(nc) nc.textContent = nutData.cals;
+  const nr = document.getElementById('nutRemaining'); if(nr) nr.textContent = Math.max(0,2000-nutData.cals);
+  const np = document.getElementById('nutProtein'); if(np) np.textContent = nutData.protein+'g';
+  const nca = document.getElementById('nutCarbs'); if(nca) nca.textContent = nutData.carbs+'g';
+  const nf = document.getElementById('nutFat'); if(nf) nf.textContent = nutData.fat+'g';
+  const pb = document.getElementById('proteinBar'); if(pb) pb.style.width = Math.min(100,nutData.protein/160*100)+'%';
+  const cb = document.getElementById('carbBar'); if(cb) cb.style.width = Math.min(100,nutData.carbs/250*100)+'%';
+  const fb = document.getElementById('fatBar'); if(fb) fb.style.width = Math.min(100,nutData.fat/70*100)+'%';
+  const ring = document.getElementById('calRing');
+  if(ring){ const pct = Math.min(1,nutData.cals/2000); ring.style.strokeDashoffset = 314-(314*pct); }
+  renderMealSections();
+}
+
+let meals = {breakfast:[],lunch:[],dinner:[],snacks:[]};
+function renderMealSections(){
+  const el = document.getElementById('mealSections');
+  if(!el) return;
+  el.innerHTML = ['breakfast','lunch','dinner','snacks'].map(m=>`
+    <div class="meal-section">
+      <div class="meal-section-hdr">
+        <h3>${m.charAt(0).toUpperCase()+m.slice(1)}</h3>
+        <button class="add-meal-btn" onclick="openAddFood('${m}')">+</button>
+      </div>
+      ${meals[m].length ? meals[m].map(f=>`<div class="meal-item"><div><div class="mi-name">${f.name}</div><div class="mi-cals">${f.cals} kcal &middot; P:${f.protein}g C:${f.carbs}g F:${f.fat}g</div></div></div>`).join('') : '<div style="font-size:12.5px;color:var(--text3);padding:.4rem 0">No foods logged yet</div>'}
+    </div>`).join('');
+}
+
+function openAddFood(meal){
+  openLogModal('food', meal);
+}
+
+// ========== TRACKING ==========
+function refreshTracking(){
+  const ts = document.getElementById('trackSteps'); if(ts) ts.textContent = trackData.steps.toLocaleString();
+  const tw = document.getElementById('trackWeight'); if(tw) tw.textContent = trackData.weight ? trackData.weight+'kg' : '--';
+  const twat = document.getElementById('trackWater2'); if(twat) twat.textContent = waterGlasses;
+  const twk = document.getElementById('trackWorkouts'); if(twk) twk.textContent = trackData.workouts;
+  // Show cycle section for female users
+  const cs = document.getElementById('cycleSection');
+  if(cs) cs.style.display = (currentUser && currentUser.gender==='female') ? 'block' : 'none';
+  // Weight history
+  const wh = document.getElementById('weightHistory');
+  if(wh) wh.innerHTML = weightHistory.length ? weightHistory.slice(-5).reverse().map(w=>`<div style="display:flex;justify-content:space-between;padding:.6rem .8rem;background:#fff;border-radius:8px;border:.5px solid var(--border);font-size:13px"><span>${w.date}</span><span style="font-weight:700">${w.val} kg</span></div>`).join('') : '<div style="font-size:13px;color:var(--text3)">No weight entries yet</div>';
+}
+
+// ========== APP TRAINING ==========
+function renderAppTraining(cat){
+  const g = document.getElementById('appTrainingCards');
+  if(!g) return;
+  const data = edgeData[cat] || [];
+  g.innerHTML = data.map((d,i)=>`
+    <div class="program-card" onclick="openPopup(${i},'edge')">
+      <img src="${d.img}" class="program-card-img" loading="lazy">
+      <div class="program-card-body">
+        <div class="program-card-tag">${d.cat}</div>
+        <div class="program-card-title">${d.name}</div>
+        <div class="program-card-desc">${d.desc}</div>
+        <div class="program-card-meta"><span class="pcm">&#43; View details</span></div>
+      </div>
+    </div>`).join('');
+}
+function switchAppTraining(cat,btn){
+  document.querySelectorAll('#app-training .edge-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAppTraining(cat);
+}
+
+// ========== APP REWARDS ==========
+function renderAppRewards(mode){
+  const g = document.getElementById('appRewardsGrid');
+  if(!g) return;
+  const data = mode==='transport' ? transportRewards : otherRewards;
+  const pts = userPoints;
+  g.innerHTML = data.map(r=>{
+    const needed = parseInt(r.pts.replace(/,/g,'').replace(' pts',''));
+    const pct = Math.min(100, pts/needed*100);
+    return `<div class="reward-app-card">
+      <img src="${r.img}" class="reward-app-img" loading="lazy">
+      <div class="reward-app-body">
+        <div class="ra-name">${r.name}</div>
+        <div class="ra-desc">${r.desc}</div>
+        <div class="ra-pts">&#127942; ${r.pts}</div>
+        <div class="ra-progress"><div class="ra-progress-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:.6rem">${pts.toLocaleString()} / ${r.pts}</div>
+        <button class="ra-btn" onclick="toast('Keep training to unlock this reward!')">${pct>=100?'Claim now':'Working toward this'}</button>
+      </div>
+    </div>`;
+  }).join('');
+  const ap = document.getElementById('appPoints');
+  if(ap) ap.textContent = pts.toLocaleString();
+}
+
+function switchAppRewards(mode,btn){
+  appRewardsMode = mode;
+  document.querySelectorAll('#app-rewards .tgl-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAppRewards(mode);
+}
+
+// ========== PROFILE ==========
+function refreshProfile(){
+  if(!currentUser) return;
+  const pn = document.getElementById('profileName'); if(pn) pn.textContent = currentUser.name||'-';
+  const pu = document.getElementById('profileUsername'); if(pu) pu.textContent = '@'+(currentUser.username||'-');
+  const pp = document.getElementById('profilePlan'); if(pp) pp.textContent = (currentUser.plan||'Free')+' plan';
+  const pa = document.getElementById('profileAvatar');
+  if(pa && currentUser.name) pa.textContent = currentUser.name.charAt(0).toUpperCase();
+}
+
+// ========== LOG MODAL ==========
+function openLogModal(type, extra){
+  const modal = document.getElementById('logModal');
+  const title = document.getElementById('logModalTitle');
+  const content = document.getElementById('logModalContent');
+  if(!modal) return;
+  let t='', c='';
+  if(type==='food'){
+    const meal = extra||'breakfast';
+    t = 'Log food — '+meal.charAt(0).toUpperCase()+meal.slice(1);
+    c = `<div class="field"><label>Food name</label><input type="text" id="lm-food" placeholder="e.g. Chicken breast (200g)"></div>
+    <div class="form-row">
+      <div class="field"><label>Calories (kcal)</label><input type="number" id="lm-cals" placeholder="0"></div>
+      <div class="field"><label>Protein (g)</label><input type="number" id="lm-protein" placeholder="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Carbs (g)</label><input type="number" id="lm-carbs" placeholder="0"></div>
+      <div class="field"><label>Fat (g)</label><input type="number" id="lm-fat" placeholder="0"></div>
+    </div>
+    <button class="log-btn" onclick="saveFood('${meal}')">Add food</button>`;
+  } else if(type==='weight'){
+    t = 'Log weight';
+    c = `<div class="field"><label>Weight (kg)</label><input type="number" id="lm-weight" placeholder="75.0" step="0.1"></div>
+    <button class="log-btn" onclick="saveWeight()">Save</button>`;
+  } else if(type==='steps'){
+    t = 'Log steps';
+    c = `<div class="field"><label>Steps today</label><input type="number" id="lm-steps" placeholder="8000"></div>
+    <button class="log-btn" onclick="saveSteps()">Save</button>`;
+  } else if(type==='workout'){
+    t = 'Log workout';
+    c = `<div class="field"><label>Exercise</label><input type="text" id="lm-exercise" placeholder="e.g. Bench press, Running, HIIT"></div>
+    <div class="form-row">
+      <div class="field"><label>Duration (mins)</label><input type="number" id="lm-duration" placeholder="45"></div>
+      <div class="field"><label>Intensity</label><select id="lm-intensity"><option>Low</option><option selected>Medium</option><option>High</option></select></div>
+    </div>
+    <button class="log-btn" onclick="saveWorkout()">Log workout</button>`;
+  } else if(type==='cycle'){
+    t = 'Log period & symptoms';
+    c = `<div class="field"><label>Period started today?</label><div style="display:flex;gap:10px;margin-top:.3rem"><button class="gp-btn" onclick="this.classList.add('selected');document.getElementById('cyc-period').value='yes'" style="flex:1;padding:10px">Yes</button><button class="gp-btn" onclick="this.classList.add('selected');document.getElementById('cyc-period').value='no'" style="flex:1;padding:10px">No</button></div><input type="hidden" id="cyc-period"></div>
+    <div class="field"><label>Symptoms today</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.3rem">
+        ${['Cramps','Bloating','Fatigue','Headache','Mood changes','Breast tenderness','Spotting','No symptoms'].map(s=>`<button onclick="toggleSymptom(this,'${s}')" style="padding:6px 14px;border-radius:20px;border:1.5px solid var(--border2);background:transparent;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s" data-symptom="${s}">${s}</button>`).join('')}
+      </div>
+    </div>
+    <div class="field"><label>Flow (if period)</label><select id="cyc-flow"><option value="">Select</option><option>Spotting</option><option>Light</option><option>Medium</option><option>Heavy</option></select></div>
+    <div class="field"><label>Notes</label><input type="text" id="cyc-notes" placeholder="Any additional notes..."></div>
+    <button class="log-btn" style="background:linear-gradient(135deg,#f9a8d4,#a855f7)" onclick="saveCycle()">Save log</button>`;
+  }
+  if(title) title.textContent = t;
+  if(content) content.innerHTML = c;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLogModal(){
+  const modal = document.getElementById('logModal');
+  if(modal){ modal.classList.remove('open'); document.body.style.overflow=''; }
+}
+function closeLogModalOutside(e){ if(e.target.id==='logModal') closeLogModal(); }
+
+function toggleSymptom(btn, s){
+  btn.classList.toggle('selected');
+  if(btn.classList.contains('selected')){ btn.style.background='var(--text)'; btn.style.color='#fff'; btn.style.borderColor='var(--text)'; }
+  else { btn.style.background='transparent'; btn.style.color=''; btn.style.borderColor=''; }
+}
+
+function saveFood(meal){
+  const name = document.getElementById('lm-food')?.value||'Food';
+  const cals = parseInt(document.getElementById('lm-cals')?.value)||0;
+  const protein = parseInt(document.getElementById('lm-protein')?.value)||0;
+  const carbs = parseInt(document.getElementById('lm-carbs')?.value)||0;
+  const fat = parseInt(document.getElementById('lm-fat')?.value)||0;
+  if(!name){toast('Enter a food name');return;}
+  meals[meal].push({name,cals,protein,carbs,fat});
+  nutData.cals += cals; nutData.protein += protein; nutData.carbs += carbs; nutData.fat += fat;
+  userPoints += 5;
+  closeLogModal();
+  refreshNutrition();
+  toast(name+' added!');
+}
+
+function saveWeight(){
+  const v = parseFloat(document.getElementById('lm-weight')?.value);
+  if(!v){toast('Enter your weight');return;}
+  trackData.weight = v;
+  weightHistory.push({date:new Date().toLocaleDateString('en-GB'),val:v});
+  closeLogModal();
+  refreshTracking();
+  toast('Weight logged: '+v+'kg');
+}
+
+function saveSteps(){
+  const v = parseInt(document.getElementById('lm-steps')?.value)||0;
+  trackData.steps = v;
+  closeLogModal();
+  refreshTracking();
+  toast('Steps updated: '+v.toLocaleString());
+  if(v>=10000){ userPoints+=20; toast('Step goal reached! +20 pts'); }
+}
+
+function saveWorkout(){
+  const ex = document.getElementById('lm-exercise')?.value||'Workout';
+  trackData.workouts++;
+  userPoints += 50;
+  closeLogModal();
+  refreshTracking();
+  refreshDash();
+  toast(ex+' logged! +50 pts');
+}
+
+function saveCycle(){
+  closeLogModal();
+  toast('Cycle log saved');
+}
+
+// ========== SUGGEST REWARD ==========
+async function submitSuggestion(){
+  const name = document.getElementById('sug-name')?.value.trim();
+  const user = document.getElementById('sug-user')?.value.trim();
+  const reward = document.getElementById('sug-reward')?.value.trim();
+  const reason = document.getElementById('sug-reason')?.value.trim();
+  const err = document.getElementById('sug-err');
+  if(!name||!user||!reward){ if(err) err.textContent='Please fill in name, username and reward.'; return; }
+  if(err) err.textContent='';
+  // Send via mailto as fallback (EmailJS would be ideal in production)
+  const body = encodeURIComponent(`Name: ${name}\nUsername: ${user}\nReward suggestion: ${reward}\nReason: ${reason||'N/A'}`);
+  window.open(`mailto:rayyan220308@gmail.com?subject=FitPredictor Reward Suggestion from ${user}&body=${body}`);
+  toast('Suggestion sent! Thank you.');
+  if(document.getElementById('sug-name')) document.getElementById('sug-name').value='';
+  if(document.getElementById('sug-user')) document.getElementById('sug-user').value='';
+  if(document.getElementById('sug-reward')) document.getElementById('sug-reward').value='';
+  if(document.getElementById('sug-reason')) document.getElementById('sug-reason').value='';
+}
+
+// ========== TRAINER MAP ==========
+function initTrainerMap(){
+  const container = document.getElementById('trainerMap');
+  if(!container) return;
+  if(typeof google === 'undefined'){
+    // Load Google Maps
+    const script = document.createElement('script');
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGXXN6HfW1Gvio491CVgZfbokZhzC0nE&callback=renderTrainerMap';
+    script.async = true;
+    window.renderTrainerMap = renderTrainerMap;
+    document.head.appendChild(script);
+  } else {
+    renderTrainerMap();
+  }
+}
+
+function renderTrainerMap(){
+  const container = document.getElementById('trainerMap');
+  if(!container) return;
+  const map = new google.maps.Map(container, {
+    center:{lat:51.5074,lng:-0.1278}, zoom:11,
+    styles:[{featureType:'poi',stylers:[{visibility:'off'}]}]
+  });
+  const gyms = [
+    {lat:51.5074,lng:-0.1278,name:'Jetts Fitness London Central'},
+    {lat:51.5200,lng:-0.1000,name:'Jetts Fitness Shoreditch'},
+    {lat:51.4900,lng:-0.1500,name:'Jetts Fitness Brixton'},
+    {lat:51.5300,lng:-0.1200,name:'Jetts Fitness Islington'},
+    {lat:51.4800,lng:-0.0500,name:'Jetts Fitness Greenwich'},
+  ];
+  gyms.forEach(g=>{
+    new google.maps.Marker({position:{lat:g.lat,lng:g.lng},map,title:g.name,
+      icon:{url:'https://maps.google.com/mapfiles/ms/icons/red-dot.png'}});
+  });
+}
+
+// ========== SUPPLEMENTS SHOP ==========
+const welzoProducts = [
+  {name:'Whey Protein Isolate',cat:'Protein',price:'£34.99',img:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&q=75',desc:'25g protein per serving. Vanilla, Chocolate, Strawberry.'},
+  {name:'Creatine Monohydrate',cat:'Performance',price:'£18.99',img:'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=400&q=75',desc:'Micronised creatine. 5g per serving. 60 servings.'},
+  {name:'Omega-3 Fish Oil',cat:'Vitamins',price:'£14.99',img:'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=75',desc:'2000mg EPA/DHA per serving. Ultra-pure, odourless.'},
+  {name:'Vitamin D3 + K2',cat:'Vitamins',price:'£12.99',img:'https://images.unsplash.com/photo-1559181567-c3190b69ceeb?w=400&q=75',desc:'4000IU D3 with 100mcg K2 MK-7 for bone & immune health.'},
+  {name:'ZMA (Zinc Magnesium B6)',cat:'Performance',price:'£16.99',img:'https://images.unsplash.com/photo-1550572017-edd951b55104?w=400&q=75',desc:'Supports testosterone production and deep sleep quality.'},
+  {name:'Ashwagandha KSM-66',cat:'Wellness',price:'£22.99',img:'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=75',desc:'600mg KSM-66. Clinically proven for stress & testosterone.'},
+  {name:"Women's Multivitamin",cat:"Womens",price:'£19.99',img:'https://images.unsplash.com/photo-1559181567-c3190b69ceeb?w=400&q=75',desc:'Complete daily multivitamin tailored for female physiology.'},
+  {name:'Collagen Peptides',cat:'Womens',price:'£26.99',img:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=400&q=75',desc:'Hydrolysed collagen for skin, joints, and ligament health.'},
+  {name:'Pre-Workout Elite',cat:'Performance',price:'£29.99',img:'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=400&q=75',desc:'300mg caffeine, beta-alanine, citrulline. 30 servings.'},
+  {name:'Magnesium Glycinate',cat:'Wellness',price:'£15.99',img:'https://images.unsplash.com/photo-1550572017-edd951b55104?w=400&q=75',desc:'400mg elemental magnesium. Reduces cramps, improves sleep.'},
+  {name:'Hormone Test Kit (Women)',cat:'Testing',price:'£49.99',img:'https://images.unsplash.com/photo-1559181567-c3190b69ceeb?w=400&q=75',desc:'At-home oestrogen, progesterone, cortisol test. Results in 5 days.'},
+  {name:'Testosterone Test Kit (Men)',cat:'Testing',price:'£49.99',img:'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=75',desc:'At-home testosterone, cortisol, DHEA test. Results in 5 days.'},
+];
+
+let basket = [];
+
+function renderSupplementShop(filterCat){
+  const container = document.getElementById('supplementShop');
+  if(!container) return;
+  const cats = ['All','Protein','Performance','Vitamins','Wellness','Womens','Testing'];
+  const filtered = filterCat && filterCat!=='All' ? welzoProducts.filter(p=>p.cat===filterCat) : welzoProducts;
+  container.innerHTML = `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;padding:1.5rem 1.5rem 0">
+      ${cats.map(c=>`<button class="edge-tab ${(!filterCat||filterCat==='All')&&c==='All'?'active':filterCat===c?'active':''}" onclick="renderSupplementShop('${c}')" style="padding:7px 16px;font-size:12px">${c}</button>`).join('')}
+    </div>
+    <div class="product-grid">
+      ${filtered.map(p=>`<div class="product-card">
+        <img src="${p.img}" class="product-img" loading="lazy" alt="${p.name}">
+        <div class="product-body">
+          <div class="product-cat">${p.cat}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="product-price">${p.price}</div>
+          <button class="product-add-btn" onclick="addToBasket('${p.name}','${p.price}')">Add to basket</button>
+        </div>
+      </div>`).join('')}
+    </div>`;
+}
+
+function addToBasket(name, price){
+  basket.push({name,price});
+  toast(name+' added to basket!');
+  updateBasketCount();
+}
+
+function updateBasketCount(){
+  const el = document.getElementById('basketCount');
+  if(el) el.textContent = basket.length > 0 ? basket.length : '';
+}
+
+function showBasket(){
+  const modal = document.getElementById('logModal');
+  const title = document.getElementById('logModalTitle');
+  const content = document.getElementById('logModalContent');
+  if(!modal) return;
+  title.textContent = 'Your basket';
+  if(basket.length===0){
+    content.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text3)">Your basket is empty</div>';
+  } else {
+    const total = basket.reduce((s,i)=>s+parseFloat(i.price.replace('£','')),0);
+    content.innerHTML = `
+      ${basket.map((i,idx)=>`<div style="display:flex;justify-content:space-between;padding:.7rem 0;border-bottom:.5px solid var(--border);font-size:14px"><span>${i.name}</span><span style="font-weight:700">${i.price}</span></div>`).join('')}
+      <div style="display:flex;justify-content:space-between;padding:1rem 0;font-size:15px;font-weight:800"><span>Total</span><span>£${total.toFixed(2)}</span></div>
+      <div class="stripe-mock">
+        <div class="stripe-header"><span class="stripe-logo">stripe</span><span style="font-size:12px;color:var(--text3)">Secure payment</span></div>
+        <div class="stripe-field"><label>Cardholder name</label><input type="text" placeholder="Alex Johnson"></div>
+        <div class="stripe-field"><label>Card number</label><input type="text" placeholder="4242 4242 4242 4242"></div>
+        <div class="stripe-row">
+          <div class="stripe-field"><label>Expiry</label><input type="text" placeholder="MM / YY"></div>
+          <div class="stripe-field"><label>CVC</label><input type="text" placeholder="123"></div>
+        </div>
+        <div class="stripe-field"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+        <button class="stripe-pay-btn" onclick="toast('Stripe integration coming soon — add your Stripe keys to activate')">Pay £${total.toFixed(2)}</button>
+        <div style="text-align:center;font-size:11px;color:var(--text3);margin-top:.6rem">&#128274; Powered by Stripe. Your payment info is never stored.</div>
+      </div>`;
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// Inject supplements subpage dynamically
+subpages['supplements'] = {
+  label:'Supplements', title:'Supplements', sub:'Premium sports nutrition, delivered.',
+  heroImg:'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=1200&q=80',
+  body:`<div id="supplementShop"></div><div style="position:sticky;bottom:0;background:#fff;border-top:.5px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between"><span style="font-size:14px;font-weight:600">Basket (<span id="basketCount">0</span> items)</span><button class="btn btn-dark" onclick="showBasket()">View basket &amp; checkout</button></div>`
+};
+const _origShowSubpageInner = showSubpage;
+
+// Init check on load
+window.addEventListener('DOMContentLoaded', ()=>{
+  fetch('/api/me').then(r=>r.ok?r.json():null).then(d=>{
+    if(d&&d.user){
+      currentUser=d.user;
+      updateNavForUser();
+      toggleAppMode(true);
+    }
+  }).catch(()=>{});
+});
+
 </script>
 </div>
 </body>
