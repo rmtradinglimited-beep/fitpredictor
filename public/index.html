@@ -1508,7 +1508,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  fetch('/api/me').then(r=>r.ok?r.json():null).then(d=>{if(d&&d.user){currentUser=d.user;updateNavForUser();}}).catch(()=>{});
+  fetch('/api/me').then(r=>r.ok?r.json():null).then(d=>{
+    if(d&&d.user){
+      currentUser=d.user;
+      updateNavForUser();
+      toggleAppMode(true);
+      showApp('home');
+    }
+  }).catch(()=>{});
 });
 
 // ========== PAGE ROUTING ==========
@@ -1944,22 +1951,7 @@ function showApp(section){
   if(section==='training') renderAppTraining('strength');
 }
 
-// Override showPage to handle app mode
-const _origShowPage = showPage;
-function showPage(p){
-  document.querySelectorAll('.app-page').forEach(ap=>ap.classList.remove('active'));
-  _origShowPage(p);
-  if(p==='home' && currentUser){
-    // If logged in and going "home", go to app home
-    setTimeout(()=>{
-      document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-      showApp('home');
-    },0);
-    return;
-  }
-  const isApp = !!currentUser;
-  toggleAppMode(isApp);
-}
+// showPage is NOT overridden - app routing handled separately
 
 // ========== LOGIN INTEGRATION ==========
 const _origCompleteSignup = completeSignup;
@@ -2010,9 +2002,15 @@ async function doLogout(){
   currentUser=null;
   updateNavForUser();
   toggleAppMode(false);
-  showPage('home');
-  toast('Signed out successfully');
   document.querySelectorAll('.app-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-home').classList.add('active');
+  window.scrollTo(0,0);
+  const nav = document.getElementById('mainNav');
+  nav.classList.add('hero-top'); nav.classList.remove('scrolled');
+  const wm = document.getElementById('navWordmark');
+  if(wm) wm.style.color='#fff';
+  toast('Signed out successfully');
 }
 
 // ========== DASHBOARD ==========
@@ -2415,15 +2413,7 @@ subpages['supplements'] = {
 const _origShowSubpageInner = showSubpage;
 
 // Init check on load
-window.addEventListener('DOMContentLoaded', ()=>{
-  fetch('/api/me').then(r=>r.ok?r.json():null).then(d=>{
-    if(d&&d.user){
-      currentUser=d.user;
-      updateNavForUser();
-      toggleAppMode(true);
-    }
-  }).catch(()=>{});
-});
+// Auth check handled in main DOMContentLoaded
 
 </script>
 </div>
