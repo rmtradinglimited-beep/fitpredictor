@@ -18,13 +18,20 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 .sec-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.8rem}
 .sec-title{font-size:clamp(26px,4vw,46px);font-weight:800;letter-spacing:-.025em;line-height:1.05}
 .sec-sub{font-size:15px;color:var(--text2);line-height:1.65;max-width:540px;margin-top:.8rem}
-#mainNav{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);display:flex;align-items:center;padding:0 1.5rem;gap:1.5rem;transition:background .3s}
+#mainNav{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);display:flex;align-items:center;padding:0 1.5rem;transition:background .3s}
 #mainNav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-bottom:.5px solid var(--border);box-shadow:0 1px 20px rgba(0,0,0,.06)}
 #mainNav.hero-top{background:transparent}
 .nav-logo{cursor:pointer;flex-shrink:0;display:flex;align-items:center}
-.nav-logo img{height:32px;width:auto;filter:invert(1)}
+.nav-logo img{height:22px;width:auto;filter:invert(1)}
 #mainNav.scrolled .nav-logo img{filter:none}
-.nav-links{display:flex;align-items:center;position:absolute;left:50%;transform:translateX(-50%)}
+.nav-links{display:flex;align-items:center;position:absolute;left:50%;transform:translateX(-50%);z-index:1}
+.nav-icon-btn{width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.85);transition:opacity .2s;background:none;border:none;flex-shrink:0}
+.nav-icon-btn:hover{opacity:.6}
+#mainNav.scrolled .nav-icon-btn{color:var(--text)}
+.nav-icon-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#mainNav.scrolled #navLoginBtn{color:var(--text) !important}
+#mainNav.scrolled #navJoinBtn{background:var(--text) !important;color:#fff !important;border-color:var(--text) !important}
+.nav-right{display:flex;align-items:center;margin-left:auto;flex-shrink:0}
 .nav-icons{display:flex;align-items:center;gap:2px;flex-shrink:0}
 .nav-icons a{width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.85);transition:opacity .2s}
 .nav-icons a:hover{opacity:.6}
@@ -355,14 +362,17 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
   </nav>
 
   <!-- ICONS + AUTH: far right -->
-  <div class="nav-icons">
-    <a onclick="toast('Search coming soon')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></a>
-    <a onclick="toast('Wishlist coming soon')"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
-    <a onclick="toast('Basket coming soon')"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></a>
-  </div>
   <div class="nav-right" id="navRight">
-    <a onclick="showPage('login')">Log in</a>
-    <a onclick="showPage('signup')" class="solid">Join free</a>
+    <button class="nav-icon-btn" onclick="toast('Wishlist coming soon')">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+    <button class="nav-icon-btn" onclick="toast('Basket coming soon')">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    </button>
+    <div id="navAuth" style="display:flex;align-items:center;gap:6px;margin-left:6px">
+      <a onclick="showPage('login')" style="font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85);cursor:pointer;text-decoration:none;padding:7px 14px;border-radius:20px;transition:all .2s" id="navLoginBtn">Log in</a>
+      <a onclick="showPage('signup')" style="font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:none;padding:7px 16px;border-radius:20px;background:rgba(255,255,255,.15);border:.5px solid rgba(255,255,255,.3);color:#fff;transition:all .2s" id="navJoinBtn">Join free</a>
+    </div>
   </div>
 </nav>
 
@@ -982,9 +992,18 @@ function toggleFaqItem(i){
 }
 
 function updateNavForUser(){
-  const nr = document.getElementById('navRight');
-  if(currentUser && nr){
-    nr.innerHTML = `<span style="font-size:12.5px;color:var(--text2)">${currentUser.username}</span><a onclick="doLogout()" class="solid" style="cursor:pointer">Sign out</a>`;
+  const auth = document.getElementById('navAuth');
+  if(!auth) return;
+  if(currentUser){
+    auth.innerHTML = `
+      <button class="nav-icon-btn" onclick="toast('Profile coming soon')" title="${currentUser.username}">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <a onclick="doLogout()" style="font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.15);border:.5px solid rgba(255,255,255,.3);color:#fff;transition:all .2s" id="navJoinBtn">Sign out</a>`;
+  } else {
+    auth.innerHTML = `
+      <a onclick="showPage('login')" style="font-size:12.5px;font-weight:500;color:rgba(255,255,255,.85);cursor:pointer;text-decoration:none;padding:7px 14px;border-radius:20px;transition:all .2s" id="navLoginBtn">Log in</a>
+      <a onclick="showPage('signup')" style="font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:none;padding:7px 16px;border-radius:20px;background:rgba(255,255,255,.15);border:.5px solid rgba(255,255,255,.3);color:#fff;transition:all .2s" id="navJoinBtn">Join free</a>`;
   }
 }
 
