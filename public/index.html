@@ -131,7 +131,7 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 .plan-card{border-radius:16px;padding:1.8rem 1.4rem;border:.5px solid var(--border);background:#fff;display:flex;flex-direction:column;position:relative}
 .plan-card.featured{background:#0a0a0a;border-color:#0a0a0a}
 .plan-popular{position:absolute;top:1.2rem;right:1.2rem;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.15);color:#fff}
-.plan-card:not(.featured) .plan-popular{background:var(--bg2);color:var(--text2)}
+.plan-card:not(.featured) .plan-popular{background:var(--text);color:#fff}
 .plan-ico{width:40px;height:40px;border-radius:10px;background:var(--bg2);display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem}
 .plan-card.featured .plan-ico{background:rgba(255,255,255,.12)}
 .plan-ico svg{width:18px;height:18px;stroke:var(--text2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -828,10 +828,10 @@ const ISVG = {
 };
 
 const plans = [
-  {name:'Free',price:{monthly:0,yearly:0},tagline:'Get started with intelligent training. No card required.',icon:'gift',popular:false,features:[{icon:'check',title:'Structured training plans',desc:'Goal-based weekly programmes'},{icon:'bar',title:'Workout logging',desc:'Track every session with history'},{icon:'star',title:'Exercise library',desc:'Demonstrations & technique guidance'}]},
-  {name:'Core',price:{monthly:10.99,yearly:8.79},tagline:'Intelligent training, without compromise.',icon:'zap',popular:false,features:[{icon:'check',title:'Everything in Free',desc:''},{icon:'bar',title:'Progress analytics',desc:'Trends, tracking & predictive insight'},{icon:'star',title:'Recovery-aware planning',desc:'Sessions adapt to your recovery'},{icon:'gift',title:'Reward points',desc:'Earn & stack points toward rewards'}]},
-  {name:'Pro',price:{monthly:64.99,yearly:51.99},tagline:'Precision through full integration.',icon:'shield',popular:true,features:[{icon:'check',title:'Everything in Core',desc:''},{icon:'zap',title:'Wearable integrations',desc:'Apple Health, WHOOP, Garmin, Oura'},{icon:'bar',title:'Sleep & stress modelling',desc:'Full physiological context'},{icon:'star',title:'Advanced training load',desc:'Fatigue analysis & periodisation'},{icon:'gift',title:'Accelerated rewards',desc:'Earn points faster, stack rewards'}]},
-  {name:'Premium',price:{monthly:134.99,yearly:107.99},tagline:'The most advanced system available.',icon:'crown',popular:false,features:[{icon:'check',title:'Everything in Pro',desc:''},{icon:'zap',title:'Hormone testing kits',desc:'Monthly (women) / bi-monthly (men)'},{icon:'bar',title:'Biological insight',desc:'Decisions grounded in real data'},{icon:'star',title:'Priority reward access',desc:'Maximum acceleration & exclusive drops'},{icon:'gift',title:'Early feature access',desc:'First to every new platform update'}]},
+  {name:'Free',price:{monthly:0,yearly:0},tagline:'Get started with intelligent training. No card required.',icon:'gift',popular:false,badge:'',features:[{icon:'check',title:'Structured training plans',desc:'Goal-based weekly programmes'},{icon:'bar',title:'Workout logging',desc:'Track every session with history'},{icon:'star',title:'Exercise library',desc:'Demonstrations & technique guidance'}]},
+  {name:'Core',price:{monthly:10.99,yearly:8.79},tagline:'Intelligent training, without compromise.',icon:'zap',popular:false,badge:'Most popular',features:[{icon:'check',title:'Everything in Free',desc:''},{icon:'bar',title:'Progress analytics',desc:'Trends, tracking & predictive insight'},{icon:'star',title:'Recovery-aware planning',desc:'Sessions adapt to your recovery'},{icon:'gift',title:'Reward points',desc:'Earn & stack points toward rewards'}]},
+  {name:'Pro',price:{monthly:64.99,yearly:51.99},tagline:'Precision through full integration.',icon:'shield',popular:false,badge:'',features:[{icon:'check',title:'Everything in Core',desc:''},{icon:'zap',title:'Wearable integrations',desc:'Apple Health, WHOOP, Garmin, Oura'},{icon:'bar',title:'Sleep & stress modelling',desc:'Full physiological context'},{icon:'star',title:'Advanced training load',desc:'Fatigue analysis & periodisation'},{icon:'gift',title:'Accelerated rewards',desc:'Earn points faster, stack rewards'}]},
+  {name:'Premium',price:{monthly:134.99,yearly:107.99},tagline:'The most advanced system available.',icon:'crown',popular:true,badge:'Best value',features:[{icon:'check',title:'Everything in Pro',desc:''},{icon:'zap',title:'Hormone testing kits',desc:'Monthly (women) / bi-monthly (men)'},{icon:'bar',title:'Biological insight',desc:'Decisions grounded in real data'},{icon:'star',title:'Priority reward access',desc:'Maximum acceleration & exclusive drops'},{icon:'gift',title:'Early feature access',desc:'First to every new platform update'}]},
 ];
 
 const trainingStyles = {
@@ -1099,7 +1099,7 @@ function renderPlans(){
     const price = billingMode === 'monthly' ? p.price.monthly : p.price.yearly;
     const priceStr = price === 0 ? 'Free' : '&#163;' + price.toFixed(2);
     return `<div class="plan-card ${p.popular ? 'featured' : ''}">
-      ${p.popular ? '<div class="plan-popular">Most popular</div>' : ''}
+      ${p.badge ? `<div class="plan-popular">${p.badge}</div>` : ''}
       <div class="plan-ico">${ISVG[p.icon]}</div>
       <div class="p-name">${p.name}</div>
       <div class="p-price">${priceStr}</div>
@@ -1133,7 +1133,7 @@ function startPlanCarousel(){
   clearInterval(planCarouselTimer);
   planCarouselTimer = setInterval(() => {
     goToPlanSlide(planSlideIdx === 0 ? 1 : 0);
-  }, 3000);
+  }, 6000);
 }
 
 function switchBilling(mode, btn){
