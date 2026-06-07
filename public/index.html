@@ -40,8 +40,12 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 #mainNav.scrolled .nav-right a{color:var(--text)}
 .nav-right a.solid{background:rgba(255,255,255,.15);border:.5px solid rgba(255,255,255,.3)}
 #mainNav.scrolled .nav-right a.solid{background:var(--text);color:#fff;border-color:var(--text)}
-.dropdown{position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:.5px solid var(--border2);border-radius:12px;padding:.6rem;min-width:220px;box-shadow:0 8px 40px rgba(0,0,0,.14);opacity:0;pointer-events:none;transform:translateY(-6px);transition:all .2s;z-index:1000}
-.nav-item:hover .dropdown,.nav-item.open .dropdown{opacity:1;pointer-events:all;transform:translateY(0)}
+.dropdown{position:absolute;top:100%;left:0;padding-top:8px;background:transparent;opacity:0;pointer-events:none;z-index:1000}
+.nav-item:hover .dropdown,.nav-item.open .dropdown{opacity:1;pointer-events:all}
+.dropdown-inner{background:#fff;border:.5px solid var(--border2);border-radius:12px;padding:.6rem;min-width:220px;box-shadow:0 8px 40px rgba(0,0,0,.14);transform:translateY(-4px);transition:transform .2s ease,opacity .2s ease}
+.nav-item:hover .dropdown-inner,.nav-item.open .dropdown-inner{transform:translateY(0);opacity:1}
+.dropdown-inner{opacity:0}
+.nav-item:hover .dropdown-inner,.nav-item.open .dropdown-inner{opacity:1}
 .dropdown a{display:block;padding:.6rem .8rem;border-radius:8px;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:none;transition:background .15s;white-space:nowrap}
 .dropdown a:hover{background:var(--bg2);color:var(--text)}
 .hero{position:relative;height:100vh;min-height:580px;overflow:hidden;background:#0a0a0a}
@@ -304,49 +308,49 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
   <nav class="nav-links">
     <div class="nav-item">
       <a>Training</a>
-      <div class="dropdown">
+      <div class="dropdown"><div class="dropdown-inner">
         <a onclick="showSubpage('womens-training')">Women's training</a>
         <a onclick="showSubpage('mens-training')">Men's training</a>
         <a onclick="showSubpage('find-trainer')">Find personal trainer</a>
         <a onclick="showSubpage('insert-program')">Insert your program</a>
         <a onclick="showSubpage('tour-management')">Tour &amp; medical management</a>
         <a onclick="showSubpage('hormone-management')">Hormone &amp; cycle management</a>
-      </div>
+      </div></div>
     </div>
     <div class="nav-item">
       <a>Nutrition</a>
-      <div class="dropdown">
+      <div class="dropdown"><div class="dropdown-inner">
         <a onclick="showSubpage('meal-prep')">Flexible meal prep</a>
         <a onclick="showSubpage('allergies')">Allergies</a>
         <a onclick="showSubpage('dietary')">Dietary intolerance</a>
-      </div>
+      </div></div>
     </div>
     <div class="nav-item">
       <a>Supplements</a>
-      <div class="dropdown">
+      <div class="dropdown"><div class="dropdown-inner">
         <a onclick="showSubpage('womens-supplements')">Women's supplements</a>
         <a onclick="showSubpage('mens-supplements')">Men's supplements</a>
         <a onclick="showSubpage('free-supplements')">Free supplements</a>
-      </div>
+      </div></div>
     </div>
     <div class="nav-item">
       <a>Rewards</a>
-      <div class="dropdown">
+      <div class="dropdown"><div class="dropdown-inner">
         <a onclick="showSubpage('free-rewards')">Free rewards</a>
         <a onclick="showSubpage('view-rewards')">View rewards</a>
         <a onclick="showSubpage('how-rewards')">How rewards work</a>
         <a onclick="showSubpage('suggest-rewards')">Submit suggestions</a>
-      </div>
+      </div></div>
     </div>
     <div class="nav-item">
       <a>About us</a>
-      <div class="dropdown">
+      <div class="dropdown"><div class="dropdown-inner">
         <a onclick="showSubpage('mission')">Our mission</a>
         <a onclick="showSubpage('careers')">Careers</a>
         <a onclick="showSubpage('accessibility')">Accessibility</a>
         <a onclick="showSubpage('faq')">FAQs</a>
         <a onclick="showSubpage('returns')">Return policy</a>
-      </div>
+      </div></div>
     </div>
   </nav>
 
