@@ -445,7 +445,7 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
 .modal-title{font-size:18px;font-weight:800;margin-bottom:1rem}
 
 /* TRAINER MAP */
-.map-container{height:400px;border-radius:14px;overflow:hidden;margin:1.5rem;border:.5px solid var(--border)}
+.map-container{height:500px;border-radius:14px;overflow:hidden;margin:1.5rem;border:.5px solid var(--border)}
 .trainer-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:0 1.5rem 1.5rem}
 .trainer-card{background:#fff;border-radius:14px;padding:1.2rem;border:.5px solid var(--border);display:flex;gap:1rem;align-items:flex-start}
 .trainer-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--bg3);flex-shrink:0}
@@ -2290,35 +2290,111 @@ async function submitSuggestion(){
 function initTrainerMap(){
   const container = document.getElementById('trainerMap');
   if(!container) return;
-  if(typeof google === 'undefined'){
-    // Load Google Maps
-    const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGXXN6HfW1Gvio491CVgZfbokZhzC0nE&callback=renderTrainerMap';
-    script.async = true;
-    window.renderTrainerMap = renderTrainerMap;
-    document.head.appendChild(script);
-  } else {
+  container.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg2);flex-direction:column;gap:.5rem"><div style="font-size:32px">&#128205;</div><div style="font-size:13px;color:var(--text3)">Loading map...</div></div>';
+
+  if(typeof google !== 'undefined'){
     renderTrainerMap();
+    return;
   }
+  const script = document.createElement('script');
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGXXN6HfW1Gvio491CVgZfbokZhzC0nE&callback=renderTrainerMap&libraries=places';
+  script.async = true; script.defer = true;
+  window.renderTrainerMap = renderTrainerMap;
+  document.head.appendChild(script);
 }
 
 function renderTrainerMap(){
   const container = document.getElementById('trainerMap');
   if(!container) return;
-  const map = new google.maps.Map(container, {
-    center:{lat:51.5074,lng:-0.1278}, zoom:11,
-    styles:[{featureType:'poi',stylers:[{visibility:'off'}]}]
-  });
-  const gyms = [
-    {lat:51.5074,lng:-0.1278,name:'Jetts Fitness London Central'},
-    {lat:51.5200,lng:-0.1000,name:'Jetts Fitness Shoreditch'},
-    {lat:51.4900,lng:-0.1500,name:'Jetts Fitness Brixton'},
-    {lat:51.5300,lng:-0.1200,name:'Jetts Fitness Islington'},
-    {lat:51.4800,lng:-0.0500,name:'Jetts Fitness Greenwich'},
+
+  const jetts = [
+    {name:'Jetts Fitness Annerley',lat:-27.5108,lng:153.0319,address:'Wellington Rd, Annerley QLD'},
+    {name:'Jetts Fitness Ashgrove',lat:-27.4489,lng:152.9889,address:'Waterworks Rd, Ashgrove QLD'},
+    {name:'Jetts Fitness Capalaba',lat:-27.5261,lng:153.2006,address:'Capalaba QLD'},
+    {name:'Jetts Fitness Chermside',lat:-27.3872,lng:153.0328,address:'Gympie Rd, Chermside QLD'},
+    {name:'Jetts Fitness Indooroopilly',lat:-27.5072,lng:152.9706,address:'Indooroopilly QLD'},
+    {name:'Jetts Fitness Lutwyche',lat:-27.4278,lng:153.0292,address:'Lutwyche QLD'},
+    {name:'Jetts Fitness Mount Gravatt',lat:-27.5519,lng:153.0814,address:'Mt Gravatt QLD'},
+    {name:'Jetts Fitness Nundah',lat:-27.4047,lng:153.0647,address:'Nundah QLD'},
+    {name:'Jetts Fitness Stafford',lat:-27.4144,lng:153.0064,address:'Stafford QLD'},
+    {name:'Jetts Fitness Sunnybank',lat:-27.5847,lng:153.0547,address:'Sunnybank QLD'},
+    {name:'Jetts Fitness Toowong',lat:-27.4847,lng:152.9847,address:'Toowong QLD'},
+    {name:'Jetts Fitness Windsor',lat:-27.4397,lng:153.0297,address:'Windsor QLD'},
+    {name:'Jetts Fitness Woolloongabba',lat:-27.4947,lng:153.0347,address:'Woolloongabba QLD'},
+    {name:'Jetts Fitness Wynnum',lat:-27.4547,lng:153.1647,address:'Wynnum QLD'},
+    {name:'Jetts Fitness Albany Creek',lat:-27.3547,lng:152.9747,address:'Albany Creek QLD'},
+    {name:'Jetts Fitness Bracken Ridge',lat:-27.3247,lng:153.0247,address:'Bracken Ridge QLD'},
+    {name:'Jetts Fitness Eight Mile Plains',lat:-27.5847,lng:153.0947,address:'Eight Mile Plains QLD'},
+    {name:'Jetts Fitness Greenslopes',lat:-27.5147,lng:153.0547,address:'Greenslopes QLD'},
+    {name:'Jetts Fitness Holland Park',lat:-27.5247,lng:153.0647,address:'Holland Park QLD'},
+    {name:'Jetts Fitness Kedron',lat:-27.4047,lng:153.0347,address:'Kedron QLD'},
   ];
-  gyms.forEach(g=>{
-    new google.maps.Marker({position:{lat:g.lat,lng:g.lng},map,title:g.name,
-      icon:{url:'https://maps.google.com/mapfiles/ms/icons/red-dot.png'}});
+
+  const mapStyles = [
+    {featureType:'poi',elementType:'labels',stylers:[{visibility:'off'}]},
+    {featureType:'transit',stylers:[{visibility:'off'}]},
+    {featureType:'road',elementType:'geometry',stylers:[{color:'#f5f5f5'}]},
+    {featureType:'water',elementType:'geometry',stylers:[{color:'#c9d6e3'}]},
+    {featureType:'landscape',elementType:'geometry',stylers:[{color:'#fafafa'}]},
+  ];
+
+  const map = new google.maps.Map(container, {
+    center:{lat:-27.47,lng:153.02},
+    zoom:11,
+    styles:mapStyles,
+    disableDefaultUI:false,
+    zoomControl:true,
+    streetViewControl:false,
+    mapTypeControl:false,
+    fullscreenControl:true,
+  });
+
+  const infoWindow = new google.maps.InfoWindow();
+
+  jetts.forEach(gym => {
+    const marker = new google.maps.Marker({
+      position:{lat:gym.lat,lng:gym.lng},
+      map,
+      title:gym.name,
+      icon:{
+        path:google.maps.SymbolPath.CIRCLE,
+        scale:10,
+        fillColor:'#0a0a0a',
+        fillOpacity:1,
+        strokeColor:'#ffffff',
+        strokeWeight:2,
+      }
+    });
+
+    marker.addListener('click', ()=>{
+      infoWindow.setContent(`
+        <div style="font-family:Inter,sans-serif;padding:4px 2px;min-width:180px">
+          <div style="font-size:13px;font-weight:700;margin-bottom:3px">${gym.name}</div>
+          <div style="font-size:12px;color:#666;margin-bottom:8px">${gym.address}</div>
+          <a href="https://www.jetts.com.au/gyms" target="_blank"
+             style="font-size:12px;font-weight:600;color:#0a0a0a;text-decoration:none;
+                    padding:5px 12px;border-radius:6px;border:1.5px solid #0a0a0a;display:inline-block">
+            View gym &rarr;
+          </a>
+        </div>`);
+      infoWindow.open(map, marker);
+    });
+  });
+
+  // Add search box
+  const input = document.createElement('input');
+  input.placeholder = 'Search for a location...';
+  input.style.cssText = 'margin:10px;padding:9px 14px;border:none;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-shadow:0 2px 12px rgba(0,0,0,.15);width:240px;outline:none';
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  const searchBox = new google.maps.places.SearchBox(input);
+  map.addListener('bounds_changed', ()=>searchBox.setBounds(map.getBounds()));
+  searchBox.addListener('places_changed', ()=>{
+    const places = searchBox.getPlaces();
+    if(places.length===0) return;
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach(p=>{ if(p.geometry?.viewport) bounds.union(p.geometry.viewport); else bounds.extend(p.geometry.location); });
+    map.fitBounds(bounds);
   });
 }
 
