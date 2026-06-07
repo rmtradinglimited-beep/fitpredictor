@@ -60,7 +60,8 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 .hp-fill{position:absolute;top:0;left:0;height:100%;width:0;background:#fff}
 .hp-bar.active .hp-fill{animation:hpFill 3s linear forwards}
 @keyframes hpFill{from{width:0}to{width:100%}}
-.hero-arr-wrap{position:absolute;left:2rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px}
+.hero-arr-left{position:absolute;left:2rem;top:50%;transform:translateY(-50%)}
+.hero-arr-right{position:absolute;right:2rem;top:50%;transform:translateY(-50%)}
 .h-arr{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);border:.5px solid rgba(255,255,255,.3);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;backdrop-filter:blur(6px);transition:background .2s}
 .h-arr:hover{background:rgba(255,255,255,.28)}
 .sports-section{padding:4rem 0;background:var(--bg)}
@@ -107,7 +108,7 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 .edge-tabs{display:flex;gap:8px;margin:2rem 0;flex-wrap:wrap}
 .edge-tab{padding:9px 22px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:transparent;color:var(--text2);font-family:inherit;transition:all .2s}
 .edge-tab.active{background:var(--text);color:#fff;border-color:var(--text)}
-.edge-cards{display:flex;gap:12px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none}
+.edge-cards{display:flex;gap:12px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none;justify-content:center;flex-wrap:wrap}
 .edge-cards::-webkit-scrollbar{display:none}
 .edge-card{flex-shrink:0;width:228px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;height:278px;transition:transform .3s}
 .edge-card:hover{transform:translateY(-4px)}
@@ -381,8 +382,10 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
       <div class="hp-bar" onclick="heroSlide(2)"><div class="hp-fill"></div></div>
       <div class="hp-bar" onclick="heroSlide(3)"><div class="hp-fill"></div></div>
     </div>
-    <div class="hero-arr-wrap">
+    <div class="hero-arr-left">
       <button class="h-arr" onclick="heroBy(-1)">&larr;</button>
+    </div>
+    <div class="hero-arr-right">
       <button class="h-arr" onclick="heroBy(1)">&rarr;</button>
     </div>
   </div>
