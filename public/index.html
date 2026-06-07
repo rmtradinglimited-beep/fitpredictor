@@ -105,7 +105,7 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 .rc-btn:hover{opacity:.82}
 .edge-section{padding:5rem 2rem;background:var(--bg2)}
 .edge-inner{max-width:1100px;margin:0 auto}
-.edge-tabs{display:flex;gap:8px;margin:2rem 0;flex-wrap:wrap}
+.edge-tabs{display:flex;gap:8px;margin:2rem 0;flex-wrap:wrap;justify-content:center}
 .edge-tab{padding:9px 22px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--border2);background:transparent;color:var(--text2);font-family:inherit;transition:all .2s}
 .edge-tab.active{background:var(--text);color:#fff;border-color:var(--text)}
 .edge-cards{display:flex;gap:12px;overflow-x:auto;padding:4px 0 16px;scrollbar-width:none;justify-content:center;flex-wrap:wrap}
@@ -121,6 +121,9 @@ html,body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--text);
 .membership-section{padding:5rem 2rem;background:var(--bg)}
 .membership-inner{max-width:1100px;margin:0 auto}
 .plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:2rem}
+.plans-carousel-wrap{position:relative;overflow:hidden;margin-top:2rem}
+.plans-carousel{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.plans-slide{display:grid;grid-template-columns:1fr 1fr;gap:14px;min-width:100%;padding:4px}
 .plan-card{border-radius:16px;padding:1.8rem 1.4rem;border:.5px solid var(--border);background:#fff;display:flex;flex-direction:column;position:relative}
 .plan-card.featured{background:#0a0a0a;border-color:#0a0a0a}
 .plan-popular{position:absolute;top:1.2rem;right:1.2rem;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.15);color:#fff}
@@ -433,7 +436,7 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
       <div class="sec-label">Free monthly member rewards</div>
       <h2 class="sec-title">FitPredictor goes furthest<br>with motivation &amp; incentives.</h2>
       <p class="sec-sub" style="margin-bottom:0">Work out, earn points, unlock extraordinary rewards.</p>
-      <div class="tgl-bar">
+      <div class="tgl-bar" style="margin:2rem auto">
         <button class="tgl-btn active" onclick="switchRewards('transport',this)">&#128663; Transport</button>
         <button class="tgl-btn" onclick="switchRewards('rewards',this)">&#127873; Rewards</button>
       </div>
@@ -467,7 +470,16 @@ footer{background:#0a0a0a;color:#fff;padding:4rem 2rem 2rem}
         <button class="tgl-btn active" onclick="switchBilling('monthly',this)">Monthly</button>
         <button class="tgl-btn" onclick="switchBilling('yearly',this)">Yearly &mdash; Save 20%</button>
       </div>
-      <div class="plans-grid" id="plansGrid"></div>
+      <div class="plans-carousel-wrap">
+        <div class="plans-carousel" id="plansCarousel">
+          <div class="plans-slide" id="plansSlide0"></div>
+          <div class="plans-slide" id="plansSlide1"></div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:8px;margin-top:1.2rem">
+          <div class="plan-dot active" id="pdot0" onclick="goToPlanSlide(0)" style="width:28px;height:4px;border-radius:2px;background:var(--text);cursor:pointer;transition:all .3s"></div>
+          <div class="plan-dot" id="pdot1" onclick="goToPlanSlide(1)" style="width:28px;height:4px;border-radius:2px;background:var(--border2);cursor:pointer;transition:all .3s"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -897,6 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderS4Plans();
   heroSlide(0);
   startHeroTimer();
+  startPlanCarousel();
 
   // Click to open/close dropdowns
   document.querySelectorAll('.nav-item>a').forEach(a => {
@@ -1070,31 +1083,58 @@ function switchEdge(mode,btn){
 }
 
 // ========== PLANS ==========
+let planSlideIdx = 0;
+let planCarouselTimer;
+
 function renderPlans(){
-  const g=document.getElementById('plansGrid');
-  if(!g)return;
-  g.innerHTML=plans.map(p=>{
-    const price=billingMode==='monthly'?p.price.monthly:p.price.yearly;
-    const priceStr=price===0?'Free':'&#163;'+price.toFixed(2);
-    return `<div class="plan-card ${p.popular?'featured':''}">
-      ${p.popular?'<div class="plan-popular">Most popular</div>':''}
+  const slide0 = document.getElementById('plansSlide0');
+  const slide1 = document.getElementById('plansSlide1');
+  if(!slide0 || !slide1) return;
+
+  const html = plans.map(p => {
+    const price = billingMode === 'monthly' ? p.price.monthly : p.price.yearly;
+    const priceStr = price === 0 ? 'Free' : '&#163;' + price.toFixed(2);
+    return `<div class="plan-card ${p.popular ? 'featured' : ''}">
+      ${p.popular ? '<div class="plan-popular">Most popular</div>' : ''}
       <div class="plan-ico">${ISVG[p.icon]}</div>
       <div class="p-name">${p.name}</div>
       <div class="p-price">${priceStr}</div>
-      <div class="p-period">${price===0?'Forever free':'/month'}</div>
+      <div class="p-period">${price === 0 ? 'Forever free' : '/month'}</div>
       <div class="p-tagline">${p.tagline}</div>
       <div class="p-divider"></div>
-      <div class="p-features">${p.features.map(f=>`<div class="pf">
+      <div class="p-features">${p.features.map(f => `<div class="pf">
         <div class="pf-ico">${ISVG[f.icon]}</div>
-        <div class="pf-txt"><h4>${f.title}</h4>${f.desc?`<p>${f.desc}</p>`:''}</div>
+        <div class="pf-txt"><h4>${f.title}</h4>${f.desc ? `<p>${f.desc}</p>` : ''}</div>
       </div>`).join('')}</div>
-      <button class="p-btn" onclick="showPage('signup')">${price===0?'Start free':'Get started'}</button>
+      <button class="p-btn" onclick="showPage('signup')">${price === 0 ? 'Start free' : 'Get started'}</button>
     </div>`;
-  }).join('');
+  });
+
+  slide0.innerHTML = html[0] + html[1];
+  slide1.innerHTML = html[2] + html[3];
+  goToPlanSlide(planSlideIdx);
 }
-function switchBilling(mode,btn){
-  billingMode=mode;
-  document.querySelectorAll('.membership-section .tgl-btn').forEach(b=>b.classList.remove('active'));
+
+function goToPlanSlide(n){
+  planSlideIdx = n;
+  const carousel = document.getElementById('plansCarousel');
+  if(carousel) carousel.style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.plan-dot').forEach((d, i) => {
+    d.style.background = i === n ? 'var(--text)' : 'var(--border2)';
+    d.style.width = i === n ? '28px' : '18px';
+  });
+}
+
+function startPlanCarousel(){
+  clearInterval(planCarouselTimer);
+  planCarouselTimer = setInterval(() => {
+    goToPlanSlide(planSlideIdx === 0 ? 1 : 0);
+  }, 3000);
+}
+
+function switchBilling(mode, btn){
+  billingMode = mode;
+  document.querySelectorAll('.membership-section .tgl-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderPlans();
 }
